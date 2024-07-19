@@ -1,0 +1,32 @@
+<h1>Order List</h1>
+
+<!-- <div class="mb-3">
+    <a routerLink="/orders/create" class="btn btn-success btn-stm">Create Order</a>
+</div> -->
+
+<table class="table table-bordered table-responsive">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Username</th>
+            <th>Total Price</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let order of orders">
+            <td>{{ order.id }}</td>
+            <td>{{ order.userId | findUsername: users }}</td>
+            <td>{{ order.totalPrice | currency:'INR' }}</td>
+            <td>{{ order.date | date }}</td>
+            <td>{{ order.status }}</td>
+            <td>
+                <button *ngIf="order.status === 'Pending'" (click)="markAsShipped(order)" class="btn btn-warning btn-sm me-2">Mark as Shipped</button>
+                <a routerLink="/orders/edit/{{ order.id}}" class="btn btn-warning btn-sm me-2">Edit</a>
+                <button (click)="deleteOrder(order.id)" class="btn btn-danger btn-sm">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

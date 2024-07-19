@@ -1,0 +1,70 @@
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+        <a routerLink="/home">
+        <img class="img-responsive" src="assets/images/shoppingApp.png" style="width:40px;height:40px">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" routerLink="/home">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="isAuthenticated">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" routerLink="/">Home</a>
+                </li>
+                <li class="nav-item" >
+                    <a class="nav-link" routerLink="/browse-products">Browse Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/cart">Cart</a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a class="nav-link" routerLink="/rxjs-demos">rxJs demos</a>
+                </li> -->
+                    <li class="nav-item">
+                      <a class="nav-link" routerLink="/history">Order History</a>
+                    </li>
+                 
+            </ul>
+            <ng-container *ngIf="!isAuthenticated">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/home" style="margin-right: 700px;">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/auth/register" >Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/auth/login">Login</a>
+                    </li>
+                </ul>
+            </ng-container>
+          
+            <ng-container *ngIf="isAuthenticated">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class='bx bxs-user-circle' style="font-size: 1.73em;"></i>
+                         <!-- Hello {{ getCurrentUser.name }} -->
+                        </a>
+                       
+                        
+                        <ul class="dropdown-menu">
+                            <ng-container *ngIf="isAdmin">
+                                <li><a class="dropdown-item"> Hello {{ getCurrentUser.user_name }}</a></li>
+                                <li><a class="dropdown-item" routerLink="/products">Products</a></li>
+                                <li><a class="dropdown-item" routerLink="/orders">Orders</a></li>
+                            </ng-container>
+                            <li><a class="dropdown-item" *ngIf="!isAdmin"> Hello {{ getCurrentUser.user_name }}</a></li>
+                            <li><a class="dropdown-item" routerLink="/settings"> Account Settings</a></li>
+                            <li><a class="dropdown-item" routerLink="/auth/logout">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </ng-container>
+        </div>
+    </div>
+</nav>

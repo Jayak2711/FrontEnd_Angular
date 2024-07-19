@@ -1,0 +1,27 @@
+<h1>Shopping Cart</h1>
+<div *ngIf="cartItems.length > 0">
+     <div class="card" style="width: 18rem;" *ngFor="let item of cartItems">
+            <div class="card-body" >
+              <p class="card-text">Product Name: {{item.name}}</p>
+              <p class="card-text">Product Price: {{ item.price | currency:'INR' }}</p>
+              <p class="card-text">Product Quantity: {{ item.quantity }}</p>
+              <button (click)="deleteCart(item.cart_id)" class="btn btn-danger btn-sm me-2">Delete</button>
+              <button myButtonDisable="showLoginMessage" (click)="placeOrder()" class="btn btn-success btn-sm me-2">Buy Now</button>
+            </div>
+          </div>
+
+
+
+    <!-- </div> -->
+    <div>
+        <strong>Total Price: {{ calculateTotalPrice | currency:'INR' }}</strong>
+    </div>
+    <button (click)="clearCart()" class="btn btn-danger btn-sm me-2">Clear cart</button>
+    <button myButtonDisable="showLoginMessage" (click)="placeOrder()" class="btn btn-success btn-sm me-2">Place an order</button>
+    <div *ngIf="showLoginMessage">
+        Please <a routerLink="/auth/login">login</a> to place an order.
+    </div>
+</div>
+<div *ngIf="cartItems.length === 0"> 
+    <p>Your cart is empty</p>
+</div>

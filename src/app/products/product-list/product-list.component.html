@@ -1,0 +1,60 @@
+<h1>Product List</h1>
+
+<div class="mb-3">
+    <a routerLink="/products/create" class="btn btn-success btn-stm">Create Product</a>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="mb-3">
+            <label>Filter by Category:</label>
+            <select class="form-select" [(ngModel)]="selectedCategory" (ngModelChange)="getproductByCategory($event)">
+                <option value="">All Categories</option>
+                <option *ngFor="let data of categoryList" [value]='data.id'>{{data.name}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="mb-3">
+            <label>Sort by Price:</label>
+            <select class="form-select" [(ngModel)]="selectedSort" (change)="onSortChange()">
+                <option value="">Default</option>
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<table class="table table-bordered table-responsive" >
+    <thead>
+        <tr>
+            <th>SNO</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Category</th>
+            <th>Actions</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <div  *ngIf="noRec" style="text-align: center;color: red;">
+        No Record Found
+     </div>
+    <tbody *ngIf="products?.length >  0 && !noRec" >
+        <tr *ngFor="let product of products;let i =index">
+            <td>{{i+1}}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.description }}</td>
+            <td>{{ product.price | currency:'INR' }}</td>
+            <td>{{ product.stock }}</td>
+            <td>{{ product.category }}</td>
+            <td>{{ product.status }}</td>
+            <td>
+                <a routerLink="/products/edit/{{product.product_id}}" class="btn btn-warning btn-sm me-2">Edit</a>
+                <button (click)="deleteProduct(product.product_id)" class="btn btn-danger btn-sm">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

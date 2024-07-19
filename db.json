@@ -1,0 +1,423 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Smartphone XYZ",
+      "description": "Latest smartphone with high-end features.",
+      "price": 799,
+      "stock": 50,
+      "category": "Electronics"
+    },
+    {
+      "name": "Leather Wallet",
+      "description": "Elegant and durable leather wallet.",
+      "price": 49,
+      "stock": 100,
+      "category": "Accessories",
+      "id": "2"
+    },
+    {
+      "id": "3",
+      "name": "Laptop 1234 XYZ",
+      "description": "Latest 1234 laptop with high-end features.",
+      "price": "304",
+      "stock": "14",
+      "category": "Electronics"
+    },
+    {
+      "name": "Jane Doe 123",
+      "description": "Laptop 45 XYZ",
+      "price": "3000",
+      "stock": "20",
+      "category": "Electronics",
+      "id": "4"
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "name": "test1",
+      "email": "test1@outlook.com",
+      "password": "Orchard@123",
+      "isAdmin": false
+    },
+    {
+      "id": "2",
+      "name": "test2",
+      "email": "test2@outlook.com",
+      "password": "Orchard@123",
+      "isAdmin": true
+    },
+    {
+      "name": "abhishekluv",
+      "email": "abhishek.luv@outlook.com",
+      "password": "Orchard@123",
+      "isAdmin": true,
+      "id": "3"
+    },
+    {
+      "name": "test3",
+      "email": "test3@gmail.com",
+      "password": "Orchard@123",
+      "isAdmin": false,
+      "id": "4"
+    },
+    {
+      "name": "test35",
+      "email": "test35@gmail.com",
+      "password": "Orchard@123",
+      "isAdmin": true,
+      "id": "5"
+    },
+    {
+      "name": "test567",
+      "email": "test567@outlook.com",
+      "password": "Orchard@123",
+      "confirmpassword": "Orchard@123",
+      "isAdmin": true,
+      "id": "6"
+    },
+    {
+      "name": "test678",
+      "email": "test678@outlook.com",
+      "password": "Orchard@123",
+      "isAdmin": true,
+      "id": "7"
+    },
+    {
+      "id": "8",
+      "name": "sujatha",
+      "email": "sujatha@gmail.com",
+      "password": "Sujatha",
+      "isAdmin": true
+    },
+    {
+      "id": "9",
+      "name": "shailaja",
+      "email": "shailaja123@gmail.com",
+      "password": "Shailaja",
+      "isAdmin": false
+    }
+  ],
+  "orders": [
+    {
+      "id": "1",
+      "userId": 1,
+      "products": [
+        {
+          "productId": 1,
+          "quantity": 1
+        },
+        {
+          "productId": 2,
+          "quantity": 2
+        }
+      ],
+      "totalPrice": 897,
+      "date": "2024-01-08",
+      "status": "Shipped"
+    },
+    {
+      "userId": 3,
+      "products": [
+        {
+          "productId": "1",
+          "quantity": 10
+        }
+      ],
+      "totalPrice": 7990,
+      "date": "2024-01-14",
+      "status": "Shipped",
+      "id": "2"
+    },
+    {
+      "userId": 3,
+      "products": [
+        {
+          "productId": 2,
+          "quantity": "10"
+        }
+      ],
+      "totalPrice": 490,
+      "date": "2024-01-14",
+      "status": "Shipped",
+      "id": "3"
+    },
+    {
+      "userId": 1,
+      "products": [
+        {
+          "productId": 2,
+          "quantity": "10"
+        }
+      ],
+      "totalPrice": 490,
+      "date": "2024-01-18",
+      "status": "Shipped",
+      "id": "4"
+    },
+    {
+      "userId": 1,
+      "products": [
+        {
+          "productId": 2,
+          "quantity": "10"
+        }
+      ],
+      "totalPrice": 490,
+      "date": "2024-01-18",
+      "status": "Shipped",
+      "id": "5"
+    },
+    {
+      "userId": 3,
+      "products": [
+        {
+          "productId": "2",
+          "quantity": 10
+        },
+        {
+          "productId": "2",
+          "quantity": 10
+        }
+      ],
+      "totalPrice": 980,
+      "date": "2024-02-05",
+      "status": "Shipped",
+      "id": "6"
+    },
+    {
+      "userId": 3,
+      "products": [
+        {
+          "productId": 3,
+          "quantity": 2
+        }
+      ],
+      "totalPrice": 600,
+      "date": "2024-02-06",
+      "status": "Shipped",
+      "id": "7"
+    },
+    {
+      "userId": 3,
+      "products": [
+        {
+          "productId": 3,
+          "quantity": 2
+        },
+        {
+          "productId": 2,
+          "quantity": 10
+        }
+      ],
+      "totalPrice": 1090,
+      "date": "2024-02-06",
+      "status": "Shipped",
+      "id": "8"
+    },
+    {
+      "userId": 3,
+      "products": [
+        {
+          "productId": 1,
+          "quantity": 10
+        },
+        {
+          "productId": 2,
+          "quantity": 10
+        }
+      ],
+      "totalPrice": 8480,
+      "date": "2024-04-12",
+      "status": "Shipped",
+      "id": "9"
+    },
+    {
+      "userId": 3,
+      "products": [
+        {
+          "productId": 2,
+          "quantity": 10
+        }
+      ],
+      "totalPrice": 490,
+      "date": "2024-04-12",
+      "status": "Shipped",
+      "id": "10"
+    },
+    {
+      "userId": 3,
+      "products": [
+        {
+          "productId": 2,
+          "quantity": 1
+        },
+        {
+          "productId": "1",
+          "quantity": 10
+        }
+      ],
+      "totalPrice": 8039,
+      "date": "2024-04-15",
+      "status": "Shipped",
+      "id": "11"
+    },
+    {
+      "userId": "45ba",
+      "products": [
+        {
+          "productId": "3",
+          "quantity": 3
+        }
+      ],
+      "totalPrice": 912,
+      "date": "2024-07-03",
+      "status": "Shipped",
+      "id": "746f"
+    },
+    {
+      "id": "3007",
+      "userId": "5947",
+      "products": [
+        {
+          "productId": "1",
+          "quantity": 5
+        }
+      ],
+      "totalPrice": 3995,
+      "date": "2024-07-03",
+      "status": "Shipped"
+    },
+    {
+      "id": "cf7b",
+      "userId": "6088",
+      "products": [
+        {
+          "productId": "1",
+          "quantity": 1
+        }
+      ],
+      "totalPrice": 799,
+      "date": "2024-07-03",
+      "status": "Shipped"
+    },
+    {
+      "id": "8aa0",
+      "userId": "6088",
+      "products": [
+        {
+          "productId": "1",
+          "quantity": 1
+        }
+      ],
+      "totalPrice": 799,
+      "date": "2024-07-03",
+      "status": "Pending"
+    },
+    {
+      "id": "d37e",
+      "userId": "6088",
+      "products": [
+        {
+          "productId": "1",
+          "quantity": 1
+        }
+      ],
+      "totalPrice": 799,
+      "date": "2024-07-03",
+      "status": "Pending"
+    },
+    {
+      "id": "d49a",
+      "userId": "5947",
+      "products": [
+        {
+          "productId": "1",
+          "quantity": 8
+        }
+      ],
+      "totalPrice": 6392,
+      "date": "2024-07-04",
+      "status": "Pending"
+    },
+    {
+      "id": "e2da",
+      "userId": "5947",
+      "products": [
+        {
+          "productId": "3",
+          "quantity": 2
+        }
+      ],
+      "totalPrice": 608,
+      "date": "2024-07-04",
+      "status": "Pending"
+    },
+    {
+      "id": "2f3e",
+      "userId": "c54c",
+      "products": [
+        {
+          "productId": "1",
+          "quantity": 1
+        }
+      ],
+      "totalPrice": 799,
+      "date": "2024-07-04",
+      "status": "Pending"
+    },
+    {
+      "id": "2ab0",
+      "userId": "45ba",
+      "products": [
+        {
+          "productId": "4",
+          "quantity": 1
+        }
+      ],
+      "totalPrice": 3000,
+      "date": "2024-07-05",
+      "status": "Pending"
+    },
+    {
+      "id": "1f62",
+      "userId": "45ba",
+      "products": [
+        {
+          "productId": "2",
+          "quantity": 1
+        }
+      ],
+      "totalPrice": 49,
+      "date": "2024-07-05",
+      "status": "Pending"
+    },
+    {
+      "id": "2282",
+      "userId": "9",
+      "products": [
+        {
+          "productId": "1",
+          "quantity": 3
+        }
+      ],
+      "totalPrice": 2397,
+      "date": "2024-07-08",
+      "status": "Pending"
+    },
+    {
+      "id": "2cc3",
+      "userId": "8",
+      "products": [
+        {
+          "productId": "1",
+          "quantity": 2
+        }
+      ],
+      "totalPrice": 1598,
+      "date": "2024-07-10",
+      "status": "Pending"
+    }
+  ]
+}

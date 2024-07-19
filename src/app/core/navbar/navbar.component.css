@@ -1,0 +1,15 @@
+.navbar {
+    /* position: fixed; */
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Adjust z-index as needed */
+  }
+  .nav-item{
+    margin-right: 60px;
+  }
+
+  ::ng-deep  .navbar { background-color: #1948a0 !important;}
+
+  .nav-link {
+    color:white
+  }
