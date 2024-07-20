@@ -66,7 +66,12 @@ export class AuthService {
 
     forgetPassword(user: any): Observable<any> {
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-        return this.http.post<any>(this.apiUrl + 'userLogin', user,{headers});
+        return this.http.post<any>(this.apiUrl + 'forgetPassword', user,{headers});
+    }
+
+    changePassword(user: any): Observable<any> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.put<any>(this.apiUrl + 'changePassword', user,{headers});
     }
 
     register(user: User): Observable<User> {

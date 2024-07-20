@@ -17,11 +17,17 @@ export class HomeComponent {
   }
 
   ngOnInit(): void {
-
-
     if (!this.authService.isAuthenticated()) {
       this.showLoginMessage = true;
     }
+  }
+
+  get isAuthenticated(){
+    return this.authService.isAuthenticated();
+  }
+
+  get getCurrentUser(){
+    return this.authService.getCurrentUser();
   }
 
  show() {

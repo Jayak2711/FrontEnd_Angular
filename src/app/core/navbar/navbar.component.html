@@ -11,13 +11,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="isAuthenticated">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" routerLink="/">Home</a>
-                </li>
                 <li class="nav-item" >
-                    <a class="nav-link" routerLink="/browse-products">Browse Products</a>
+                    <a class="nav-link" aria-current="page" routerLink="/">Home</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" *ngIf="!getCurrentUser.isAdmin">
+                    <a class="nav-link" routerLink="/browse-products">Products</a>
+                </li>
+                <li class="nav-item" *ngIf="!getCurrentUser.isAdmin">
                     <a class="nav-link" routerLink="/cart">Cart</a>
                 </li>
                 <!-- <li class="nav-item">
@@ -30,9 +30,6 @@
             </ul>
             <ng-container *ngIf="!isAuthenticated">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/home" style="margin-right: 700px;">Home</a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/auth/register" >Register</a>
                     </li>
@@ -48,7 +45,7 @@
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             <i class='bx bxs-user-circle' style="font-size: 1.73em;"></i>
-                         <!-- Hello {{ getCurrentUser.name }} -->
+                            Welcome {{ getCurrentUser.user_name }}
                         </a>
                        
                         

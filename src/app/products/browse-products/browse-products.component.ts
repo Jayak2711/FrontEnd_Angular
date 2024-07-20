@@ -20,6 +20,8 @@ export class BrowseProductsComponent implements OnInit {
   selectedQuantity : number = 0
   productResponse: any;
 domSanitizer: any;
+searchText:any;
+
 
 
 
@@ -136,6 +138,10 @@ domSanitizer: any;
     this.cartService.removeFromCart(product.id);
     product.isInCart = false;
     product.selectedQuantity = 1;
+  }
+
+  searchFilter(){
+
   }
   
 }

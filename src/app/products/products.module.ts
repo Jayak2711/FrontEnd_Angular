@@ -7,7 +7,7 @@ import { BrowseProductsComponent } from './browse-products/browse-products.compo
 import { ProductService } from '../services/product.service';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+// import { FilterPipe } from '../../app/filter.pipe';
 
 
 @NgModule({
@@ -16,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ProductEditComponent,
     ProductListComponent,
     BrowseProductsComponent
+    // FilterPipe
   ],
   imports: [
     CommonModule,

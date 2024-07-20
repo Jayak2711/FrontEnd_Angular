@@ -16,6 +16,7 @@ import { OrderHistoryComponent } from './order-history/order-history.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { FormsModule } from '@angular/forms';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,7 +24,8 @@ import { FormsModule } from '@angular/forms';
     PageNotfoundComponent,
     RxjsDemoComponent,
     OrderHistoryComponent,
-    AccountSettingsComponent
+    AccountSettingsComponent,
+ 
   ],
   imports: [
     BrowserModule,
