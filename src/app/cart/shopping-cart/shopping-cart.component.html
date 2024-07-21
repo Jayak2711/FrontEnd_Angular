@@ -10,7 +10,11 @@
               <p class="card-text">Product Quantity: {{ item.quantity }}</p>
               <!-- <i class="fa fa-trash" aria-hidden="true" (click)="deleteCart(item.cart_id)"></i> -->
               <button (click)="deleteCart(item.cart_id)" class="btn btn-danger btn-sm me-2">Delete</button>
-              <button myButtonDisable="showLoginMessage" (click)="placeOrder()" class="btn btn-success btn-sm me-2">Buy Now</button>
+          <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="placeOrder(item)">
+                Launch demo modal
+            </button>
+              <!-- <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"  (click)="placeOrder(item)" class="btn btn-success btn-sm me-2">Buy Now</button> -->
             </div>
           </div>
 
@@ -19,7 +23,7 @@
     <!-- </div> -->
    
     <button (click)="clearCart()" class="btn btn-danger btn-sm me-2">Clear cart</button>
-    <button myButtonDisable="showLoginMessage" (click)="placeOrder()" class="btn btn-success btn-sm me-2">Place an order</button>
+    <button myButtonDisable="showLoginMessage" (click)="placeOrder('sad')" class="btn btn-success btn-sm me-2">Place an order</button>
     <div *ngIf="showLoginMessage">
         Please <a routerLink="/auth/login">login</a> to place an order.
     </div>
@@ -27,3 +31,45 @@
 <div *ngIf="cartItems.length === 0"> 
     <p>Your cart is empty</p>
 </div>
+
+
+
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Buy Now</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">SNO</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (country of buyNowArr; track country.p_id; let i = $index) {
+                        <tr>
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td>{{ country.name }}</td>
+                            <td>{{ country.price }}</td>
+                            <td>{{ country.quantity }}</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>

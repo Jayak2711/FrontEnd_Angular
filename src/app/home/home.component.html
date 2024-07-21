@@ -1,4 +1,33 @@
-<div class="container" *ngIf="getCurrentUser.isAdmin">
+<div class="container" *ngIf="getCurrentUser.is_admin">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="dropdown" >
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                 {{yearClickedData}}
+                </button>
+                <ul class="dropdown-menu" >
+                  <li><a class="dropdown-item"  *ngFor="let data of pastTenYears" (click)="yearClicked(data)">  {{data}}</a></li>
+                </ul>
+              </div>
+        </div>
+        <div class="col-md-3">
+            <div class="dropdown" >
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{monthName}}
+                </button>
+                <ul class="dropdown-menu" >
+                  <li><a class="dropdown-item"   *ngFor="let month of months" (click)="monthClicked(month.number)">{{month.name}}</a></li>
+                </ul>
+              </div>
+        </div>
+    </div>
+    <div class="chart-container">
+        <canvas  id="MyChart" >{{ chart }}</canvas>
+    </div>
+    
+</div>
+
+<div class="container" *ngIf="!getCurrentUser.is_admin">
     <section class="hero">
         <div class="container">
             <h1>Welcome to Our Ecommerce Store</h1>

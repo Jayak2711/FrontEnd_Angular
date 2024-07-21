@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { CartService } from 'src/app/services/cart.service';
 import { OrderService } from 'src/app/services/order.service';
 import { ProductService } from 'src/app/services/product.service';
+import { ModalBuyNowComponent } from '../modal-buy-now/modal-buy-now.component';
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
@@ -17,6 +18,9 @@ export class ShoppingCartComponent implements OnInit {
   totalPrice: number = 0;
   showLoginMessage: boolean = false;
   userDetails: any;
+  dialog: any;
+  buyNowArr :any;
+  buyNow: any;
 
   // private toastr: ToastrService
   constructor(private cartService: CartService, private productService: ProductService, 
@@ -61,33 +65,50 @@ export class ShoppingCartComponent implements OnInit {
   }
 
 
-  placeOrder() {
-    if (!this.authService.isAuthenticated()) {
-      this.showLoginMessage = true;
-      alert("Please login to place an order");
-      return;
-    }
+  placeOrder(item : any) {
+    console.log(item)
+    this.buyNowArr.push(item)
+    console.log( this.buyNowArr)
+    // if (!this.authService.isAuthenticated()) {
+    //   this.showLoginMessage = true;
+    //   alert("Please login to place an order");
+    //   return;
+    // }
 
     //products: productId and quantity
-    const orderProducts: OrderProduct[] = this.cartItems.map(item => {
-      return {
-        productId: item.id,
-        quantity: item.quantity
+    // const orderProducts: OrderProduct[] = this.cartItems.map(item => {
+    //   return {
+    //     productId: item.id,
+    //     quantity: item.quantity
+    //   }
+    // });
+
+    // const newOrder: Order = {
+    //   userId: this.authService.getCurrentUser()?.id,
+    //   products: orderProducts,
+    //   totalPrice: this.totalPrice,
+    //   date: new Date().toISOString().split('T')[0],
+    //   status: 'Pending'
+    // };
+
+    // this.orderService.createOrder(newOrder).subscribe(() => {
+    //   this.cartService.clearCart();
+    //   this.router.navigate(['/cart/thank-you']);
+    // })
+  }
+
+  openModal() {
+    const dialogRef = this.dialog.open(ModalBuyNowComponent, {
+      data: {
+        title: 'Dynamic Modal Title',
+        message: 'This is a dynamically created modal!'
       }
     });
 
-    const newOrder: Order = {
-      userId: this.authService.getCurrentUser()?.id,
-      products: orderProducts,
-      totalPrice: this.totalPrice,
-      date: new Date().toISOString().split('T')[0],
-      status: 'Pending'
-    };
-
-    this.orderService.createOrder(newOrder).subscribe(() => {
-      this.cartService.clearCart();
-      this.router.navigate(['/cart/thank-you']);
-    })
+    dialogRef.afterClosed().subscribe((result :any) => {
+      console.log('The dialog was closed');
+    });
   }
+
   
 }

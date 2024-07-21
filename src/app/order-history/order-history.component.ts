@@ -13,6 +13,7 @@ import { CartService } from '../services/cart.service';
 export class OrderHistoryComponent implements OnInit {
 
   orders: Order[] = [];
+  orderAdmin :any ;
   currentUser: User | null = null;
 
   constructor(private orderService: OrderService, private authService: AuthService,private cartservice:CartService) { }
@@ -25,6 +26,13 @@ export class OrderHistoryComponent implements OnInit {
       console.error('User not authenticated.');
     
     }
+    this.getOrderForAdmin()
+  }
+
+  getOrderForAdmin(){
+    this.orderService.getOrders().subscribe(res =>{
+      this.orderAdmin = res
+    })
   }
 
   loadOrdersForUser(userId: number) {
@@ -34,6 +42,7 @@ export class OrderHistoryComponent implements OnInit {
       console.error('Error fetching orders:', error);
     });
   }
+
   removeOrder(orderId?: number) { 
     if (!orderId) {
       console.error('Invalid orderId:', orderId);

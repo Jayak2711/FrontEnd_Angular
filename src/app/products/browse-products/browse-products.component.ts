@@ -119,19 +119,24 @@ searchText:any;
 
   addToCart(product:any){
     product.isInCart = true;
-    let cartInsert = {
-      'user_id' :  this.userDetails.user_id,
-      'p_id' :  parseInt(product.id),
-      'quantity'  : product.quantity,
-      'created_by' : '2019-06-01 10:53:09',
-      'update_by' : '2019-06-01 10:53:09'
-    }
-    this.cartService.addToCart(cartInsert).subscribe(res => {
-      console.log(res)
-      if(res.status == '200'){
-        alert('Item added to cart');
+    if( product.quantity == 0){
+      alert("Select the quantity")
+    }else{
+      let cartInsert = {
+        'user_id' :  this.userDetails.user_id,
+        'p_id' :  parseInt(product.id),
+        'quantity'  : product.quantity,
+        'created_by' : '2019-06-01 10:53:09',
+        'update_by' : '2019-06-01 10:53:09'
       }
-    });
+      this.cartService.addToCart(cartInsert).subscribe(res => {
+        console.log(res)
+        if(res.status == '200'){
+          alert('Item added to cart');
+        }
+      });
+    }
+
   }
 
   removeFromCart(product: Product){

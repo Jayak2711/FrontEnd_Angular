@@ -9,6 +9,7 @@ import { catchError } from "rxjs";
 export class AuthService {
     private apiUrl = environment.apiUrl;
     private apiUrlJava = environment.apiUrl1;
+    userDetails: any ;
 
     constructor(private http: HttpClient) {
 
@@ -21,6 +22,7 @@ export class AuthService {
     getCurrentUser(): User {
         const userJson = sessionStorage.getItem('currentUser');
         return userJson ? JSON.parse(userJson) : '';
+  
     }
 
     isAdmin(): boolean {

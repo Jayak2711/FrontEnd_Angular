@@ -1,30 +1,31 @@
-
 <table class="table table-bordered table-responsive" *ngIf="orders.length > 0">
     <thead>
         <tr>
             <th>Id</th>
             <th>UserId</th>
-            <th>Products</th>
+            <th>p_id</th>
+            <!-- <th>Products</th> -->
             <th>TotalPrice</th>
             <th>Date</th>
-            <th>Status</th>
+            <th>Quantity</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let order of orders">
-            <td>{{ order.id }}</td>
-            <td>{{ order.userId }}</td>
-            <td>
+        <tr *ngFor="let order of orderAdmin;let i=index">
+            <td>{{i+1}}</td>
+            <td>{{ order.user_id}}</td>
+            <td>{{ order.p_id}}</td>
+            <!-- <td>
                 <ul>
                     <li *ngFor="let orderProduct of order.products">
                         {{ orderProduct.productDetails?.name }} (Quantity: {{ orderProduct.quantity }})
                     </li>
                 </ul>
-            </td>
-            <td>{{ order.totalPrice | currency:'INR' }}</td>
-            <td>{{ order.date }}</td>
-            <td>{{ order.status }}</td>
+            </td> -->
+            <td>{{ order.price | currency:'INR' }}</td>
+            <td>{{ order.created_on }}</td>
+            <td>{{ order.quantity }}</td>
             <td> <button class="btn btn-danger btn-sm" (click)="removeOrder(order.id)">Remove From the history</button></td>
           
         </tr>

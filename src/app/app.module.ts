@@ -35,7 +35,7 @@ import { FormsModule } from '@angular/forms';
     CoreModule,
     FormsModule,
     OrdersModule,
-    ProductsModule,
+    ProductsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
