@@ -63,9 +63,6 @@ export class CartService {
     }
 
     deleteCartById(id: any): Observable<any> {
-        // const url = `${this.apiUrl  + '/cart'}/${id}`;
-        // return this.http.delete<any>(url);
-        console.log(id)
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         return this.http.delete<any>(this.apiUrl + '/cart', { headers, body: id});    
     }

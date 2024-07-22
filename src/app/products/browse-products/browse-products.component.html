@@ -12,17 +12,20 @@
     <div class="col-md-6">
         <div class="input-group">
             <input type="search" class="form-control rounded"  [(ngModel)]="searchText" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-            <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init (click)="searchFilter()">search</button>
+            <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init >search</button>
           </div>
     </div>
     <div class="col-md-3">
+        <!-- <button class="btn btn-primary mb-3" (click)="sortByPrice()">
+            Sort by Price ({{ sortDirection === 'asc' ? 'Ascending' : 'Descending' }})
+          </button> -->
         <div class="dropdown" >
             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             Sort by price
             </button>
             <ul class="dropdown-menu" >
-              <li><a class="dropdown-item"> Ascending </a></li>
-              <li><a class="dropdown-item"> Descending </a></li>
+              <li><a class="dropdown-item" (click)="sortByPrice('asc')"> Ascending </a></li>
+              <li><a class="dropdown-item" (click)="sortByPrice('desc')"> Descending </a></li>
             </ul>
           </div>
     </div>

@@ -55,6 +55,7 @@ searchText:any;
     this.productService.getAllProducts().subscribe(res => {
       this.productResponse = res;
       this.products = res.result;
+      console.log(this.products)
       for(let i=0;i<this.products.length;i++){
         this.products[i]['quantity'] = 0;
       }
@@ -67,6 +68,7 @@ searchText:any;
 
 
   getproductByCategory(id:any){
+    console.log(id)
    if(id != ''){
     this.productService.getProductByCategory(id).subscribe(res => {
       this.productResponse = res;
@@ -75,6 +77,8 @@ searchText:any;
         for(let i=0;i<this.products.length;i++){
           this.products[i]['quantity'] = 0;
         }
+      }else{
+        this.products = []; 
       }
      
     })
@@ -145,8 +149,15 @@ searchText:any;
     product.selectedQuantity = 1;
   }
 
-  searchFilter(){
 
+  sortedProducts = [...this.products];
+  sortDirection: 'asc' | 'desc' = 'asc';
+
+  sortByPrice(value : string) {
+    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    this.sortedProducts = [...this.products].sort((a, b) => {
+      return this.sortDirection === 'asc' ? a.price - b.price : b.price - a.price;
+    });
   }
   
 }
