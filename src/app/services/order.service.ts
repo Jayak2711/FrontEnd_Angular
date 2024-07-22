@@ -63,7 +63,8 @@ export class OrderService {
 
     placeAllOrder(order: any): Observable<any> {
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-        return this.http.post<any>(this.apiUrl + '/addAllorder', order,{headers});
+        console.log(this.http.post<any>(this.apiUrl + '/addAllorder',order,{headers}))
+        return this.http.post<any>(this.apiUrl + '/addAllorder',order,{headers});
     }
 
     

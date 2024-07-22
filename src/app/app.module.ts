@@ -17,6 +17,7 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+// import { FilterPipe } from './filter.pipe';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     RxjsDemoComponent,
     OrderHistoryComponent,
     AccountSettingsComponent,
- 
+    // FilterPipe
   ],
   imports: [
     BrowserModule,
@@ -39,6 +40,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     ProductsModule,
     ToastrModule.forRoot(), 
     BrowserAnimationsModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

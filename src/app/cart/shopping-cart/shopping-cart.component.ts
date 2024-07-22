@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Order } from 'src/app/models/order.model';
 import { OrderProduct } from 'src/app/models/orderProduct.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { CartService } from 'src/app/services/cart.service';
 import { OrderService } from 'src/app/services/order.service';
 import { ProductService } from 'src/app/services/product.service';
-import { ModalBuyNowComponent } from '../modal-buy-now/modal-buy-now.component';
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
@@ -27,7 +27,7 @@ export class ShoppingCartComponent implements OnInit {
   grandTotal: any;
   // private toastr: ToastrService
   constructor(private cartService: CartService, private productService: ProductService, 
-    private orderService: OrderService, private authService: AuthService, private router: Router) {
+    private orderService: OrderService, private authService: AuthService, private router: Router,private toastr: ToastrService) {
 
   }
 
@@ -60,7 +60,10 @@ export class ShoppingCartComponent implements OnInit {
   if (confirm(text) == true) {
     this.cartService.deleteCartById(cartIdArr).subscribe(res=>{
       if(res.status == '200'){
-        alert('Cart removed Succussfully')
+        // alert('Cart removed Succussfully')
+        this.toastr.success('Success', 'Cart removed Succussfully', {
+          timeOut: 4000,
+        });
       }
       // this.ngOnInit();
     })
@@ -98,9 +101,14 @@ loadCartDetails() {
     orderList.push(order);
     carId.push(product[i].cart_id)
   }
+  console.log(orderList)
     this.orderService.placeAllOrder(orderList).subscribe(res =>{
+      
       if(res.status = '200'){
-        alert('Order placed Successfully');
+        // alert('Order placed Successfully');
+        this.toastr.success('Success', 'Order placed Successfully', {
+          timeOut: 4000,
+        });
         this.cartService.deleteCartById(carId).subscribe(res=>{
           this.closebutton.nativeElement.click();
           this.ngOnInit();
@@ -161,18 +169,7 @@ loadCartDetails() {
     // })
   }
 
-  openModal() {
-    const dialogRef = this.dialog.open(ModalBuyNowComponent, {
-      data: {
-        title: 'Dynamic Modal Title',
-        message: 'This is a dynamically created modal!'
-      }
-    });
 
-    dialogRef.afterClosed().subscribe((result :any) => {
-      console.log('The dialog was closed');
-    });
-  }
 
   payment(eve :any){
    this.paymentMethod = eve;
