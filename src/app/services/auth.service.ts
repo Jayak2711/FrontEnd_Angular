@@ -9,6 +9,7 @@ import { catchError } from "rxjs";
 export class AuthService {
     private apiUrl = environment.apiUrl;
     private apiUrlJava = environment.apiUrl1;
+    userDetails: any ;
 
     constructor(private http: HttpClient) {
 
@@ -21,6 +22,7 @@ export class AuthService {
     getCurrentUser(): User {
         const userJson = sessionStorage.getItem('currentUser');
         return userJson ? JSON.parse(userJson) : '';
+  
     }
 
     isAdmin(): boolean {
@@ -32,6 +34,7 @@ export class AuthService {
 
         return false;
     }
+
 
     //homework
     isAuthenticated(): boolean {
@@ -58,6 +61,10 @@ export class AuthService {
     //         })
     //     });
     // }
+    userPersonalDetails(userId: any): Observable<any> {
+        const url = `${this.apiUrl  + 'users'}/${userId}`;
+        return this.http.get<any>(url);
+    }
 
     login(user: any): Observable<any> {
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -66,7 +73,12 @@ export class AuthService {
 
     forgetPassword(user: any): Observable<any> {
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-        return this.http.post<any>(this.apiUrl + 'userLogin', user,{headers});
+        return this.http.post<any>(this.apiUrl + 'forgetPassword', user,{headers});
+    }
+
+    changePassword(user: any): Observable<any> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.put<any>(this.apiUrl + 'changePassword', user,{headers});
     }
 
     register(user: User): Observable<User> {

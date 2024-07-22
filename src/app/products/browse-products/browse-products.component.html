@@ -1,52 +1,75 @@
 <div class="row">
     <div class="col-md-3">
-        <div class="mb-3">
-            <label>Filter by Category:</label>
-            <select class="form-select" [(ngModel)]="selectedCategory" (ngModelChange)="getproductByCategory($event)">
-                <option value="">All Categories</option>
-                <option *ngFor="let data of categoryList" [value]='data.id'>{{data.name}}</option>
-                <!-- <option value="Accessories">Accessories</option> -->
-            </select>
-        </div>
+        <div class="dropdown" >
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Select your Category
+            </button>
+            <ul class="dropdown-menu" >
+              <li><a class="dropdown-item"  *ngFor="let data of categoryList" (click)="getproductByCategory(data.id)">  {{data.name}}</a></li>
+            </ul>
+          </div>
+    </div>
+    <div class="col-md-6">
+        <div class="input-group">
+            <input type="search" class="form-control rounded"  [(ngModel)]="searchText" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+            <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init >search</button>
+          </div>
     </div>
     <div class="col-md-3">
-        <div class="mb-3">
-            <label>Sort by Price:</label>
-            <select class="form-select" [(ngModel)]="selectedSort" (change)="onSortChange()">
-                <option value="">Default</option>
-                <option value="asc">Ascending</option>
-                <option value="desc">Descending</option>
-            </select>
-        </div>
+        <!-- <button class="btn btn-primary mb-3" (click)="sortByPrice()">
+            Sort by Price ({{ sortDirection === 'asc' ? 'Ascending' : 'Descending' }})
+          </button> -->
+        <div class="dropdown" >
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Sort by price
+            </button>
+            <ul class="dropdown-menu" >
+              <li><a class="dropdown-item" (click)="sortByPrice('asc')"> Ascending </a></li>
+              <li><a class="dropdown-item" (click)="sortByPrice('desc')"> Descending </a></li>
+            </ul>
+          </div>
     </div>
 </div>
 <div class="container mx-auto mt-4">
-    <div class="row" *ngIf="this.productResponse.result.length == 0">
+    <div class="row" *ngIf="this.productResponse?.result.length == 0">
         No Record Found
     </div>
-    <div class="row" *ngIf="this.productResponse.result.length > 0">
-        <div class="col-md-4" *ngFor="let product of products ">
-            <div class="card" style="width: 16rem;">
-                <img src="..//../assets/images/p3.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title" style="text-align: center;">{{ product.name}}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted" style="text-align: center;">{{ product.price |
-                        currency:'INR' }}</h6>
-                    <p class="card-text" style="text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{
-                        product.description}}</p>
-                    <div class="mb-3" style="text-align: center;">
-                        <button class="btn btn-primary btn-sm" (click)="increaseQuantity(product)"><i
-                                class="bi bi-plus"></i></button>
-                        <span style="padding-left: 5px;padding-right: 5px;">{{product.quantity}}</span>
-                        <button class="btn btn-primary btn-sm" (click)="decreaseQuantity(product)"><i
-                                class="bi bi-dash"></i></button>
+    <div class="container mt-5 mb-5">
+        <div class="d-flex justify-content-center row">
+            <div class="col-md-10">
+                <div class="row p-2 bg-white border rounded" *ngFor="let product of products">
+                    <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="../../../assets/images/p.png"></div>
+                    <div class="col-md-6 mt-1">
+                        <h5>{{product.name}}</h5>
+                        <div class="d-flex flex-row">
+                            <div class="ratings mr-2"><i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                        </div>
+                        <!-- <div class="mt-1 mb-1 spec-1"><span>100% cotton</span><span class="dot"></span><span>Light weight</span><span class="dot"></span><span>Best finish<br></span></div>
+                        <div class="mt-1 mb-1 spec-1"><span>Unique design</span><span class="dot"></span><span>For men</span><span class="dot"></span><span>Casual<br></span></div> -->
+                        <p class="text-justify para mb-0">{{product.description}}<br><br></p>
                     </div>
-                    <div class="mb-3" style="text-align: center;">
-                        <button class="btn btn-success btn-sm me-2" (click)="addToCart(product)">Add to Cart</button>
+                    <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                        <div class="d-flex flex-row align-items-center">
+                            <h4 class="mr-1">{{product.price |  currency:'INR'}}</h4><span class="strike-text">{{product.price}}</span>
+                        </div>
+                        <h6 class="text-success">Free shipping</h6>
+                        <div class="d-flex flex-column mt-4">
+                            <!-- <button class="btn btn-primary btn-sm" type="button">Details</button> -->
+                            <div class="mb-3" style="text-align: center;">
+                                <button class="btn  btn-sm" (click)="decreaseQuantity(product)"><i
+                                    class="bi bi-dash"></i></button>
+                                <span style="padding-left: 5px;padding-right: 5px;">{{product.quantity}}</span>
+                                        <button class="btn btn-sm" (click)="increaseQuantity(product)"><i
+                                            class="bi bi-plus"></i></button>
+                            </div>
+                            <button class="btn btn-outline-primary btn-sm mt-2" type="button" (click)="addToCart(product)">Add to Cart</button></div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>

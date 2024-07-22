@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, tap, BehaviorSubject } from "rxjs";
 import { environment } from "src/environments/environment";
@@ -41,7 +41,8 @@ export class ProductService {
 
 
     addProduct(product: Product): Observable<Product> {
-        return this.http.post<Product>(this.apiUrl, product).pipe(tap(() => this.loadAllProducts()));
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post<any>(this.apiUrl + '/addproduct', product,{headers});
     }
 
     updateProduct(product: Product): Observable<Product> {

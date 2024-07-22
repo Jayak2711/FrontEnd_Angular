@@ -1,26 +1,41 @@
-<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-<h1>Login</h1>
-<form [formGroup]="loginForm" (ngSubmit)="login()">
-    <div class="mb-3" *ngIf="userExist">
-        <p class="text-danger"><strong>{{userExist}}</strong></p>
+<div class="container">
+    <div class="row">
+        <h1>Login</h1>
+        <div class="col-md-6">
+            <div>
+                <form [formGroup]="loginForm" (ngSubmit)="login()" class="center">
+                    <div class="mb-3" *ngIf="userExist">
+                        <p class="text-danger"><strong>{{userExist}}</strong></p>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email">Email</label>
+                        <input type="email" formControlName="email" class="form-control" />
+                        <div *ngIf="validateControl('email')" class="text-danger">Email is required and format should be
+                            correct</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password">Password</label>
+                        <input type="password" formControlName="password" class="form-control" />
+                        <div *ngIf="validateControl('password')" class="text-danger">Password is required and must be at
+                            least 6
+                            characters.</div>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-success btn-sm"
+                            [disabled]="!loginForm.valid">Login</button>
+                        <a routerLink="/auth/forgot-password" class="ms-3">Forgot Password?</a>
+                    </div>
+                    <div class="mb-3" *ngIf="loginFailed">
+                        <p class="text-danger"><strong>Invalid Credentials</strong></p>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <img src="../../../assets/images/7.png" style="width: 600px;height:400px;">
+        </div>
+        <div>
+        </div>
     </div>
-    <div class="mb-3">
-        <label for="email">Email</label>
-        <input type="email" formControlName="email" class="form-control" />
-        <div *ngIf="validateControl('email')" class="text-danger">Email is required and format should be correct</div>
-    </div>
-    <div class="mb-3">
-        <label for="password">Password</label>
-        <input type="password" formControlName="password" class="form-control" />
-        <div *ngIf="validateControl('password')" class="text-danger">Password is required and must be at least 6
-            characters.</div>
-    </div>
-    <div class="mb-3">
-        <button type="submit" class="btn btn-success btn-sm" [disabled]="!loginForm.valid">Login</button>
-        <a routerLink="/auth/forgot-password" class="ms-3">Forgot Password?</a>
-    </div>
-    <div class="mb-3" *ngIf="loginFailed">
-        <p class="text-danger"><strong>Invalid Credentials</strong></p>
-    </div>
-   
-</form>
+</div>

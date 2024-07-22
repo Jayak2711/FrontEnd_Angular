@@ -1,23 +1,30 @@
-<h1>Shopping Cart</h1>
+<h4>Shopping Cart</h4>
+<div>
+    <strong>Total Price: {{ calculateTotalPrice | currency:'INR' }}</strong>
+</div>
 <div *ngIf="cartItems.length > 0">
      <div class="card" style="width: 18rem;" *ngFor="let item of cartItems">
             <div class="card-body" >
               <p class="card-text">Product Name: {{item.name}}</p>
-              <p class="card-text">Product Price: {{ item.price | currency:'INR' }}</p>
               <p class="card-text">Product Quantity: {{ item.quantity }}</p>
-              <button (click)="deleteCart(item.cart_id)" class="btn btn-danger btn-sm me-2">Delete</button>
-              <button myButtonDisable="showLoginMessage" (click)="placeOrder()" class="btn btn-success btn-sm me-2">Buy Now</button>
+              <p class="card-text">Product Price: {{ item.price | currency:'INR' }}</p>
+              <p class="card-text">Total Price: {{ item.totalAmount | currency:'INR'  }}</p>
+              <!-- <i class="fa fa-trash" aria-hidden="true" (click)="deleteCart(item.cart_id)"></i> -->
+              <button (click)="deleteCart(item)" class="btn btn-danger btn-sm me-2">Delete</button>
+          <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger btn-sm me-2" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="placeOrder(item,1)">
+               Buy Now
+            </button>
+              <!-- <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"  (click)="placeOrder(item)" class="btn btn-success btn-sm me-2">Buy Now</button> -->
             </div>
           </div>
 
 
 
     <!-- </div> -->
-    <div>
-        <strong>Total Price: {{ calculateTotalPrice | currency:'INR' }}</strong>
-    </div>
+   
     <button (click)="clearCart()" class="btn btn-danger btn-sm me-2">Clear cart</button>
-    <button myButtonDisable="showLoginMessage" (click)="placeOrder()" class="btn btn-success btn-sm me-2">Place an order</button>
+    <button  data-bs-toggle="modal" data-bs-target="#exampleModal"  (click)="placeOrder(cartItems,2)" class="btn btn-success btn-sm me-2">Place an order</button>
     <div *ngIf="showLoginMessage">
         Please <a routerLink="/auth/login">login</a> to place an order.
     </div>
@@ -25,3 +32,78 @@
 <div *ngIf="cartItems.length === 0"> 
     <p>Your cart is empty</p>
 </div>
+
+
+
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="font-size: 11px;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Verify Your Details</h5>
+          <button type="button" class="btn-close" #closebutton  data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">SNO</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (country of buyNowArr; track country.p_id; let i = $index) {
+                        <tr>
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td>{{ country.name }}</td>
+                            <td>{{ country.price }}</td>
+                            <td>{{ country.quantity }}</td>
+                            <td>{{ country.totalAmount }}</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <h5>User Details</h5>
+            <div class="container">
+                <div>User Name : {{personalInfo?.user_name}}</div>
+                <div>Phone Number : {{personalInfo?.phone_number}}</div>
+                <div>Address1 : {{personalInfo?.address1}}</div>
+                <div>Address2 : {{personalInfo?.address2}}</div>
+                <div>District : {{personalInfo?.district}}</div>
+                <div>State : {{personalInfo?.state}}</div>
+                <div>Country : {{personalInfo?.address2}}</div>
+                <div>landmark : {{personalInfo?.landmark}}</div>
+                <div>Pincode : {{personalInfo?.country}}</div>
+            </div>
+            <h5>Payment</h5>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                      <div>
+                          <strong *ngIf="grandTotal != 0">Grand Total: {{ grandTotal | currency:'INR' }}</strong>
+                        <strong *ngIf="grandTotal == 0">Grand Total: {{ calculateTotalPrice | currency:'INR' }}</strong>
+                    </div>
+                        <div class="dropdown" >
+                            <button class="btn btn-danger btn-sm me-2 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              {{paymentMethod}}
+                            </button>
+                            <ul class="dropdown-menu" >
+                                <li><a class="dropdown-item"  *ngFor="let data of paymentMode" (click)="payment(data)" value="data">  {{data}}</a></li>
+                              </ul>
+                          </div>
+                          </div>
+                </div>
+            </div>
+        </div>  
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger btn-sm me-2" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger btn-sm me-2" (click)="checkOut(this.buyNowArr)">Check out</button>
+        </div>
+      </div>
+    </div>
+  </div>

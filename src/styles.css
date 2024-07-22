@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+label {
+    font-size: 10px;
+}
+
+.btn {
+    background-color: #204a96e6 !important;
+    border-color: #204a96e6 !important;
+    color: white !important;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 12px !important;
+}

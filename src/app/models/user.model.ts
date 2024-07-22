@@ -6,5 +6,5 @@ export interface User {
     email_id: string;
     password: string;
     confirmPassword: string;
-    isAdmin: boolean;
+    is_admin: boolean;
 }

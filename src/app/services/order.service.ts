@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "src/environments/environment";
 import { Order } from "../models/order.model";
@@ -16,8 +16,23 @@ export class OrderService {
         return this.http.post<Order>(this.apiUrl, order);
     }
 
-    getOrders(): Observable<Order[]> {
-        return this.http.get<Order[]>(this.apiUrl);
+    getOrders(): Observable<any> {
+        return this.http.get<any>(this.apiUrl);
+    }
+
+    getAllOrderWithUserId(userId: any): Observable<any> {
+        console.log(userId)
+        const url = `${this.apiUrl}/${userId}`;
+        return this.http.get<any>(url);
+    }
+
+    getOrderSaleCountByDate(date:any): Observable<any> {  
+        let dateCount = {
+            'created_on' : date
+        }
+        // console.log(dateCount)
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post<any>(this.apiUrl + '/orderDate', dateCount,{headers});
     }
 
     getOrdersForUser(userId: number): Observable<Order[]> {
@@ -39,5 +54,18 @@ export class OrderService {
         const url = `${this.apiUrl}/${id}`;
         return this.http.delete<Order>(url);
     }
+
+
+    placeOrder(order: any): Observable<any> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post<any>(this.apiUrl + '/addorder', order,{headers});
+    }
+
+    placeAllOrder(order: any): Observable<any> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post<any>(this.apiUrl + '/addAllorder', order,{headers});
+    }
+
+    
   
 }

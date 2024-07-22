@@ -20,6 +20,8 @@ export class BrowseProductsComponent implements OnInit {
   selectedQuantity : number = 0
   productResponse: any;
 domSanitizer: any;
+searchText:any;
+
 
 
 
@@ -53,6 +55,7 @@ domSanitizer: any;
     this.productService.getAllProducts().subscribe(res => {
       this.productResponse = res;
       this.products = res.result;
+      console.log(this.products)
       for(let i=0;i<this.products.length;i++){
         this.products[i]['quantity'] = 0;
       }
@@ -65,6 +68,7 @@ domSanitizer: any;
 
 
   getproductByCategory(id:any){
+    console.log(id)
    if(id != ''){
     this.productService.getProductByCategory(id).subscribe(res => {
       this.productResponse = res;
@@ -73,6 +77,8 @@ domSanitizer: any;
         for(let i=0;i<this.products.length;i++){
           this.products[i]['quantity'] = 0;
         }
+      }else{
+        this.products = []; 
       }
      
     })
@@ -117,25 +123,41 @@ domSanitizer: any;
 
   addToCart(product:any){
     product.isInCart = true;
-    let cartInsert = {
-      'user_id' :  this.userDetails.user_id,
-      'p_id' :  parseInt(product.id),
-      'quantity'  : product.quantity,
-      'created_by' : '2019-06-01 10:53:09',
-      'update_by' : '2019-06-01 10:53:09'
-    }
-    this.cartService.addToCart(cartInsert).subscribe(res => {
-      console.log(res)
-      if(res.status == '200'){
-        alert('Item added to cart');
+    if( product.quantity == 0){
+      alert("Select the quantity")
+    }else{
+      let cartInsert = {
+        'user_id' :  this.userDetails.user_id,
+        'p_id' :  parseInt(product.id),
+        'quantity'  : product.quantity,
+        'created_by' : '2019-06-01 10:53:09',
+        'update_by' : '2019-06-01 10:53:09'
       }
-    });
+      this.cartService.addToCart(cartInsert).subscribe(res => {
+        console.log(res)
+        if(res.status == '200'){
+          alert('Item added to cart');
+        }
+      });
+    }
+
   }
 
   removeFromCart(product: Product){
     this.cartService.removeFromCart(product.id);
     product.isInCart = false;
     product.selectedQuantity = 1;
+  }
+
+
+  sortedProducts = [...this.products];
+  sortDirection: 'asc' | 'desc' = 'asc';
+
+  sortByPrice(value : string) {
+    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    this.sortedProducts = [...this.products].sort((a, b) => {
+      return this.sortDirection === 'asc' ? a.price - b.price : b.price - a.price;
+    });
   }
   
 }
