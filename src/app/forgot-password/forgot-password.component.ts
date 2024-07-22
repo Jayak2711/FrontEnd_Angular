@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-forgot-password',
@@ -18,7 +19,8 @@ export class ForgotPasswordComponent implements OnInit{
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {
     this.forgotForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -39,7 +41,6 @@ export class ForgotPasswordComponent implements OnInit{
   get email() { return this.forgotForm.get('email'); }
 
   onSubmit() {
-     console.log(this.forgotForm.controls['email'].status)
     if (this.forgotForm.controls['email'].status == 'VALID') {
       let forPassword = {
         'email' : this.forgotForm.value.email,
@@ -48,11 +49,16 @@ export class ForgotPasswordComponent implements OnInit{
       this.authService.forgetPassword(forPassword).subscribe({
         next: (res) => {
             if(res.status == 'success'){
-              alert(res.message)
+              this.toastr.success('Success', 'Email Verified Successfully', {
+                timeOut: 4000,
+              });
               this.userDetails = res.result;
               this.emailVerified = true;
             }else{
-              alert(res.error + ' ' + 'Please try with correct email id');
+              // alert(res.error + ' ' + 'Please try with correct email id');
+              this.toastr.error('Failed', 'Please try with correct email id', {
+                timeOut: 4000,
+              });
             }
         },
         error: (err) => {
@@ -71,12 +77,17 @@ export class ForgotPasswordComponent implements OnInit{
     this.authService.changePassword(forPassword).subscribe({
       next: (res) => {
           if(res.status == 'success'){
-            alert(res.message);
+            this.toastr.success('Success', 'Password changed successfully', {
+              timeOut: 4000,
+            });
             this.router.navigate(['/auth/login']);
           }
       },
       error: (err) => {
-        this.error = err.message; // Handle error message
+        // this.error = err.message; // Handle error message
+        this.toastr.error('Failed', 'Something Went wrong, Please try again', {
+          timeOut: 4000,
+        });
       }
     });
   } 

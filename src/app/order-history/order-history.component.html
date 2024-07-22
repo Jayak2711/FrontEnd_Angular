@@ -1,20 +1,22 @@
-<table class="table table-bordered table-responsive" *ngIf="orders.length > 0">
+<table class="table table-bordered table-responsive" *ngIf="orderAdmin?.length > 0">
     <thead>
         <tr>
             <th>Id</th>
-            <th>UserId</th>
-            <th>p_id</th>
+            <th *ngIf="currentUser?.is_admin">UserId</th>
+            <th>Product Id</th>
             <!-- <th>Products</th> -->
             <th>TotalPrice</th>
             <th>Date</th>
             <th>Quantity</th>
-            <th>Actions</th>
+            <th>Amount</th>
+            <th>Invoice</th>
+            <!-- <th>Actions</th> -->
         </tr>
     </thead>
     <tbody>
         <tr *ngFor="let order of orderAdmin;let i=index">
             <td>{{i+1}}</td>
-            <td>{{ order.user_id}}</td>
+            <td *ngIf="currentUser?.is_admin">{{ order.user_id}}</td>
             <td>{{ order.p_id}}</td>
             <!-- <td>
                 <ul>
@@ -26,8 +28,99 @@
             <td>{{ order.price | currency:'INR' }}</td>
             <td>{{ order.created_on }}</td>
             <td>{{ order.quantity }}</td>
-            <td> <button class="btn btn-danger btn-sm" (click)="removeOrder(order.id)">Remove From the history</button></td>
+            <td>{{ order.price}}</td>
+            <td><i class="fa fa-download" aria-hidden="true" (click)="exportAsPDF(i)" ></i></td>
+            <!-- <td> <button class="btn btn-danger btn-sm" (click)="removeOrder(order.id)">Remove From the history</button></td> -->
           
         </tr>
     </tbody>
 </table>
+
+
+<div class="container" #pdfContent  data-html2canvas-ignore="true" class="main-container hide-in-pdf" style="font-size: 15px;border:1px solid black;color: #365ca0;
+    font-weight: 600;">
+
+    <div style="text-align: center;">
+        <img class="img-responsive" src="assets/images/shoppingApp.png" style="width:60px;height:60px">  <h3>You & Me Shop</h3>
+    </div>
+    <div class="row">
+      
+        <div class="well col-xs-10 col-sm-10 col-md-12 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12" style="margin-left: 20px;">
+                    <address>
+                        <strong>{{personalInfo?.user_name}}</strong>
+                        <br>
+                        {{personalInfo?.address1}}  {{personalInfo?.address2}}
+                        <br>
+                        {{personalInfo?.district}}
+                        <br>
+                        {{personalInfo?.state}}
+                        <br>
+                        {{personalInfo?.pincode}}
+                        <br>
+                        <!-- {{personalInfo?.phone_number}} -->
+                        <!-- <br> -->
+                        <abbr title="Phone"></abbr> (+91)  {{personalInfo?.phone_number}}
+                    </address>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 text-right"  style="margin-left: 20px;">
+                    <p>
+                        <em>Date : {{orderDownloadReport?.created_on}}</em>
+                    </p>
+                    <p>
+                        <em>Receipt #: {{orderDownloadReport?.id}}</em>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="text-center">
+                    <h1>Receipt</h1>
+                </div>
+            
+                <table class="table table-hover"  style="margin-left: 20px;width:90%">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>#</th>
+                            <th class="text-center">Price</th>
+                            <th class="text-center">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="col-md-9"><em>{{orderDownloadReport?.name}}</em></td>
+                            <td class="col-md-1" style="text-align: center">{{orderDownloadReport?.quantity}} </td>
+                            <td class="col-md-1 text-center">{{orderDownloadReport?.price}}</td>
+                            <td class="col-md-1 text-center">{{orderDownloadReport?.price * orderDownloadReport?.quantity}}</td>
+                        </tr>
+                        <tr>
+                            <td>   </td>
+                            <td>   </td>
+                            <td class="text-right">
+                            <p>
+                                <strong>Subtotal: </strong>
+                            </p>
+                            <p>
+                                <strong>Tax: </strong>
+                            </p></td>
+                            <td class="text-center">
+                            <p>
+                                <strong>{{(orderDownloadReport?.price * orderDownloadReport?.quantity) |  currency:'INR' }}</strong>
+                            </p>
+                            <p>
+                                <strong>Nil</strong>
+                            </p></td>
+                        </tr>
+                        <tr>
+                            <td>   </td>
+                            <td>   </td>
+                            <td class="text-right"><h4><strong>Total: </strong></h4></td>
+                            <td class="text-center text-danger"><h4><strong>{{(orderDownloadReport?.price * orderDownloadReport?.quantity) |  currency:'INR' }}</strong></h4></td>
+                        </tr>
+                        <h4 style="text-align: center;">Thanks For Shopping #Visit again</h4>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>

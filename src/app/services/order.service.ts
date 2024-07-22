@@ -20,6 +20,12 @@ export class OrderService {
         return this.http.get<any>(this.apiUrl);
     }
 
+    getAllOrderWithUserId(userId: any): Observable<any> {
+        console.log(userId)
+        const url = `${this.apiUrl}/${userId}`;
+        return this.http.get<any>(url);
+    }
+
     getOrderSaleCountByDate(date:any): Observable<any> {  
         let dateCount = {
             'created_on' : date
@@ -49,6 +55,16 @@ export class OrderService {
         return this.http.delete<Order>(url);
     }
 
+
+    placeOrder(order: any): Observable<any> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post<any>(this.apiUrl + '/addorder', order,{headers});
+    }
+
+    placeAllOrder(order: any): Observable<any> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post<any>(this.apiUrl + '/addAllorder', order,{headers});
+    }
 
     
   

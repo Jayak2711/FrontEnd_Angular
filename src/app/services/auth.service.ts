@@ -35,6 +35,7 @@ export class AuthService {
         return false;
     }
 
+
     //homework
     isAuthenticated(): boolean {
         return !!sessionStorage.getItem("currentUser");
@@ -60,6 +61,10 @@ export class AuthService {
     //         })
     //     });
     // }
+    userPersonalDetails(userId: any): Observable<any> {
+        const url = `${this.apiUrl  + 'users'}/${userId}`;
+        return this.http.get<any>(url);
+    }
 
     login(user: any): Observable<any> {
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });

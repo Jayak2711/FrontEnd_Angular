@@ -15,7 +15,8 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { FormsModule } from '@angular/forms';
-
+import { ToastrModule } from 'ngx-toastr';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -35,7 +36,9 @@ import { FormsModule } from '@angular/forms';
     CoreModule,
     FormsModule,
     OrdersModule,
-    ProductsModule
+    ProductsModule,
+    ToastrModule.forRoot(), 
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
