@@ -10,11 +10,11 @@ import { UserService } from '../services/user.service';
 })
 export class AccountSettingsComponent implements OnInit {
   @ViewChild('accountModal') accountModal!: ElementRef;
-
+  @ViewChild('closebutton') closebutton : any;
   user: User | null = null;
   newName: string = '';
-  password: string='';
-  newPassword: string = '';
+  // password: string='';
+  // newPassword: string = '';
   confirmPassword: string = '';
 
   constructor(private authService: AuthService, private userService: UserService) { }
@@ -25,7 +25,8 @@ export class AccountSettingsComponent implements OnInit {
       this.userService.getUser(userId).subscribe(user => {
         this.user = user;
       });
-    } else {
+    } 
+    else {
       console.error('User not authenticated.');
     }
   }
@@ -33,7 +34,7 @@ export class AccountSettingsComponent implements OnInit {
 
   openModal() {
     if (this.user) {
-      this.newName = this.user.user_name; // Populate current name
+      this.newName = this.user.user_name; 
       this.accountModal.nativeElement.style.display = 'block';
     }
   }
@@ -47,24 +48,25 @@ export class AccountSettingsComponent implements OnInit {
       this.userService.updateUser(this.user).subscribe(updatedUser => {
         this.user = updatedUser;
         console.log('Profile updated successfully.');
+        this.closebutton.nativeElement.click();
       }, error => {
         console.error('Error updating profile:', error);
       });
     }
   }
 
-  changePassword() {
-    const userId = this.authService.getCurrentUser()?.user_id;
-    if (userId && this.newPassword === this.confirmPassword) {
-      this.userService.changePassword(userId, this.newPassword).subscribe(() => {
-        console.log('Password changed successfully.');
-        this.newPassword = '';
-        this.confirmPassword = '';
-      }, error => {
-        console.error('Error changing password:', error);
-      });
-    } else {
-      console.error('Passwords do not match.');
-    }
-  }
+  // changePassword() {
+  //   const userId = this.authService.getCurrentUser()?.user_id;
+  //   if (userId && this.newPassword === this.confirmPassword) {
+  //     this.userService.changePassword(userId, this.newPassword).subscribe(() => {
+  //       console.log('Password changed successfully.');
+  //       this.newPassword = '';
+  //       this.confirmPassword = '';
+  //     }, error => {
+  //       console.error('Error changing password:', error);
+  //     });
+  //   } else {
+  //     console.error('Passwords do not match.');
+  //   }
+  // }
 }

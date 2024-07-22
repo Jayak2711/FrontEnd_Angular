@@ -7,16 +7,16 @@ import { BrowseProductsComponent } from './browse-products/browse-products.compo
 import { ProductService } from '../services/product.service';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-// import { FilterPipe } from '../../app/filter.pipe';
-
+import { FilterPipe } from '../../app/filter.pipe';
+// import { FilterPipe } from './filter.pipe';
 
 @NgModule({
   declarations: [
     ProductCreateComponent,
     ProductEditComponent,
     ProductListComponent,
-    BrowseProductsComponent
-    // FilterPipe
+    BrowseProductsComponent,
+    FilterPipe
   ],
   imports: [
     CommonModule,

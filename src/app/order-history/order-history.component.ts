@@ -27,6 +27,7 @@ export class OrderHistoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
+    console.log(this.currentUser.user_id)
     if (this.currentUser) {
       this.loadOrdersForUser(this.currentUser.id);
     } else {

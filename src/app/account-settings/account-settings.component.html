@@ -6,9 +6,10 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Account Settings</h5>
-        <button type="button" class="close" (click)="closeModal()" aria-label="Close">
+        <!-- <button type="button" class="close" (click)="closeModal()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
-        </button>
+        </button> -->
+        <button type="button" class="btn-close" #closebutton  data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
       </div>
       <div class="modal-body">
        
@@ -16,36 +17,43 @@
           <div class="card-body">
             <div class="mb-3">
               <label for="username" class="form-label">Username</label>
-              <input id="username" type="text" class="form-control" >
+              <input id="username" type="text" class="form-control" [(ngModel)]="user.user_name">
             </div>
-            <!-- [(ngModel)]="user.user_name" -->
-            <div class="mb-3">
-              <label for="email">Email</label>
-              <input id="email" type="email" class="form-control" >
-            </div>
+    
+          <div class="mb-3">
+            <label for="email">Email</label>
+            <input id="email" type="email" class="form-control" [(ngModel)]="user.email_id">
           </div>
-          <hr>
-          <div class="card-body">
-            <div class="mb-3">
-              <label for="password" class="form-label">Old Password</label>
-              <input id="password" type="text" class="form-control" >
-            </div>
-            <div class="mb-3">
-              <label for="newPassword" class="form-label">New Password</label>
-              <input id="newPassword" type="password" class="form-control" >
-            </div>
-            <div class="mb-3">
-              <label for="confirmPassword" class="form-label">Confirm Password</label>
-              <input id="confirmPassword" type="password" class="form-control" >
-            </div>
+          <div class="mb-3">
+            <label for="first_name" class="form-label">First Nmae</label>
+            <input id="first_name" type="text" class="form-control" [(ngModel)]="user.first_name">
+          </div>
+          <div class="mb-3">
+            <label for="last_name" class="form-label">Last Name</label>
+            <input id="last_name" type="text" class="form-control" [(ngModel)]="user.last_name">
+          </div>
+          <div class="mb-3">
+            <label for="phone_number" class="form-label">Phone</label>
+            <input id="phone_number" type="text" class="form-control" [(ngModel)]="user.phone_number">
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input id="password" type="text" class="form-control" [(ngModel)]="user.password">
+          </div>
+          <div class="mb-3">
+            <label for="pincode" class="form-label">Pincode</label>
+            <input id="pincode" type="text" class="form-control" [(ngModel)]="user.pincode">
           </div>
         </div>
-      </div>
+          </div>
+
+        
       <div class="modal-footer">
         <button type="button" class="btn btn-success" (click)="saveProfile()">Save Profile</button>
-        <button type="button" class="btn btn-secondary" (click)="changePassword()">Change Password</button>
+         <!-- <button type="button" class="btn btn-secondary" (click)="changePassword()">Change Password</button>  -->
         <button type="button" class="btn btn-danger" (click)="closeModal()">Close</button>
       </div>
     </div>
   </div>
-</div>
+
+

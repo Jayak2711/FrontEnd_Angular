@@ -1,4 +1,5 @@
 <div class="row">
+    <div class="col-md-1"></div>
     <div class="col-md-3">
         <div class="dropdown" >
             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -12,13 +13,14 @@
     <div class="col-md-6">
         <div class="input-group">
             <input type="search" class="form-control rounded"  [(ngModel)]="searchText" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-            <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init >search</button>
+            <!-- <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init >search</button> -->
           </div>
     </div>
-    <div class="col-md-3">
-        <!-- <button class="btn btn-primary mb-3" (click)="sortByPrice()">
+    <div class="col-md-2"></div>
+    <!-- <div class="col-md-3">
+        <button class="btn btn-primary mb-3" (click)="sortByPrice()">
             Sort by Price ({{ sortDirection === 'asc' ? 'Ascending' : 'Descending' }})
-          </button> -->
+          </button>
         <div class="dropdown" >
             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             Sort by price
@@ -28,7 +30,7 @@
               <li><a class="dropdown-item" (click)="sortByPrice('desc')"> Descending </a></li>
             </ul>
           </div>
-    </div>
+    </div> -->
 </div>
 <div class="container mx-auto mt-4">
     <div class="row" *ngIf="this.productResponse?.result.length == 0">
@@ -37,7 +39,7 @@
     <div class="container mt-5 mb-5">
         <div class="d-flex justify-content-center row">
             <div class="col-md-10">
-                <div class="row p-2 bg-white border rounded" *ngFor="let product of products">
+                <div class="row p-2 bg-white border rounded" *ngFor="let product of products | filter: searchText">
                     <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="../../../assets/images/p.png"></div>
                     <div class="col-md-6 mt-1">
                         <h5>{{product.name}}</h5>

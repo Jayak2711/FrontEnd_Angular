@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { Observable, combineLatest, map } from 'rxjs';
 import { Product } from 'src/app/models/product.model';
 import { CartService } from 'src/app/services/cart.service';
@@ -25,7 +26,7 @@ searchText:any;
 
 
 
-  constructor(private productService: ProductService, private cartService: CartService) {
+  constructor(private productService: ProductService, private cartService: CartService, private toastr: ToastrService) {
 
     this.filteredAndSortedproducts$ = combineLatest([
       this.productService.products$,
@@ -68,7 +69,6 @@ searchText:any;
 
 
   getproductByCategory(id:any){
-    console.log(id)
    if(id != ''){
     this.productService.getProductByCategory(id).subscribe(res => {
       this.productResponse = res;
@@ -78,6 +78,9 @@ searchText:any;
           this.products[i]['quantity'] = 0;
         }
       }else{
+        this.toastr.warning('Warning', 'No Item Found', {
+          timeOut: 4000,
+        });
         this.products = []; 
       }
      
@@ -122,9 +125,12 @@ searchText:any;
   }
 
   addToCart(product:any){
+    console.log(product)
     product.isInCart = true;
-    if( product.quantity == 0){
-      alert("Select the quantity")
+    if(product.quantity == 0){
+      this.toastr.error('Error', 'Select quantity before adding to cart', {
+        timeOut: 4000,
+      });
     }else{
       let cartInsert = {
         'user_id' :  this.userDetails.user_id,
@@ -134,9 +140,11 @@ searchText:any;
         'update_by' : '2019-06-01 10:53:09'
       }
       this.cartService.addToCart(cartInsert).subscribe(res => {
-        console.log(res)
         if(res.status == '200'){
-          alert('Item added to cart');
+          // alert('Item added to cart');
+          this.toastr.success('Success', 'Product added to cart', {
+            timeOut: 4000,
+          });
         }
       });
     }
