@@ -18,7 +18,7 @@ export class UserService {
   }
 
 
-  updateUser(user: User): Observable<User> {
+  updateUser(user: any): Observable<User> {
     const url = `${this.apiUrl}/${user.id}`;
     return this.http.put<User>(url, user);
   }

@@ -1,0 +1,47 @@
+<div class="container">
+   <h3>Add Category</h3>
+        <form [formGroup]="categoryForm" (ngSubmit)="createCategory()">
+            <div class="row">
+            <div class="mb-3">
+                <label for="name">Name</label>
+                <input type="text" id="name" formControlName="name" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label for="description">Description</label>
+                <input type="text" id="name" formControlName="description" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-success bt-sm">Create Category</button>
+            </div>
+    </div>
+</form>
+
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">SNO</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (country of categoryResult; track country.id; let i = $index) {
+            <tr>
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ country.name }}</td>
+                <td>{{ country.description }}</td>
+                <td>
+                    <!-- <a  class="btn btn-warning btn-sm me-2">Edit</a> -->
+                    <button (click)="deleteProduct(country.id)" class="btn btn-danger btn-sm">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+</div>

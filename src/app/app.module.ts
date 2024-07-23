@@ -14,10 +14,10 @@ import { RxjsDemoComponent } from './rxjs-demo/rxjs-demo.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule} from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-// import { FilterPipe } from './filter.pipe';
+import { CategoryComponent } from './category/category.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +27,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     RxjsDemoComponent,
     OrderHistoryComponent,
     AccountSettingsComponent,
+    CategoryComponent,
     // FilterPipe
   ],
   imports: [
@@ -40,6 +41,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     ProductsModule,
     ToastrModule.forRoot(), 
     BrowserAnimationsModule,
+    ReactiveFormsModule
     
   ],
   providers: [],

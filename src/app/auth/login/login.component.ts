@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
           if(res.status == 'failed'){
             if(res.result == 'incorrectPass'){
              this.userExist = 'Email id or password incorrect!' ;
-            //  this.toastr.error('Failed', 'Email id or password incorrect!');
+            //  this.toastr.error('Failed', 'Email id or passwoplerd incorrect!');
             this.toastr.error('Login Failed', 'Email id or password incorrect!', {
               timeOut: 4000,
             });

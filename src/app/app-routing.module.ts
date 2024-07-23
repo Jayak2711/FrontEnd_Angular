@@ -20,6 +20,7 @@ import { RxjsDemoComponent } from './rxjs-demo/rxjs-demo.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
+import { CategoryComponent } from './category/category.component';
 
 
 const routes: Routes = [
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: 'orders/create', component: OrderCreateComponent, canActivate: [AuthGuard] },
   { path: 'orders', component: OrderListComponent, canActivate: [AuthGuard] },
   { path: 'orders/edit/:id', component: OrderEditComponent, canActivate: [AuthGuard] },
+  { path: 'category', component: CategoryComponent, canActivate: [AuthGuard] },
   { path: 'cart', component: ShoppingCartComponent},
   { path: 'browse-products', component: BrowseProductsComponent },
   { path: 'cart/thank-you', component: ThankYouComponent },

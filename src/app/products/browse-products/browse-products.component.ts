@@ -55,14 +55,16 @@ searchText:any;
   getAllProduct(){
     this.productService.getAllProducts().subscribe(res => {
       this.productResponse = res;
-      this.products = res.result;
-      console.log(this.products)
-      for(let i=0;i<this.products.length;i++){
-        this.products[i]['quantity'] = 0;
+      let products = res.result;
+      for(let i=0;i<products.length;i++){
+        products[i]['quantity'] = 0;
+        products[i]['image'] = new Blob(this.products.image_url);
+       if(products[i].status == 'active'){
+        this.products.push(products[i]);
+       }
       }
-      console.log(this.products)
-      const blob = new Blob(this.products.image_url)
-      console.log(blob)
+      
+      console.log(this.products);
     })
    
   }

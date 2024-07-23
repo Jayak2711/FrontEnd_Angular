@@ -106,7 +106,7 @@ export class OrderHistoryComponent implements OnInit {
           const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
     
           pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-          pdf.save('download.pdf');
+          pdf.save('shop&me_invoice.pdf');
         });
         this.toastr.success('Success', 'Invoice Downloaded Successfully');
       },100)

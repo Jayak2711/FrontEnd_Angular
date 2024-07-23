@@ -40,9 +40,14 @@ export class ProductService {
 
 
 
-    addProduct(product: Product): Observable<Product> {
+    addProduct(product: any): Observable<any> {
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         return this.http.post<any>(this.apiUrl + '/addproduct', product,{headers});
+    }
+
+    addCategory(category: any): Observable<any> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post<any>(this.apiUrl + '/AddCategory', category,{headers});
     }
 
     updateProduct(product: Product): Observable<Product> {
@@ -73,6 +78,11 @@ export class ProductService {
 
     deleteProductsById(id:number) {
         const url = `${this.apiUrl  + '/'}/${id}`;
+        return this.http.delete<any>(url);
+    }
+
+    deletecategoryById(id:number) {
+        const url = `${this.apiUrl  + '/category'}/${id}`;
         return this.http.delete<any>(url);
     }
 }
