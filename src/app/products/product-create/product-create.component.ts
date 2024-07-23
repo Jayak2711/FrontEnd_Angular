@@ -24,8 +24,12 @@ export class ProductCreateComponent {
       description: ['', Validators.required],
       price: [0, [Validators.required, Validators.min(1)]],
       stock: [0, [Validators.required, Validators.min(1)]],
-      category: [1, Validators.required],
-      image: [null, Validators.required]
+      categoryId: [0, Validators.required],
+      imageUrl: ['', Validators.required],
+      created_by:[new Date()],
+      updated_by:[''],
+      status:['Available']
+
     });
   }
 
@@ -37,6 +41,7 @@ export class ProductCreateComponent {
     console.log(this.productForm)
     this.submitted  = true;
     const formData = new FormData();
+    console.log("this.file.name",this.file.name);
     formData.append("image", this.file, this.file.name);
     console.log(formData)
     if (this.productForm.valid) {
@@ -50,6 +55,7 @@ export class ProductCreateComponent {
 
   getAllCategory(){
     this.productService.getCategory().subscribe(res => {
+      console.log("this.categorylist",res.result);
       this.categoryList = res.result;
     })
   }

@@ -23,30 +23,33 @@ export class OrderHistoryComponent implements OnInit {
   personalInfo: any;
   @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
   orderDownloadReport: any ;
+  dateFromChart: string | null = '';
   constructor(private orderService: OrderService, private authService: AuthService,private cartservice:CartService,private toastr: ToastrService) { }
 
   ngOnInit(): void {
+    this.dateFromChart = sessionStorage.getItem('orderDate');
+    console.log(this.dateFromChart)
     this.currentUser = this.authService.getCurrentUser();
-    console.log(this.currentUser.user_id)
     if (this.currentUser) {
       this.loadOrdersForUser(this.currentUser.id);
     } else {
       console.error('User not authenticated.');
-    
     }
     if(!this.currentUser.is_admin){
       this.getAllOrderWithUserId();
     }else{
+     if(this.dateFromChart == '' || this.dateFromChart == null){
       this.getOrderForAdmin();
+     }else{
+      this.getOrderByDate();
+     }
+    
     }
- 
-   
   }
 
   ngAfterViewInit() {
     const content = this.pdfContent.nativeElement;
     const elementsToHide = content.querySelectorAll('.hide-in-pdf');
-    console.log(elementsToHide)
     elementsToHide.forEach((element: HTMLElement) => {
       element.style.display = 'none';
     });
@@ -62,7 +65,7 @@ export class OrderHistoryComponent implements OnInit {
   getAllOrderWithUserId(){
     this.orderService.getAllOrderWithUserId(this.currentUser?.user_id).subscribe(res =>{
       this.orderAdmin = res.result;
-      if(res.status == '200'){
+      if(res.status == 200){
         this.userInfo();
       }
     })
@@ -109,7 +112,7 @@ export class OrderHistoryComponent implements OnInit {
           pdf.save('shop&me_invoice.pdf');
         });
         this.toastr.success('Success', 'Invoice Downloaded Successfully');
-      },100)
+      },200)
    
   
   }
@@ -122,4 +125,17 @@ export class OrderHistoryComponent implements OnInit {
      console.log(this.personalInfo)
     })
   }
+
+
+  getOrderByDate(){
+    
+    let dateArr = [];
+    dateArr.push(this.dateFromChart);
+    this.orderService.getOrderSaleCountByDate(dateArr).subscribe(res => {
+      this.orderAdmin = res.result;
+    })
+  }
+
+
+
 }

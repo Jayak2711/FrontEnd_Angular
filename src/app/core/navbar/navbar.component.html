@@ -23,9 +23,9 @@
                 <!-- <li class="nav-item">
                     <a class="nav-link" routerLink="/rxjs-demos">rxJs demos</a>
                 </li> -->
-                    <li class="nav-item" *ngIf="isAuthenticated">
+                    <!-- <li class="nav-item" *ngIf="isAuthenticated">
                       <a class="nav-link" routerLink="/history">Order History</a>
-                    </li>
+                    </li> -->
                  
             </ul>
             <ng-container *ngIf="!isAuthenticated">
@@ -54,6 +54,7 @@
                                 <li><a class="dropdown-item"> Hello {{ getCurrentUser.user_name }}</a></li>
                                 <li><a class="dropdown-item" routerLink="/category">Category</a></li>
                                 <li><a class="dropdown-item" routerLink="/products">Products</a></li>
+                                <li><a class="dropdown-item" routerLink="/history">Orders</a></li>
                                 <!-- <li><a class="dropdown-item" routerLink="/orders">Orders</a></li> -->
                             </ng-container>
                             <li><a class="dropdown-item" *ngIf="!isAdmin"> Hello {{ getCurrentUser.user_name }}</a></li>

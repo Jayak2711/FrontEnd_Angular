@@ -6,7 +6,9 @@ import { Product } from "../models/product.model";
 
 @Injectable()
 export class ProductService {
-    private apiUrl = environment.apiUrl + "product";
+    private apiUrl1 = environment.apiUrl1 + "Products"; // java
+    private apiUrl = environment.apiUrl + "product"; // node
+
 
     //state management BS object
     //BS is an object that can store some data for us
@@ -34,24 +36,19 @@ export class ProductService {
     }
 
     getProductById(id: number): Observable<Product> {
-        const url = `${this.apiUrl  + 'cart/'}/${id}`;
+        const url = `${this.apiUrl1}/${id}`;
         return this.http.get<Product>(url);
     }
 
 
 
-    addProduct(product: any): Observable<any> {
+    addProduct(product: Product): Observable<Product> {
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-        return this.http.post<any>(this.apiUrl + '/addproduct', product,{headers});
-    }
-
-    addCategory(category: any): Observable<any> {
-        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-        return this.http.post<any>(this.apiUrl + '/AddCategory', category,{headers});
+        return this.http.post<any>(this.apiUrl1 + '/create', product,{headers});
     }
 
     updateProduct(product: Product): Observable<Product> {
-        const url = `${this.apiUrl}/${product.id}`;
+        const url = `${this.apiUrl1}/${product.id}`;
         return this.http.put<Product>(url, product).pipe(tap(() => this.loadAllProducts()));
     }
 
@@ -77,7 +74,7 @@ export class ProductService {
     }
 
     deleteProductsById(id:number) {
-        const url = `${this.apiUrl  + '/'}/${id}`;
+        const url = `${this.apiUrl1}/${id}`;
         return this.http.delete<any>(url);
     }
 
@@ -85,4 +82,11 @@ export class ProductService {
         const url = `${this.apiUrl  + '/category'}/${id}`;
         return this.http.delete<any>(url);
     }
+
+
+   addCategory(category: any): Observable<any> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post<any>(this.apiUrl + '/AddCategory', category,{headers});
+    }
+
 }

@@ -1,4 +1,41 @@
-<button type="button" class="btn btn-primary" (click)="openModal()">Open Account Settings</button>
+<!-- <button type="button" class="btn btn-primary" (click)="openModal()">Open Account Settings</button> -->
+<div class="container rounded bg-white mt-5 mb-5" style="margin-top: 0px !important;">
+  <div class="row">
+    <div class="col-md-1"></div>
+      <div class="col-md-3 border-right">
+          <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">{{user.user_name}}</span><span class="text-black-50">{{user.email_id}}</span><span> </span></div>
+      </div>
+      
+      <div class="col-md-5 border-right">
+          <div class="p-3 py-5" style="padding-top: 0px !important;">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h4 class="text-right">Profile Settings <i class="fa fa-edit" style="font-size:24px" (click)="editUser()"></i></h4>
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-6"><label class="labels">First Name</label><input type="text" class="form-control"  [(ngModel)]="user.first_name" value=""  [disabled]="!editProfile"></div>
+                  <!-- <div class="col-md-6"><label class="labels">User Name</label><input type="text" class="form-control" [(ngModel)]="user.user_name" value="" [disabled]="!editProfile"></div> -->
+                  <div class="col-md-6"><label class="labels">Last Name</label><input type="text" class="form-control"  [(ngModel)]="user.last_name" value="" [disabled]="!editProfile"></div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control" [(ngModel)]="user.email_id" placeholder="enter email id" value="" [disabled]="!editProfile"></div>
+                  <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" [(ngModel)]="user.phone_number" placeholder="enter phone number" value=""[disabled]="!editProfile"  ></div>
+                  <div class="col-md-12"><label class="labels">Address Line 1</label><input type="text" class="form-control" [(ngModel)]="user.address1" placeholder="enter address line 1" value="" [disabled]="!editProfile"></div>
+                  <div class="col-md-12"><label class="labels">Address Line 2</label><input type="text" class="form-control" [(ngModel)]="user.address2" placeholder="enter address line 2" value="" [disabled]="!editProfile"></div>
+                  <div class="col-md-12"><label class="labels">Postcode</label><input type="text" class="form-control" [(ngModel)]="user.landmark" placeholder="land mark" value="" [disabled]="!editProfile"></div>
+                  <div class="col-md-12"><label class="labels">Postcode</label><input type="text" class="form-control" [(ngModel)]="user.district" placeholder="district" value="" [disabled]="!editProfile"></div>
+                  <div class="col-md-12"><label class="labels">Pincode</label><input type="text" class="form-control" [(ngModel)]="user.pincode" placeholder="pincode" value="" [disabled]="!editProfile"></div>
+              </div>
+              <div class="row mt-3">
+                  <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control" [(ngModel)]="user.country" placeholder="country" value="" [disabled]="!editProfile"></div>
+                  <div class="col-md-6"><label class="labels">State/Region</label><input type="text" class="form-control" value="" placeholder="state" [(ngModel)]="user.state" [disabled]="!editProfile"></div>
+              </div>
+              <div class="mt-5 text-center" *ngIf="editProfile"><button class="btn btn-primary profile-button" type="button"  (click)="saveProfile()" >Save Profile</button></div>
+          </div>
+      </div>
+      <div class="col-md-2"></div>
+  </div>
+</div>
+
 
 
 <div #accountModal class="modal" tabindex="-1" role="dialog">
@@ -12,7 +49,6 @@
         <button type="button" class="btn-close" #closebutton  data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
       </div>
       <div class="modal-body">
-       
         <div *ngIf="user" class="card">
           <div class="card-body">
             <div class="mb-3">
@@ -55,5 +91,8 @@
       </div>
     </div>
   </div>
+  </div>
+  </div>
+ 
 
 
