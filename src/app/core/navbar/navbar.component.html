@@ -52,8 +52,9 @@
                         <ul class="dropdown-menu">
                             <ng-container *ngIf="isAdmin">
                                 <li><a class="dropdown-item"> Hello {{ getCurrentUser.user_name }}</a></li>
+                                <li><a class="dropdown-item" routerLink="/category">Category</a></li>
                                 <li><a class="dropdown-item" routerLink="/products">Products</a></li>
-                                <li><a class="dropdown-item" routerLink="/orders">Orders</a></li>
+                                <!-- <li><a class="dropdown-item" routerLink="/orders">Orders</a></li> -->
                             </ng-container>
                             <li><a class="dropdown-item" *ngIf="!isAdmin"> Hello {{ getCurrentUser.user_name }}</a></li>
                             <li><a class="dropdown-item" routerLink="/settings"> Account Settings</a></li>

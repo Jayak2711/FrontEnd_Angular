@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { User } from '../models/user.model';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-account-settings',
@@ -17,7 +18,7 @@ export class AccountSettingsComponent implements OnInit {
   // newPassword: string = '';
   confirmPassword: string = '';
 
-  constructor(private authService: AuthService, private userService: UserService) { }
+  constructor(private authService: AuthService, private userService: UserService,private toastr: ToastrService) { }
 
   ngOnInit(): void {
     const userId = this.authService.getCurrentUser()?.user_id;
@@ -45,14 +46,23 @@ export class AccountSettingsComponent implements OnInit {
   
   saveProfile() {
     if (this.user) {
-      this.userService.updateUser(this.user).subscribe(updatedUser => {
-        this.user = updatedUser;
-        console.log('Profile updated successfully.');
-        this.closebutton.nativeElement.click();
-      }, error => {
-        console.error('Error updating profile:', error);
-      });
+      this.userService.updateUser(this.user).subscribe({
+        next: (res) => {
+          this.user = res;
+          console.log('Profile updated successfully.');
+          this.toastr.error('Success', 'Changes changed successfully', {
+            timeOut: 4000,
+          });
+          this.closebutton.nativeElement.click();
+        },
+        error: (error) => {
+          this.toastr.error('Failed', 'Something went wrong,Please try again', {
+            timeOut: 4000,
+          });
+        },
+      })
     }
+
   }
 
   // changePassword() {

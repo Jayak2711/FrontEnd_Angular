@@ -21,7 +21,6 @@ export class OrderService {
     }
 
     getAllOrderWithUserId(userId: any): Observable<any> {
-        console.log(userId)
         const url = `${this.apiUrl}/${userId}`;
         return this.http.get<any>(url);
     }

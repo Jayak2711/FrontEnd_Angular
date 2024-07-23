@@ -11,5 +11,6 @@ label {
 
 body {
     font-family: Arial, sans-serif;
-    font-size: 12px !important;
+    font-size: 15px !important;
+    zoom : 0.9 !important
 }

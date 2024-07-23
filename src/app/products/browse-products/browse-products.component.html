@@ -2,10 +2,11 @@
     <div class="col-md-1"></div>
     <div class="col-md-3">
         <div class="dropdown" >
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size:12px">
               Select your Category
             </button>
-            <ul class="dropdown-menu" >
+            <ul class="dropdown-menu" > 
+                <li><a class="dropdown-item" (click)="getproductByCategory('')">All category</a></li>
               <li><a class="dropdown-item"  *ngFor="let data of categoryList" (click)="getproductByCategory(data.id)">  {{data.name}}</a></li>
             </ul>
           </div>
@@ -40,7 +41,10 @@
         <div class="d-flex justify-content-center row">
             <div class="col-md-10">
                 <div class="row p-2 bg-white border rounded" *ngFor="let product of products | filter: searchText">
-                    <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="../../../assets/images/p.png"></div>
+                    <div class="col-md-3 mt-1">
+                        <!-- <img class="img-fluid img-responsive rounded product-image" src="../../../assets/images/p.png"> -->
+                        <img [src]="product.imageurl" alt="Uploaded Image" class="img-fluid img-responsive rounded product-image">
+                    </div>
                     <div class="col-md-6 mt-1">
                         <h5>{{product.name}}</h5>
                         <div class="d-flex flex-row">
@@ -68,7 +72,7 @@
                                         <button class="btn btn-sm" (click)="increaseQuantity(product)"><i
                                             class="bi bi-plus"></i></button>
                             </div>
-                            <button class="btn btn-outline-primary btn-sm mt-2" type="button" (click)="addToCart(product)">Add to Cart</button></div>
+                            <button class="btn btn-outline-primary btn-sm mt-2" type="button" style="font-size:12px" (click)="addToCart(product)">Add to Cart</button></div>
                     </div>
                 </div>
             </div>

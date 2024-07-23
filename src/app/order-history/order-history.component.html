@@ -1,7 +1,7 @@
-<table class="table table-bordered table-responsive" *ngIf="orderAdmin?.length > 0">
+<table class="table table-bordered table-responsive  table table-striped" *ngIf="orderAdmin?.length > 0">
     <thead>
         <tr>
-            <th>Id</th>
+            <th>SNO</th>
             <th *ngIf="currentUser?.is_admin">UserId</th>
             <th>Product Id</th>
             <!-- <th>Products</th> -->
@@ -9,7 +9,8 @@
             <th>Date</th>
             <th>Quantity</th>
             <th>Amount</th>
-            <th>Invoice</th>
+            <th>Payment</th>
+            <th>Invoice Download</th>
             <!-- <th>Actions</th> -->
         </tr>
     </thead>
@@ -29,6 +30,7 @@
             <td>{{ order.created_on }}</td>
             <td>{{ order.quantity }}</td>
             <td>{{ order.price}}</td>
+            <td>Success</td>
             <td><i class="fa fa-download" aria-hidden="true" (click)="exportAsPDF(i)" ></i></td>
             <!-- <td> <button class="btn btn-danger btn-sm" (click)="removeOrder(order.id)">Remove From the history</button></td> -->
           
@@ -37,7 +39,7 @@
 </table>
 
 
-<div class="container" #pdfContent  data-html2canvas-ignore="true" class="main-container hide-in-pdf" style="font-size: 15px;border:1px solid black;color: #365ca0;
+<div class="container" #pdfContent  class="main-container hide-in-pdf" style="font-size: 15px;border:1px solid black;color: #365ca0;
     font-weight: 600;">
 
     <div style="text-align: center;">
@@ -78,7 +80,7 @@
                     <h1>Receipt</h1>
                 </div>
             
-                <table class="table table-hover"  style="margin-left: 20px;width:90%">
+                <table class="table table-hover "  style="margin-left: 20px;width:90%">
                     <thead>
                         <tr>
                             <th>Product</th>
