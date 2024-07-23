@@ -19,7 +19,13 @@ export class UserService {
 
 
   updateUser(user: any): Observable<User> {
-    const url = `${this.apiUrl}/${user.id}`;
+    const url = `${this.apiUrl}/${user.user_id}`;
+    return this.http.put<User>(url, user);
+  }
+
+  updateAdrress(user: any): Observable<User> {
+    console.log(user)
+    const url = `${this.apiUrl + '/updateAdd'}/${user.user_id}`;
     return this.http.put<User>(url, user);
   }
 

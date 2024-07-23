@@ -47,6 +47,7 @@ export class HomeComponent {
   }
 
   ngOnInit(): void {
+    sessionStorage.removeItem('orderDate');
     this.userDetails = sessionStorage.getItem('currentUser')
     if (!this.authService.isAuthenticated()) {
       this.showLoginMessage = true;
@@ -171,12 +172,34 @@ export class HomeComponent {
         ]
       },
       options: {
+        onClick: (event, elements) => {
+          if (elements.length > 0) {
+              const element = elements[0];
+              const datasetIndex = element.datasetIndex;
+              const dataIndex = element.index;
+              const dataset = this.chart.data.datasets[datasetIndex];
+              const dataValue = dataset.data[dataIndex];
+              const label = this.chart.data.labels[dataIndex];
+              console.log(`Clicked on ${label}: ${dataValue}`);
+              this.getOderReportByDate(dataValue,label)
+          }
+        },
         aspectRatio: 2.5
       }
 
     });
   }
 
+
+  getOderReportByDate(sale : any,date :any){
+    if(sale == 0){
+      alert('No Order for placed')
+    }else{
+      sessionStorage.setItem('orderDate', date);
+      this.router.navigate(['/history'])
+    }
+ 
+  }
 
 
 

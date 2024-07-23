@@ -23,24 +23,28 @@ export class OrderHistoryComponent implements OnInit {
   personalInfo: any;
   @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
   orderDownloadReport: any ;
+  dateFromChart: string | null = '';
   constructor(private orderService: OrderService, private authService: AuthService,private cartservice:CartService,private toastr: ToastrService) { }
 
   ngOnInit(): void {
+    this.dateFromChart = sessionStorage.getItem('orderDate');
+    console.log(this.dateFromChart)
     this.currentUser = this.authService.getCurrentUser();
-    console.log(this.currentUser.user_id)
     if (this.currentUser) {
       this.loadOrdersForUser(this.currentUser.id);
     } else {
       console.error('User not authenticated.');
-    
     }
     if(!this.currentUser.is_admin){
       this.getAllOrderWithUserId();
     }else{
+     if(this.dateFromChart == '' || this.dateFromChart == null){
       this.getOrderForAdmin();
+     }else{
+      this.getOrderByDate();
+     }
+    
     }
- 
-   
   }
 
   ngAfterViewInit() {
@@ -121,4 +125,17 @@ export class OrderHistoryComponent implements OnInit {
      console.log(this.personalInfo)
     })
   }
+
+
+  getOrderByDate(){
+    
+    let dateArr = [];
+    dateArr.push(this.dateFromChart);
+    this.orderService.getOrderSaleCountByDate(dateArr).subscribe(res => {
+      this.orderAdmin = res.result;
+    })
+  }
+
+
+
 }
