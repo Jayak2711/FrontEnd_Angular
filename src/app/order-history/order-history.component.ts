@@ -46,7 +46,6 @@ export class OrderHistoryComponent implements OnInit {
   ngAfterViewInit() {
     const content = this.pdfContent.nativeElement;
     const elementsToHide = content.querySelectorAll('.hide-in-pdf');
-    console.log(elementsToHide)
     elementsToHide.forEach((element: HTMLElement) => {
       element.style.display = 'none';
     });
@@ -62,7 +61,7 @@ export class OrderHistoryComponent implements OnInit {
   getAllOrderWithUserId(){
     this.orderService.getAllOrderWithUserId(this.currentUser?.user_id).subscribe(res =>{
       this.orderAdmin = res.result;
-      if(res.status == '200'){
+      if(res.status == 200){
         this.userInfo();
       }
     })
@@ -109,7 +108,7 @@ export class OrderHistoryComponent implements OnInit {
           pdf.save('shop&me_invoice.pdf');
         });
         this.toastr.success('Success', 'Invoice Downloaded Successfully');
-      },100)
+      },200)
    
   
   }

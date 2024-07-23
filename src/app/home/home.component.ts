@@ -150,11 +150,10 @@ export class HomeComponent {
 
 
   createChart(sale: any) {
-    // const sales = sale.map((item :any) => );
     const labels = sale.map((item: any) => item.date);
     const sales = sale.map((item: any) => item.sale);
     this.chart = new Chart("MyChart", {
-      type: 'line', //this denotes tha type of chart
+      type: 'line',
 
       data: {// values on X-Axis
         labels: labels,
