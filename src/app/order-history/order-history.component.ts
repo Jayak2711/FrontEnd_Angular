@@ -28,14 +28,13 @@ export class OrderHistoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.dateFromChart = sessionStorage.getItem('orderDate');
-    console.log(this.dateFromChart)
     this.currentUser = this.authService.getCurrentUser();
     if (this.currentUser) {
-      this.loadOrdersForUser(this.currentUser.id);
+      // this.loadOrdersForUser(this.currentUser.user_id);
     } else {
       console.error('User not authenticated.');
     }
-    if(!this.currentUser.is_admin){
+    if(this.currentUser.is_admin == false){
       this.getAllOrderWithUserId();
     }else{
      if(this.dateFromChart == '' || this.dateFromChart == null){
@@ -64,6 +63,7 @@ export class OrderHistoryComponent implements OnInit {
 
   getAllOrderWithUserId(){
     this.orderService.getAllOrderWithUserId(this.currentUser?.user_id).subscribe(res =>{
+      console.log('-------------------------',res)
       this.orderAdmin = res.result;
       if(res.status == 200){
         this.userInfo();
@@ -120,9 +120,7 @@ export class OrderHistoryComponent implements OnInit {
 
   userInfo(){
     this.authService.userPersonalDetails(this.currentUser?.user_id).subscribe(res => {
-      console.log(res)
      this.personalInfo = res;
-     console.log(this.personalInfo)
     })
   }
 

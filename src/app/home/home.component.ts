@@ -5,6 +5,7 @@ import { CartService } from '../services/cart.service';
 import { OrderService } from '../services/order.service';
 import { ProductService } from '../services/product.service';
 import Chart from 'chart.js/auto';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -42,7 +43,8 @@ export class HomeComponent {
   userDetails: any;
 
   constructor(private cartService: CartService, private productService: ProductService,
-    private orderService: OrderService, private authService: AuthService, private router: Router, private cdr: ChangeDetectorRef) {
+    private orderService: OrderService, private authService: AuthService, private router: Router,
+     private cdr: ChangeDetectorRef, private userService: UserService) {
 
   }
 
@@ -55,6 +57,16 @@ export class HomeComponent {
     if(this.authService.getCurrentUser().is_admin == true){
       this.pastTenYears = this.getPastTenYears();
       this.changeChart();
+    }else{
+      const userId = this.authService.getCurrentUser()?.user_id;
+      if (userId) {
+        this.userService.getUser(userId).subscribe((user :any) => {
+          if(user.result[0].addressid == null){
+            alert('Complete your profile')
+            this.router.navigate(['/settings'])
+          }
+        });
+      } 
     }
   
 
@@ -180,7 +192,6 @@ export class HomeComponent {
               const dataset = this.chart.data.datasets[datasetIndex];
               const dataValue = dataset.data[dataIndex];
               const label = this.chart.data.labels[dataIndex];
-              console.log(`Clicked on ${label}: ${dataValue}`);
               this.getOderReportByDate(dataValue,label)
           }
         },

@@ -23,9 +23,9 @@
                 <!-- <li class="nav-item">
                     <a class="nav-link" routerLink="/rxjs-demos">rxJs demos</a>
                 </li> -->
-                    <!-- <li class="nav-item" *ngIf="isAuthenticated">
+                    <li class="nav-item" *ngIf="!getCurrentUser.is_admin && isAuthenticated">
                       <a class="nav-link" routerLink="/history">Order History</a>
-                    </li> -->
+                    </li>
                  
             </ul>
             <ng-container *ngIf="!isAuthenticated">

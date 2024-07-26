@@ -4,7 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { LogoutComponent } from './logout/logout.component';
 import { NoAccessComponent } from './no-access/no-access.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule,FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../services/auth.service';
@@ -25,7 +25,8 @@ import { ForgotPasswordComponent } from '../forgot-password/forgot-password.comp
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule,
-    AuthRoutingModule
+    AuthRoutingModule,
+    FormsModule
   ],
   providers: [AuthService],
   exports: [

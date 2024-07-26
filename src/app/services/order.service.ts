@@ -21,8 +21,11 @@ export class OrderService {
     }
 
     getAllOrderWithUserId(userId: any): Observable<any> {
-        const url = `${this.apiUrl}/${userId}`;
+        const url = `${this.apiUrl + '/paymentHistory/'}${userId}`;
+        
         return this.http.get<any>(url);
+        // return this.http.get<any>(this.apiUrl + '/paymentHistory/' + `${userId}` );
+        
     }
 
     getOrderSaleCountByDate(date:any): Observable<any> {  
@@ -64,6 +67,11 @@ export class OrderService {
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         console.log(this.http.post<any>(this.apiUrl + '/addAllorder',order,{headers}))
         return this.http.post<any>(this.apiUrl + '/addAllorder',order,{headers});
+    }
+
+    makePayment(order: any): Observable<any> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post<any>(this.apiUrl + '/addPayment',order,{headers});
     }
 
     
