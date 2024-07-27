@@ -12,7 +12,7 @@
       <p class="card-text">Product Name: {{item.name}}</p>
       <p class="card-text">Product Quantity: {{ item.quantity }}</p>
       <p class="card-text">Product Price: {{ item.price | currency:'INR' }}</p>
-      <p class="card-text">Total Price: {{ item.totalAmount | currency:'INR' }}</p>
+      <p class="card-text">Total Price: {{ item.totalAmount * item.quantity | currency:'INR' }}</p>
       <!-- <i class="fa fa-trash" aria-hidden="true" (click)="deleteCart(item.cart_id)"></i> -->
        <div class="flex-container">
         <div>

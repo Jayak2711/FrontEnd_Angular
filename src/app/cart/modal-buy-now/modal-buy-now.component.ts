@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { OrderService } from 'src/app/services/order.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CartService } from 'src/app/services/cart.service';
+import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-modal-buy-now',
   standalone: true,
@@ -39,42 +40,60 @@ state: any;
 district: any;
 pincode:any
   cartList: any;
+  userDetails: any = {
+    'address1' : '',
+    'address2' : '',
+    'pincode'   : '',
+    'district' : '',
+    'country' : '',
+    'state' : '',
+    'landmark' : ''
+  };
 
-constructor(private route: ActivatedRoute,private router : Router, private orderService: OrderService,private toastr: ToastrService,private cartService: CartService,){
-
-}
+constructor(private route: ActivatedRoute,private router : Router, 
+  private orderService: OrderService,private toastr: ToastrService,
+  private cartService: CartService,private authService: AuthService){}
 
   ngOnInit(): void {
-    console.log(history.state)
     this.orderDetails = history.state.data;
-    this.cartList = history.state.cart
+    console.log(this.orderDetails)
+    this.cartList = history.state.cart;
+      this.userInfo();
+  }
 
+
+  userInfo(){
+    this.authService.userPersonalDetails(this.orderDetails[0].user_id).subscribe(res => {
+    if(res.status == 200){
+      this.userDetails = res.result[0];
+    }
+    },
+    error => {
+      console.error('Error fetching user details', error);
+    }
+  )
   }
 
 
 
-
-
   makePayment(){
+var currentdate =  new Date();
+    let orderArr = [];
+    for(let i=0;i<this.orderDetails.length;i++){
+      orderArr.push(this.orderDetails[i].id)
+    }
     let payment =   {
-          "created_on" : '11/11/9221',
-          "order_id": this.orderDetails.id,
+          "created_on" : currentdate,
+          "order_id": orderArr,
           "payment_method": this.paymentTypeValue,
-          "status": 1,
-          "b_add1": this.add1,
-          "b_add2": this.add2,
-          "b_landmark": this.landmark,
-          "pincode": this.pincode,
-          "b_district": this.district,
-          "amount" : 20000
+          "status": 'Success'
       }
       
-
+    console.log(currentdate)
       this.orderService.makePayment(payment).subscribe(res =>{
-        console.log(res)
         if(res.status == "200"){
-          alert('payment success');
            this.cartService.deleteCartById(this.cartList).subscribe(res=>{
+            this.toastr.success('Success','Payment Successfully done');
           this.router.navigate(['/'])
         })
         }

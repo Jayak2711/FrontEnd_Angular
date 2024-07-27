@@ -8,6 +8,8 @@ import html2canvas from 'html2canvas';
 import jspdf from 'jspdf';
 import jsPDF from 'jspdf';
 import { ToastrService } from 'ngx-toastr';
+import { DatePipe } from '@angular/common';
+
 @Component({
   selector: 'app-order-history',
   templateUrl: './order-history.component.html',
@@ -24,7 +26,8 @@ export class OrderHistoryComponent implements OnInit {
   @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
   orderDownloadReport: any ;
   dateFromChart: string | null = '';
-  constructor(private orderService: OrderService, private authService: AuthService,private cartservice:CartService,private toastr: ToastrService) { }
+  constructor(private orderService: OrderService, private authService: AuthService,
+    private cartservice:CartService,private toastr: ToastrService,private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     this.dateFromChart = sessionStorage.getItem('orderDate');
@@ -62,9 +65,13 @@ export class OrderHistoryComponent implements OnInit {
 
 
   getAllOrderWithUserId(){
-    this.orderService.getAllOrderWithUserId(this.currentUser?.user_id).subscribe(res =>{
-      console.log('-------------------------',res)
+    this.orderService.getAllOrderWithUserId(this.currentUser?.user_id).subscribe(res =>{ 
       this.orderAdmin = res.result;
+      for(let i=0;i<this.orderAdmin.length;i++){
+        const date = new Date(this.orderAdmin[i].payment_created_on);
+        this.orderAdmin[i].payment_created_on = this.datePipe.transform(date, 'dd-MM-yyyy');
+     }
+     console.log(this.orderAdmin)
       if(res.status == 200){
         this.userInfo();
       }
@@ -132,6 +139,17 @@ export class OrderHistoryComponent implements OnInit {
     this.orderService.getOrderSaleCountByDate(dateArr).subscribe(res => {
       this.orderAdmin = res.result;
     })
+  }
+
+
+
+
+  formatDate(date: Date): string {
+    console.log(date)
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // JavaScript months are 0-based
+    const year = date.getFullYear().toString();
+    return `${day}-${month}-${year}`;
   }
 
 

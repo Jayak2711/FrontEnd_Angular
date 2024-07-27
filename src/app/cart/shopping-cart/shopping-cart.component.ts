@@ -112,16 +112,10 @@ loadCartDetails() {
   this.cartIdList = carId;
     this.orderService.placeAllOrder(orderList).subscribe(res =>{
       if(res.status = '200'){
-        // alert('Order placed Successfully');
         this.toastr.success('Success', 'Order placed Successfully', {
           timeOut: 1000,
         });
-        // this.router.navigate(['/payment'])
         this.router.navigate(['/payment'], { state: { data: res.result , cart : this.cartIdList} });
-        // this.cartService.deleteCartById(carId).subscribe(res=>{
-        //   this.closebutton.nativeElement.click();
-        //   this.ngOnInit();
-        // })
       }
     })
     
@@ -164,13 +158,15 @@ loadCartDetails() {
   }
 
   increaseQuantity(quantity: any,i:number){
-    quantity.quantity++;
+    // quantity.quantity++;
     // this.cartItems[i].quantity = quantity;
+    this.cartItems[i].quantity ++;
   }
 
   decreaseQuantity(quantity: any,i:number){
     if(quantity.quantity >= 1){
-      quantity.quantity--;
+      // quantity.quantity--;
+      this.cartItems[i].quantity --
       // this.cartItems[i].quantity = quantity;
     }
   }

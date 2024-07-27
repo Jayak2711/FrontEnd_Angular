@@ -5,7 +5,7 @@
     </div>
     <div class="row">
         <div class="col-md-2"></div>
-        <div class="col-md-8">
+        <div class="col-md-8" >
             <div class="dropdown" >
                 <label for="password" class="form-label" style="font-weight: 600;font-size: large;">Select Mode of Payment </label><br>
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size:12px">
@@ -68,50 +68,49 @@
                       </div>
                 </div> -->
                
-                <div class="mt-4 mb-4">
+                <div class="mt-4 mb-4" *ngIf="userDetails">
                     <h6 class="text-uppercase">Address</h6>
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control"
-                                    required="required" [(ngModel)]="add1"> <span>Address 1</span> </div>
+                                    required="required" [(ngModel)]="userDetails.address1"> <span>Address 1</span> </div>
                         </div>
                         <div class="col-md-6">
                             <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control"
-                                    required="required" [(ngModel)]="add2"> <span>Address 2</span> </div>
+                                    required="required" [(ngModel)]="userDetails.address2"> <span>Address 2</span> </div>
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-6">
-                            <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control"
-
-                                [(ngModel)]="landmark"
+                            <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control" [(ngModel)]="userDetails.landmark"
                                     required="required"> <span>Land mark</span> </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control" [(ngModel)]="district"
+                            <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control" [(ngModel)]="userDetails.district"
                                     required="required"> <span>District</span> </div>
                         </div>
                     </div>
                     <div class="row mt-2">
                         <div class="col-md-6">
                             <div class="inputbox mt-3 mr-2">
-                                 <input type="text" name="name" class="form-control" [(ngModel)]="state"
+                                 <input type="text" name="name" class="form-control" [(ngModel)]="userDetails.state"
                                     required="required"> <span>State</span> </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control" [(ngModel)]="pincode"
-                                    required="required"> <span>Zip code</span> </div>
+                            <div class="inputbox mt-3 mr-2">
+                                <input type="text" name="name" class="form-control"  [(ngModel)]="userDetails.country"
+                                required="required"> <span>Country</span> </div>
+                           
                         </div>
                     </div>
                     <div class="row mt-2">
                         <div class="col-md-6">
                             <div class="inputbox mt-3 mr-2"> 
-                                <input type="text" name="name" class="form-control" [(ngModel)]="country"
-                                    required="required"> <span>Country</span> </div>
+                                <input type="text" name="name" class="form-control" [(ngModel)]="userDetails.pincode"
+                                required="required"> <span>Pin Code</span> </div>
                         </div>
                         <div class="col-md-6">
-                            <!-- <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control"
-                                    required="required"> <span>Zip code</span> </div> -->
+                           
                         </div>
                     </div>
                 </div>
