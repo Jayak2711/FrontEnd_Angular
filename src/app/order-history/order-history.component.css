@@ -1,0 +1,25 @@
+table {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  
+  ::ng-deep th.mat-header-cell {
+    font-size: 14px !important;
+    font-weight: 800 !important;
+  }
+
+  
+  .mat-card {
+    margin: 16px;
+  }
+  
+  .mat-card-content {
+    padding: 16px;
+  }
+
+  .hidden {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+  }
+  

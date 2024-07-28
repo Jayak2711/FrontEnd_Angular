@@ -55,34 +55,18 @@ export class RegisterComponent implements OnInit {
       //Destructing the object to omit the field that we don't want.
       //The (...) operator helps collect the other properties into a new object called formData which excludes confirmPassword 
       const { confirmpassword, ...formData } = this.registerForm.value;
-      console.log('Form Data:', formData);
-
-      this.authService.register(formData).subscribe(res=>{        
-        // next: (user) => {
-        //   console.log('Registration successful:', user);
-        //   this.router.navigate(['/login']);
-        // },
-        // error: (error) => {
-        //   console.error('Registration error:', error);
-        //   // this.errorMessage = error;
-        //  console.log(error.error.text)
-        //   if(error.error.text = 'User registered successfully'){
-        //     alert();
-        //     this.router.navigate(['/login']);
-        //   }
-         
-        // }
-        if(res){
+      this.authService.register(formData).subscribe({        
+        next: (user) => {
           this.toastr.success('Success', 'User Registered Successfully', {
             timeOut: 4000,
           });
-        }else{
-          this.toastr.error('Failed', 'Something went wrong', {
+          this.router.navigate(['/login']);
+        },
+        error: (error) => {
+          this.toastr.error('Failed', error, {
             timeOut: 4000,
           });
         }
-
-
       })
     }
   }
