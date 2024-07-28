@@ -104,7 +104,8 @@ loadCartDetails() {
       'quantity' : product[i].quantity,
       'user_id' : product[i].user_id,
       'p_id' : product[i].p_id,
-      'created_on' : this.getCurrentFormattedDate()
+      'created_on' :  new Date(),
+      'status' : 'Placed'
     }
     orderList.push(order);
     carId.push(product[i].cart_id)
