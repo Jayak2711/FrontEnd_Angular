@@ -21,6 +21,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { CategoryComponent } from './category/category.component';
+import { ModalBuyNowComponent } from './cart/modal-buy-now/modal-buy-now.component';
 
 
 const routes: Routes = [
@@ -32,6 +33,7 @@ const routes: Routes = [
   { path: 'orders/edit/:id', component: OrderEditComponent, canActivate: [AuthGuard] },
   { path: 'category', component: CategoryComponent, canActivate: [AuthGuard] },
   { path: 'cart', component: ShoppingCartComponent},
+  { path: 'payment', component: ModalBuyNowComponent},
   { path: 'browse-products', component: BrowseProductsComponent },
   { path: 'cart/thank-you', component: ThankYouComponent },
   { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },

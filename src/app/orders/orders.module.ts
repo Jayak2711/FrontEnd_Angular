@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule,DatePipe} from '@angular/common';
 import { OrderCreateComponent } from './order-create/order-create.component';
 import { OrderEditComponent } from './order-edit/order-edit.component';
 import { OrderListComponent } from './order-list/order-list.component';
@@ -27,6 +27,6 @@ import { RouterModule } from '@angular/router';
     OrderEditComponent,
     OrderListComponent
   ],
-  providers: [OrderService]
+  providers: [OrderService,DatePipe]
 })
 export class OrdersModule { }

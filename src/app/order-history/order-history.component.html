@@ -4,12 +4,15 @@
             <th>SNO</th>
             <th *ngIf="currentUser?.is_admin">UserId</th>
             <th>Product Id</th>
+            <th>Product Name</th>
             <!-- <th>Products</th> -->
-            <th>TotalPrice</th>
+            <th>Price</th>
             <th>Date</th>
             <th>Quantity</th>
-            <th>Amount</th>
-            <th>Payment</th>
+            <!-- <th>Amount</th> -->
+            <th>Payment Method</th>
+            <th>Payment Status</th>
+            <th>Total Amount</th>
             <th>Invoice Download</th>
             <!-- <th>Actions</th> -->
         </tr>
@@ -18,19 +21,15 @@
         <tr *ngFor="let order of orderAdmin;let i=index">
             <td>{{i+1}}</td>
             <td *ngIf="currentUser?.is_admin">{{ order.user_id}}</td>
-            <td>{{ order.p_id}}</td>
-            <!-- <td>
-                <ul>
-                    <li *ngFor="let orderProduct of order.products">
-                        {{ orderProduct.productDetails?.name }} (Quantity: {{ orderProduct.quantity }})
-                    </li>
-                </ul>
-            </td> -->
-            <td>{{ order.price | currency:'INR' }}</td>
-            <td>{{ order.created_on }}</td>
-            <td>{{ order.quantity }}</td>
-            <td>{{ order.price}}</td>
-            <td>Success</td>
+            <td>{{ order.product_id}}</td>
+            <td>{{ order.product_name}}</td>
+            <td>{{ order.product_price}}</td>
+            <td>{{ order.payment_created_on }}</td>
+            <td>{{ order.order_quantity }}</td>
+            <!-- <td>{{ order.price}}</td> -->
+            <td>{{ order.payment_method}}</td>
+            <td>{{ order.payment_status}}</td>
+            <td>{{order.product_price * order.order_quantity | currency:'INR' }} </td>
             <td><i class="fa fa-download" aria-hidden="true" (click)="exportAsPDF(i)" ></i></td>
             <!-- <td> <button class="btn btn-danger btn-sm" (click)="removeOrder(order.id)">Remove From the history</button></td> -->
           

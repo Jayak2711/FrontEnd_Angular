@@ -7,10 +7,12 @@ import { AuthService } from 'src/app/services/auth.service';
 import { CartService } from 'src/app/services/cart.service';
 import { OrderService } from 'src/app/services/order.service';
 import { ProductService } from 'src/app/services/product.service';
+
+
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
-  styleUrls: ['./shopping-cart.component.css']
+  styleUrls: ['./shopping-cart.component.css'],
 })
 export class ShoppingCartComponent implements OnInit {
   @ViewChild('closebutton') closebutton : any;
@@ -25,6 +27,8 @@ export class ShoppingCartComponent implements OnInit {
   paymentMethod : any = 'Mode of payment';
   paymentMode : any = ['COD','Debit Card','Credit Card']
   grandTotal: any;
+  checkBoxArr: any = [];
+  cartIdList: any[] = [];
   // private toastr: ToastrService
   constructor(private cartService: CartService, private productService: ProductService, 
     private orderService: OrderService, private authService: AuthService, private router: Router,private toastr: ToastrService) {
@@ -56,11 +60,11 @@ export class ShoppingCartComponent implements OnInit {
   deleteCart(item :any){
     let cartIdArr = [];
     cartIdArr.push(item.cart_id)
+    this.cartIdList = cartIdArr
     let text = "Are you sure you want to remove from cart ?";
   if (confirm(text) == true) {
     this.cartService.deleteCartById(cartIdArr).subscribe(res=>{
       if(res.status == '200'){
-        // alert('Cart removed Succussfully')
         this.toastr.success('Success', 'Cart removed Succussfully', {
           timeOut: 4000,
         });
@@ -75,6 +79,7 @@ loadCartDetails() {
       this.cartItems = res.result;
       for(let i=0;i<this.cartItems.length;i++){
         this.cartItems[i]['totalAmount']  = (this.cartItems[i].quantity * parseInt(this.cartItems[i].price));
+        this.cartItems[i]['checked']  = false;
       }
       
     })
@@ -83,7 +88,11 @@ loadCartDetails() {
 
   userInfo(){
     this.authService.userPersonalDetails(this.userDetails.user_id).subscribe(res => {
-     this.personalInfo = res;
+      console.log(res)
+      if(res.result.length == 0){
+        alert('Please complete your profile first');
+        this.personalInfo = res;
+      }
     })
   }
 
@@ -92,27 +101,22 @@ loadCartDetails() {
     var carId : any = [];
     for(let i=0;i<product.length;i++){
     var order = {
-      'payment_mode' : this.paymentMethod,
       'quantity' : product[i].quantity,
       'user_id' : product[i].user_id,
       'p_id' : product[i].p_id,
-      'created_on' : this.getCurrentFormattedDate()
+      'created_on' :  new Date(),
+      'status' : 'Placed'
     }
     orderList.push(order);
     carId.push(product[i].cart_id)
   }
-  console.log(orderList)
+  this.cartIdList = carId;
     this.orderService.placeAllOrder(orderList).subscribe(res =>{
-      
       if(res.status = '200'){
-        // alert('Order placed Successfully');
         this.toastr.success('Success', 'Order placed Successfully', {
-          timeOut: 4000,
+          timeOut: 1000,
         });
-        this.cartService.deleteCartById(carId).subscribe(res=>{
-          this.closebutton.nativeElement.click();
-          this.ngOnInit();
-        })
+        this.router.navigate(['/payment'], { state: { data: res.result , cart : this.cartIdList} });
       }
     })
     
@@ -128,45 +132,44 @@ loadCartDetails() {
   }
 
 
-  placeOrder(item : any,type:number) {
-    this.userInfo();
-    this.grandTotal = 0;
-    this.buyNowArr = [];
-    if(type == 1){
-      this.grandTotal = item.totalAmount;
-      this.buyNowArr.push(item);
-    }else{
-      this.buyNowArr = item;
-    }
 
+  handleSelected(item :any,data :any){
   
- 
-    // if (!this.authService.isAuthenticated()) {
-    //   this.showLoginMessage = true;
-    //   alert("Please login to place an order");
-    //   return;
-    // }
+    if (!item.srcElement.checked) {
+      this.removeItem(item);
+    }else{
+      this.checkBoxArr.push(data)
+    }
+  }
 
-    //products: productId and quantity
-    // const orderProducts: OrderProduct[] = this.cartItems.map(item => {
-    //   return {
-    //     productId: item.id,
-    //     quantity: item.quantity
-    //   }
-    // });
+  removeItem(item: any): void {
+    this.checkBoxArr = this.checkBoxArr.filter((i:any) => i !== item);
+  }
 
-    // const newOrder: Order = {
-    //   userId: this.authService.getCurrentUser()?.id,
-    //   products: orderProducts,
-    //   totalPrice: this.totalPrice,
-    //   date: new Date().toISOString().split('T')[0],
-    //   status: 'Pending'
-    // };
+  placeOrderFinal(){
+    if(this.checkBoxArr.length == 0){
+      alert('Please Add atleast one item to order');
+      // this.buyNowArr = this.cartItems;
+    }else{
+      this.buyNowArr = this.checkBoxArr;
+      console.log(this.buyNowArr)
+      this.checkOut(this.buyNowArr);
+    
+    }   
+  }
 
-    // this.orderService.createOrder(newOrder).subscribe(() => {
-    //   this.cartService.clearCart();
-    //   this.router.navigate(['/cart/thank-you']);
-    // })
+  increaseQuantity(quantity: any,i:number){
+    // quantity.quantity++;
+    // this.cartItems[i].quantity = quantity;
+    this.cartItems[i].quantity ++;
+  }
+
+  decreaseQuantity(quantity: any,i:number){
+    if(quantity.quantity >= 1){
+      // quantity.quantity--;
+      this.cartItems[i].quantity --
+      // this.cartItems[i].quantity = quantity;
+    }
   }
 
 

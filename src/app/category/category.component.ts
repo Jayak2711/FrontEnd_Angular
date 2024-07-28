@@ -45,7 +45,6 @@ export class CategoryComponent {
     this.http.deletecategoryById(id).subscribe(res => {
       console.log(res)
       if(res.status == '200'){
-        alert()
       }
     })
   }

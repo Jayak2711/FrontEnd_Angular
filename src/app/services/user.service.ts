@@ -18,6 +18,11 @@ export class UserService {
   }
 
 
+  addNewAddress(user: any): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<any>(this.apiUrl + '/addAddress', user,{headers});
+}
+
   updateUser(user: any): Observable<User> {
     const url = `${this.apiUrl}/${user.user_id}`;
     return this.http.put<User>(url, user);

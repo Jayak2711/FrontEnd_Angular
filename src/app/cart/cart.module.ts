@@ -4,7 +4,7 @@ import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { ThankYouComponent } from './thank-you/thank-you.component';
 import { RouterModule } from '@angular/router';
 import { DisableButtonDirective } from '../core/disable-button.directive';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -15,7 +15,9 @@ import { DisableButtonDirective } from '../core/disable-button.directive';
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    FormsModule, 
+    ReactiveFormsModule
   ],
   exports: [
     ShoppingCartComponent,

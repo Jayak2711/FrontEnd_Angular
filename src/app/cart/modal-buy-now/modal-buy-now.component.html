@@ -1,1 +1,155 @@
-<p>modal-buy-now works!</p>
+<div class="container mt-5 px-5" style="padding-top: 0px !important;">
+    <div class="mb-12" style="text-align: center;">
+        <h4>Confirm order and pay</h4>
+        <!-- <span>please make the payment, after that you can enjoy all the features and benefits.</span> -->
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8" >
+            <div class="dropdown" >
+                <label for="password" class="form-label" style="font-weight: 600;font-size: large;">Select Mode of Payment </label><br>
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size:12px">
+                {{paymentTypeValue}}
+                </button>
+                <ul class="dropdown-menu"> 
+                  <li><a class="dropdown-item"   value="data.name" *ngFor="let data of paymentMode" (click)="paymentType(data.mode)">{{data.mode}}</a></li>
+                  <!-- <li><a class="dropdown-item"  value="debit" (click)="paymentType('debit')">DEBIT CARD</a></li>
+                  <li><a class="dropdown-item"  value="credit" (click)="paymentType('credit')">CREDIT CARD</a></li>
+                  <li><a class="dropdown-item"  value="upi" (click)="paymentType('upi')">UPI</a></li> -->
+                </ul>
+              </div>
+            <div class="card p-3">
+                <div class="mb-3">
+                    <label for="password" class="form-label" style="font-weight: 600;font-size: large;">Total Amount</label>
+                    <input id="password" type="text" class="form-control" value="10,00,000" readonly>
+                  </div>
+                <div  *ngIf="paymentTypeValue == 'Debit Card' || paymentTypeValue == 'Credit Card' ">
+                    <h6 class="text-uppercase">Payment details</h6>
+                    <div class="inputbox mt-3"> <input type="text" name="name" class="form-control" required="required">
+                        <span>Name on card</span> 
+                    </div>
+                    <div class="row" *ngIf="paymentTypeValue == 'Debit Card' || paymentTypeValue == 'Credit Card' ">
+                        <div class="col-md-6">
+                            <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control"
+                                    required="required"> <i class="fa fa-credit-card"></i> <span>Card Number</span>
+                            </div>
+                        </div>
+    
+                        <div class="col-md-6">
+    
+                            <div class="d-flex flex-row">
+    
+    
+                                <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control"
+                                        required="required"> <span>Expiry</span> </div>
+    
+                                <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control"
+                                        required="required"> <span>CVV</span> </div>
+    
+    
+                            </div>
+    
+    
+                        </div>
+    
+    
+                    </div>
+                </div>
+                <div *ngIf="paymentTypeValue == 'UPI'">
+                    <div class="mb-3">
+                        <label for="password" class="form-label">UPI Adress</label>
+                        <input id="password" type="text" class="form-control" placeholder="Enter the UPI Id">
+                      </div>
+                </div>
+                <!-- <div *ngIf="paymentTypeValue == 'COA'">
+                    <div class="mb-3">
+                        <label for="password" class="form-label" style="font-weight: 600;font-size: large;">Total Amount</label>
+                        <input id="password" type="text" class="form-control" value="10,00,000" readonly>
+                      </div>
+                </div> -->
+               
+                <div class="mt-4 mb-4" *ngIf="userDetails">
+                    <h6 class="text-uppercase">Address</h6>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control"
+                                    required="required" [(ngModel)]="userDetails.address1"> <span>Address 1</span> </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control"
+                                    required="required" [(ngModel)]="userDetails.address2"> <span>Address 2</span> </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control" [(ngModel)]="userDetails.landmark"
+                                    required="required"> <span>Land mark</span> </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control" [(ngModel)]="userDetails.district"
+                                    required="required"> <span>District</span> </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <div class="inputbox mt-3 mr-2">
+                                 <input type="text" name="name" class="form-control" [(ngModel)]="userDetails.state"
+                                    required="required"> <span>State</span> </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="inputbox mt-3 mr-2">
+                                <input type="text" name="name" class="form-control"  [(ngModel)]="userDetails.country"
+                                required="required"> <span>Country</span> </div>
+                           
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <div class="inputbox mt-3 mr-2"> 
+                                <input type="text" name="name" class="form-control" [(ngModel)]="userDetails.pincode"
+                                required="required"> <span>Pin Code</span> </div>
+                        </div>
+                        <div class="col-md-6">
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4 mb-4 d-flex justify-content-between">
+                <!-- <span>Previous step</span> -->
+                <button class="btn btn-success px-3" (click)="makePayment()">Make Payment</button>
+
+
+
+
+            </div>
+
+        </div>
+        <div class="col-md-2"></div>
+        <!-- <div class="col-md-4">
+
+            <div class="card card-blue p-3 text-white mb-3">
+
+                <span>You have to pay</span>
+                <div class="d-flex flex-row align-items-end mb-3">
+                    <h1 class="mb-0 yellow">$549</h1> <span>.99</span>
+                </div>
+
+                <span>Enjoy all the features and perk after you complete the payment</span>
+                <a href="#" class="yellow decoration">Know all the features</a>
+
+                <div class="hightlight">
+
+                    <span>100% Guaranteed support and update for the next 5 years.</span>
+
+
+                </div>
+
+            </div>
+
+        </div> -->
+
+    </div>
+
+
+</div>
