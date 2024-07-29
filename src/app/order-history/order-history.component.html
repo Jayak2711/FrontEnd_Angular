@@ -1,4 +1,6 @@
-<!-- <table class="table table-bordered table-responsive  table table-striped" *ngIf="orderAdmin?.length > 0">
+<div *ngIf="currentUser?.is_admin">
+  <h4>Order History</h4>
+<table class="table table-bordered table-responsive  table table-striped" *ngIf="orderAdmin?.length > 0">
     <thead>
         <tr>
             <th>SNO</th>
@@ -7,18 +9,18 @@
             <th>Order Id</th>
             <th>Product Name</th>
             <th>Price</th>
-            <th>Date</th>
+            <th>Date</th> 
             <th>Quantity</th>
             <th>Payment Method</th>
             <th>Payment Status</th>
             <th>Total Amount</th>
-            <th>Invoice Download</th>
+            <!-- <th>Invoice Download</th> -->
         </tr>
     </thead>
     <tbody>
         <tr *ngFor="let order of orderAdmin;let i=index">
             <td>{{i+1}}</td>
-            <td *ngIf="currentUser?.is_admin">{{ order.user_id}}</td>
+            <td *ngIf="currentUser?.is_admin">{{order.order_user_id}}</td>
             <td>{{ order.payment_id}}</td>
             <td>{{ order.order_id}}</td>
             <td>{{ order.product_name}}</td>
@@ -28,12 +30,13 @@
             <td>{{ order.payment_method}}</td>
             <td>{{ order.payment_status}}</td>
             <td>{{order.product_price * order.order_quantity | currency:'INR' }} </td>
-            <td><i class="fa fa-download" aria-hidden="true" (click)="exportAsPDF(i)" ></i></td>
+            <!-- <td><i class="fa fa-download" aria-hidden="true" (click)="exportAsPDF(i)" ></i></td> -->
         </tr>
     </tbody>
-</table> -->
-
-<mat-card>
+</table>
+</div>
+<div *ngIf="!currentUser?.is_admin">
+  <mat-card>
     <mat-card-title><h3>Order & Payment Details</h3></mat-card-title>
     <mat-card-content>
       <div *ngFor="let orderId of getOrderIds()">
@@ -90,12 +93,6 @@
             <th mat-header-cell *matHeaderCellDef>Total Amount</th>
             <td mat-cell *matCellDef="let element"> {{element.totalamount | currency:'INR' }} </td>
           </ng-container>
-
-          <!-- <ng-container matColumnDef="Invoice">
-            <th mat-header-cell *matHeaderCellDef>Invoice</th>
-            <td mat-cell *matCellDef="let element"><i class="fa fa-download" aria-hidden="true" (click)="downloadPdf()" ></i></td>
-          </ng-container> -->
-          <!-- Header and Row Definitions -->
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
@@ -103,6 +100,8 @@
     </mat-card-content>
   </mat-card>
   
+
+</div>
 
   
 <div class="container"  #pdfContent  class="main-container hidden " style="font-size: 15px;border:1px solid black;color: #365ca0;

@@ -4,7 +4,7 @@ table {
   }
   
   ::ng-deep th.mat-header-cell {
-    font-size: 14px !important;
+    font-size: 13px !important;
     font-weight: 800 !important;
   }
 
@@ -23,3 +23,11 @@ table {
     top: -9999px;
   }
   
+  th{
+    font-size: 13px !important;
+    font-weight: 700;
+  }
+
+  tr{
+    font-size: 12px !important;
+  }

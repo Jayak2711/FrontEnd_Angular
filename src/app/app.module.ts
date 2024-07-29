@@ -24,6 +24,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { NgxSpinnerModule } from "ngx-spinner";
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,8 +52,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
     MatTableModule,
     MatCardModule,
     MatButtonModule,
-    NgxSpinnerModule
-    
+    NgxSpinnerModule,    
   ],
   providers: [],
   bootstrap: [AppComponent]

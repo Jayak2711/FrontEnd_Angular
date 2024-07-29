@@ -1,7 +1,7 @@
 <div class="container">
-   <h3>Add Category</h3>
-        <form [formGroup]="categoryForm" (ngSubmit)="createCategory()">
-            <div class="row">
+    <h3>Add Category</h3>
+    <form [formGroup]="categoryForm" (ngSubmit)="createCategory()">
+        <div class="row">
             <div class="mb-3">
                 <label for="name">Name</label>
                 <input type="text" id="name" formControlName="name" class="form-control" />
@@ -13,34 +13,57 @@
             <div class="mb-3">
                 <button type="submit" class="btn btn-success bt-sm">Create Category</button>
             </div>
-    </div>
-</form>
+        </div>
+    </form>
 
 
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th scope="col">SNO</th>
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
-            <th scope="col">Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (country of categoryResult; track country.id; let i = $index) {
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">SNO</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (country of categoryResult; track country.id; let i = $index) {
             <tr>
                 <th scope="row">{{ i + 1 }}</th>
-                <td>{{ country.name }}</td>
-                <td>{{ country.description }}</td>
                 <td>
-                    <!-- <a  class="btn btn-warning btn-sm me-2">Edit</a> -->
-                    <button (click)="deleteProduct(country.id)" class="btn btn-danger btn-sm">Delete</button>
+                    <div *ngIf="!country.isEditing">
+                        {{ country.name }}
+                    </div>
+
+                    <div *ngIf="country.isEditing">
+                        <input type="text" id="name" [(ngModel)]="country.name" class="form-control" />
+                    </div>
+
+                </td>
+                <td>
+                    <div *ngIf="!country.isEditing">
+                        {{ country.description }}
+                    </div>
+
+                    <div *ngIf="country.isEditing">
+                        <input type="text" id="name" [(ngModel)]="country.description" class="form-control" />
+                    </div>
+
+                </td>
+                <td>
+                    <i *ngIf="country.isEditing" class="fa fa-save" style="font-size:20px"
+                        (click)="saveCategory(country)"></i>
+                    <i *ngIf="!country.isEditing" class="fa fa-edit" style="font-size:20px"
+                        (click)="updateCategory(country)"></i>
+                    <i *ngIf="!country.isEditing" class="fa fa-trash" style="font-size:20px"
+                        (click)="deleteProduct(country.id)"></i>
+                    <!-- <button (click)="deleteProduct(country.id)" class="btn btn-danger btn-sm">Delete</button> -->
                 </td>
             </tr>
-        }
-    </tbody>
-</table>
+            }
+        </tbody>
+    </table>
 
 
 

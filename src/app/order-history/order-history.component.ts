@@ -39,16 +39,12 @@ export class OrderHistoryComponent implements AfterViewInit,OnInit{
 
   ngOnInit(): void {
     this.dateFromChart = sessionStorage.getItem('orderDate');
+    console.log(this.dateFromChart)
     this.currentUser = this.authService.getCurrentUser();
     if(this.currentUser.is_admin == false){
       this.getAllOrderWithUserId();
     }else{
-     if(this.dateFromChart == '' || this.dateFromChart == null){
       this.getOrderForAdmin();
-     }else{
-      this.getOrderByDate();
-     }
-    
     }
   }
 
@@ -59,6 +55,17 @@ export class OrderHistoryComponent implements AfterViewInit,OnInit{
   getOrderForAdmin(){
     this.orderService.getOrders().subscribe(res =>{
       this.orderAdmin = res.result;
+      for(let i=0;i<this.orderAdmin.length;i++){
+        const date = new Date(this.orderAdmin[i].payment_created_on);
+        this.orderAdmin[i].payment_created_on = this.datePipe.transform(date, 'dd-MM-yyyy');
+        this.orderAdmin[i]['totalamount'] = (parseInt(this.orderAdmin[i].product_price) * this.orderAdmin[i].order_quantity);
+      }
+      if(res.result){
+        if(this.dateFromChart != null){
+          this.getOrderByDate();
+         }
+      }
+     
     })
   }
 
@@ -128,12 +135,9 @@ export class OrderHistoryComponent implements AfterViewInit,OnInit{
 
 
   getOrderByDate(){
-    
-    let dateArr = [];
-    dateArr.push(this.dateFromChart);
-    this.orderService.getOrderSaleCountByDate(dateArr).subscribe(res => {
-      this.orderAdmin = res.result;
-    })
+    const orderDetails = this.orderAdmin.filter((a: any) => a.payment_created_on === this.dateFromChart);
+    this.orderAdmin = orderDetails;
+    console.log(this.orderAdmin)
   }
 
   formatDate(date: Date): string {
@@ -177,7 +181,6 @@ downloadPdf(orderId : number) {
   this.userInfo();
   this.orderDownloadReport = this.getOrderDetails(orderId);
   this.totalAmount = this.totalOrderRecord(this.orderDownloadReport);
-  console.log(this.totalAmount)
   const content = this.pdfContent.nativeElement;
   this.createdDate = this.orderDownloadReport[0].payment_created_on;
   this.order_id = this.orderDownloadReport[0].order_id;
