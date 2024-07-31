@@ -2,3 +2,23 @@
     margin: 0 auto;
     width:80% /* value of your choice which suits your alignment */
 }
+
+.input-group {
+  position: relative;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  top: 50%;
+  right: 10px; /* Adjust as necessary */
+  transform: translateY(-50%);
+  border: none; /* Remove default button border */
+  background: transparent; /* Make button background transparent */
+  cursor: pointer; /* Change cursor to pointer */
+  z-index: 1; /* Ensure button is above input */
+  font-size: 1.2rem; /* Adjust icon size */
+}
+
+.form-control {
+  padding-right: 2.5rem; /* Ensure input text does not overlap with icon */
+}

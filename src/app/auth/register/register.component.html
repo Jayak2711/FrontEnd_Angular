@@ -30,7 +30,15 @@
                 </div>
                 <div class="mb-3">
                     <label for="password">Password</label>
-                    <input type="password" formControlName="password" class="form-control" />
+                    <div class="input-group  position-relative">
+                        <input  [type]="showPassword ? 'text' : 'password'" formControlName="password" class="form-control" />
+                            <button
+                              class="btn btn-outline-secondary password-toggle-btn  position-absolute"
+                              type="button"
+                              (click)="togglePasswordVisibility()">
+                              <i [ngClass]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'" ></i>
+                            </button>
+                          </div>
                     <div *ngIf="validateControl('password')" class="text-danger">Password is required and must be at least 6 characters.</div>
                 </div>
                 <div class="mb-3">

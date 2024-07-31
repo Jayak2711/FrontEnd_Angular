@@ -14,6 +14,7 @@ export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
   errorMessage: string = "";
+  showPassword: boolean = false;;
 
   ngOnInit(): void {
     this.title.setTitle("Register");
@@ -69,5 +70,9 @@ export class RegisterComponent implements OnInit {
         }
       })
     }
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 }

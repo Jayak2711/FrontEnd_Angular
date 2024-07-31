@@ -1,5 +1,5 @@
 <div *ngIf="currentUser?.is_admin">
-  <h4>Order History</h4>
+  <h3>Order History</h3>
 <table class="table table-bordered table-responsive  table table-striped" *ngIf="orderAdmin?.length > 0">
     <thead>
         <tr>
@@ -40,18 +40,13 @@
     <mat-card-title><h3>Order & Payment Details</h3></mat-card-title>
     <mat-card-content>
       <div *ngFor="let orderId of getOrderIds()">
-        <h5>Order ID: {{orderId}}  <i class="fa fa-download" aria-hidden="true" (click)="downloadPdf(orderId)" ></i></h5>
+        <h6>Payment Id: {{orderId}}  <i class="fa fa-download" aria-hidden="true" (click)="downloadPdf(orderId)" ></i></h6>
        
         <table mat-table [dataSource]="groupedOrders[orderId]" class="mat-elevation-z8">
           <!-- Columns Definition -->
           <ng-container matColumnDef="SNO" >
             <th mat-header-cell *matHeaderCellDef>SNO</th>
             <td mat-cell *matCellDef="let element ; let i =index">{{i + 1}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="Payment Id">
-            <th mat-header-cell *matHeaderCellDef> Payment Id </th>
-            <td mat-cell *matCellDef="let element"> {{element.payment_id}}</td>
           </ng-container>
 
           <ng-container matColumnDef="Order Id">

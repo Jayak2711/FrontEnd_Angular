@@ -1,18 +1,22 @@
 <div class="container">
-    <h3>Add Category</h3>
+    <h3 style="text-align: center;color:#365ca099;font-weight: 700;">Add Category</h3>
     <form [formGroup]="categoryForm" (ngSubmit)="createCategory()">
         <div class="row">
-            <div class="mb-3">
-                <label for="name">Name</label>
-                <input type="text" id="name" formControlName="name" class="form-control" />
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" formControlName="name" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label for="description">Description</label>
+                    <input type="text" id="name" formControlName="description" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-success bt-sm">Create Category</button>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="description">Description</label>
-                <input type="text" id="name" formControlName="description" class="form-control" />
-            </div>
-            <div class="mb-3">
-                <button type="submit" class="btn btn-success bt-sm">Create Category</button>
-            </div>
+            <div class="col-md-3"></div>
         </div>
     </form>
 
@@ -52,11 +56,11 @@
 
                 </td>
                 <td>
-                    <i *ngIf="country.isEditing" class="fa fa-save" style="font-size:20px"
+                    <i *ngIf="country.isEditing" class="fa fa-save" style="font-size:15px"
                         (click)="saveCategory(country)"></i>
-                    <i *ngIf="!country.isEditing" class="fa fa-edit" style="font-size:20px"
+                    <i *ngIf="!country.isEditing" class="fa fa-edit" style="font-size:15px;"
                         (click)="updateCategory(country)"></i>
-                    <i *ngIf="!country.isEditing" class="fa fa-trash" style="font-size:20px"
+                    <i *ngIf="!country.isEditing" class="fa fa-trash" style="font-size:15px;margin-left: 10px !important;"
                         (click)="deleteProduct(country.id)"></i>
                     <!-- <button (click)="deleteProduct(country.id)" class="btn btn-danger btn-sm">Delete</button> -->
                 </td>

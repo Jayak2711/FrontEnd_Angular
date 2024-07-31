@@ -74,4 +74,8 @@ export class ProductCreateComponent {
     this.file = event.target.files[0];
     console.log(this.file);
   }
+
+  goBack(){
+    this.router.navigate(['/products'])
+  }
 }

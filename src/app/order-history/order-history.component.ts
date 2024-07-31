@@ -21,7 +21,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 export class OrderHistoryComponent implements AfterViewInit,OnInit{
 
   groupedOrders: { [key: number]: any[] } = {};
-  displayedColumns: string[] = ['SNO', 'Payment Id', 'Order Id','Product Name','Price','Date','Quantity','Payment Method','Payment Status','Total Amount'];
+  displayedColumns: string[] = ['SNO', 'Order Id','Product Name','Price','Date','Quantity','Payment Method','Payment Status','Total Amount'];
   orders: Order[] = [];
   orderAdmin :any ;
   currentUser: User | null = null;
@@ -150,10 +150,10 @@ export class OrderHistoryComponent implements AfterViewInit,OnInit{
 
   groupByOrderId(array : any) {
     return array.reduce((acc : any, item : any) => {
-      if (!acc[item.order_id]) {
-        acc[item.order_id] = [];
+      if (!acc[item.payment_id]) {
+        acc[item.payment_id] = [];
       }
-      acc[item.order_id].push(item);
+      acc[item.payment_id].push(item);
       return acc;
     }, {});
   }
@@ -166,12 +166,11 @@ getOrderIds(): number[] {
 
 
 getOrderDetails(orderId: number) {
-  const orderDetails = this.orderAdmin.filter((a: any) => a.order_id === orderId);
+  const orderDetails = this.orderAdmin.filter((a: any) => parseInt(a.payment_id) === orderId);
   return orderDetails;
 }
 
 totalOrderRecord(orders :any){
-  console.log(orders)
   const totalPrice : number = (orders.reduce((sum : any, orders:any) => sum + parseInt(orders.totalamount), 0));
   return totalPrice;
 }
@@ -180,6 +179,7 @@ downloadPdf(orderId : number) {
   this.spinner.show();
   this.userInfo();
   this.orderDownloadReport = this.getOrderDetails(orderId);
+  console.log(this.orderDownloadReport)
   this.totalAmount = this.totalOrderRecord(this.orderDownloadReport);
   const content = this.pdfContent.nativeElement;
   this.createdDate = this.orderDownloadReport[0].payment_created_on;
@@ -199,13 +199,13 @@ downloadPdf(orderId : number) {
     pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
     position += pageHeight;
     // Save the PDF
-    pdf.save('document.pdf');
+    pdf.save('Shop&Me.pdf');
     this.spinner.hide();
   }).catch(error => {
     console.error('Error generating PDF:', error);
     this.spinner.hide();
   });
-},300)
+},500)
 }
 
 }

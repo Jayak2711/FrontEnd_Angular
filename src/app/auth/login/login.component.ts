@@ -14,7 +14,8 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   loginFailed: boolean = false;
-  userExist: string = '';;
+  userExist: string = '';showPassword: any;
+;
 
   ngOnInit(): void {
     this.title.setTitle("Login");
@@ -26,6 +27,8 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     })
   }
+
+  
 
   validateControl = (controlName: string) => {
     if (this.loginForm.get(controlName)?.invalid && this.loginForm.get(controlName)?.touched) {
@@ -69,5 +72,9 @@ export class LoginComponent implements OnInit {
         // }
       })
     }
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 }

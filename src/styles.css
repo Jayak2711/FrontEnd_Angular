@@ -5,13 +5,14 @@ label {
 
 .btn {
     background-color: #204a96e6 !important;
-    border-color: #204a96e6 !important;
+    border-color: #365ca099 !important;
     color: white !important;
+    font-size: 10px !important;
 }
 
 body {
     font-family: Arial, sans-serif;
-    font-size: 15px !important;
+    font-size: 13px !important;
     /* zoom : 0.9 !important */
 }
 

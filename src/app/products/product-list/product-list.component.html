@@ -16,7 +16,7 @@
     </div>
 </div>
 
-<table class="table table-bordered table-responsive" >
+<table class="table table-bordered table-responsive table table-striped">
     <thead>
         <tr>
             <th>SNO</th>
@@ -43,9 +43,9 @@
             <td>{{ product.status }}</td>
             <td>
                 <!-- <a routerLink="/products/edit/{{product.product_id}}" class="btn btn-warning btn-sm me-2">Edit</a> -->
-                <i class="fa fa-edit" style="font-size:20px" routerLink="/products/edit/{{product.product_id}}"></i>
+                <i class="fa fa-edit" style="font-size:15px" routerLink="/products/edit/{{product.product_id}}"></i>
                 <!-- <button (click)="deleteProduct(product.product_id)" class="btn btn-danger btn-sm">Delete</button> -->
-                <i (click)="deleteProduct(product.product_id)" class="fa fa-trash" style="font-size:20px"></i>
+                <i (click)="deleteProduct(product.product_id)" class="fa fa-trash" style="font-size:15px;margin-left:5px !important"></i>
             </td>
         </tr>
     </tbody>
