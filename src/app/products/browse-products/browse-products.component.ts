@@ -58,7 +58,7 @@ searchText:any;
       let products = res.result;
       for(let i=0;i<products.length;i++){
         products[i]['quantity'] = 0;
-        products[i]['image'] = new Blob(this.products.image_url);
+        products[i].imageurl = products[i].imageurl.replaceAll('C:\\fakepath\\', '../assets/images/');
        if(products[i].status == 'active'){
         this.products.push(products[i]);
        }

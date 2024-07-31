@@ -23,6 +23,8 @@ export class HomeComponent {
   formattedDates: string[] = [];
   januaryDates: any;
   pastTenYears: any;
+  d = new Date();
+  monthName = this.d.getMonth();
   months: { name: string, number: number }[] = [
     { name: 'January', number: 0 },
     { name: 'February', number: 1 },
@@ -39,7 +41,7 @@ export class HomeComponent {
   ];
   monthNumber: number = 0;
   yearClickedData: number = 2024;
-  monthName: any = 'January';
+  // monthName: any = 'January';
   userDetails: any;
 
   constructor(private cartService: CartService, private productService: ProductService,
@@ -50,7 +52,10 @@ export class HomeComponent {
 
   ngOnInit(): void {
     sessionStorage.removeItem('orderDate');
-    this.userDetails = sessionStorage.getItem('currentUser')
+    this.userDetails = sessionStorage.getItem('currentUser');
+    this.monthNumber = this.monthName;
+    let monthName: any = this.months.find((element) => element.number == this.monthNumber);
+    this.monthName = monthName.name;
     if (!this.authService.isAuthenticated()) {
       this.showLoginMessage = true;
     }

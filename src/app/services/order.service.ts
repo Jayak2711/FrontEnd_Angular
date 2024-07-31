@@ -22,17 +22,13 @@ export class OrderService {
 
     getAllOrderWithUserId(userId: any): Observable<any> {
         const url = `${this.apiUrl + '/paymentHistory/'}${userId}`;
-        
         return this.http.get<any>(url);
-        // return this.http.get<any>(this.apiUrl + '/paymentHistory/' + `${userId}` );
-        
     }
 
     getOrderSaleCountByDate(date:any): Observable<any> {  
         let dateCount = {
             'created_on' : date
         }
-        // console.log(dateCount)
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         return this.http.post<any>(this.apiUrl + '/orderDate', dateCount,{headers});
     }

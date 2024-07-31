@@ -24,11 +24,11 @@ export class ProductCreateComponent {
       description: ['', Validators.required],
       price: [0, [Validators.required, Validators.min(1)]],
       stock: [0, [Validators.required, Validators.min(1)]],
-      categoryId: [0, Validators.required],
-      imageUrl: ['', Validators.required],
-      created_by:[new Date()],
-      updated_by:[''],
-      status:['Available']
+      categoryid: [1005, Validators.required],
+      imageurl: ['', Validators.required],
+      createdby:[new Date()],
+      updatedby:[''],
+      status:['active',Validators.required],
 
     });
   }
@@ -37,6 +37,13 @@ export class ProductCreateComponent {
     this.getAllCategory();
   }
 
+  onSelectChange(eve :any){
+    console.log(eve)
+    const target = eve.target as HTMLSelectElement;
+    target.value;
+    console.log('Selected Option:', target.value);
+    console.log(this.productForm)
+  }
   createProduct() {
     console.log(this.productForm)
     this.submitted  = true;
@@ -66,5 +73,9 @@ export class ProductCreateComponent {
   uploadImage(event:any){
     this.file = event.target.files[0];
     console.log(this.file);
+  }
+
+  goBack(){
+    this.router.navigate(['/products'])
   }
 }

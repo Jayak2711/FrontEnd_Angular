@@ -44,7 +44,7 @@ export class ProductService {
 
     addProduct(product: Product): Observable<Product> {
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-        return this.http.post<any>(this.apiUrl1 + '/create', product,{headers});
+        return this.http.post<any>(this.apiUrl + '/addproduct', product,{headers});
     }
 
     updateProduct(product: Product): Observable<Product> {
@@ -87,6 +87,11 @@ export class ProductService {
    addCategory(category: any): Observable<any> {
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         return this.http.post<any>(this.apiUrl + '/AddCategory', category,{headers});
+    }
+
+    updateCategory(category: any): Observable<any> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.put<any>(this.apiUrl + '/category/update', category,{headers});
     }
 
 }

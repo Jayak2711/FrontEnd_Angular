@@ -1,60 +1,51 @@
 <h4>Shopping Cart</h4>
-<div>
-  <strong>Total Price: {{ calculateTotalPrice | currency:'INR' }}</strong>
-</div>
-<div *ngIf="cartItems.length > 0">
-  <div class="card" style="width: 18rem;" *ngFor="let item of cartItems;let i = index">
-    <div class="form-check" >
-      <input class="form-check-input" type="checkbox"  [(ngModel)]="item.checked"  id="flexCheckDefault"  
-      (change)="handleSelected($event,item)">
+<div class="row">
+  <div>
+    <div>
+      <button (click)="clearCart()" class="btn btn-danger btn-sm me-2">Clear cart</button>
+      <button  (click)="placeOrderFinal()"
+        class="btn btn-success btn-sm me-2">Proceed to order</button>
     </div>
-    <div class="card-body">
-      <p class="card-text">Product Name: {{item.name}}</p>
-      <p class="card-text">Product Quantity: {{ item.quantity }}</p>
-      <p class="card-text">Product Price: {{ item.price | currency:'INR' }}</p>
-      <p class="card-text">Total Price: {{ item.totalAmount * item.quantity | currency:'INR' }}</p>
-      <!-- <i class="fa fa-trash" aria-hidden="true" (click)="deleteCart(item.cart_id)"></i> -->
-       <div class="flex-container">
-        <div>
-          <!-- <button class="btn  btn-sm"><i class="bi bi-dash"></i></button> -->
-          <i class="fa fa-minus-square" aria-hidden="true" (click)="decreaseQuantity(item,i)"></i>
-          <span style="padding-left: 5px;padding-right: 5px;">{{item.quantity}}</span>
-          <i class="fa fa-plus-square" aria-hidden="true" (click)="increaseQuantity(item,i)"></i>
-          <!-- <button class="btn btn-sm"><i class="bi bi-plus"></i> -->
-          <!-- </button> -->
+    <div>
+      <strong>Total Price: {{ calculateTotalPrice | currency:'INR' }}</strong>
+    </div>
+    <div *ngIf="cartItems.length > 0" class="row">
+      <div class="card col-md-3" style="width: 18rem;margin-left: 10px;background-color:#dfe2e6" *ngFor="let item of cartItems;let i = index">
+        <div class="form-check" >
+          <input class="form-check-input" type="checkbox"  [(ngModel)]="item.checked"  id="flexCheckDefault"   style="border: 2px solid black;"
+          (change)="handleSelected($event,item)">
         </div>
-        <div style="margin-left: 10px;">
-          <!-- <button (click)="deleteCart(item)" class="btn btn-danger btn-sm me-2">Delete</button> -->
-          <i class="fa fa-trash" aria-hidden="true" (click)="deleteCart(item)"></i>
+        <div class="card-body">
+          <p class="card-text">Product Name: {{item.name}}</p>
+          <p class="card-text">Product Quantity: {{ item.quantity }}</p>
+          <p class="card-text">Product Price: {{ item.price | currency:'INR' }}</p>
+          <p class="card-text">Total Price: {{ item.totalAmount * item.quantity | currency:'INR' }}</p>
+          <!-- <i class="fa fa-trash" aria-hidden="true" (click)="deleteCart(item.cart_id)"></i> -->
+           <div class="flex-container">
+            <div>
+              <!-- <button class="btn  btn-sm"><i class="bi bi-dash"></i></button> -->
+              <i class="fa fa-minus-square" aria-hidden="true" (click)="decreaseQuantity(item,i)"></i>
+              <span style="padding-left: 5px;padding-right: 5px;">{{item.quantity}}</span>
+              <i class="fa fa-plus-square" aria-hidden="true" (click)="increaseQuantity(item,i)"></i>
+              <!-- <button class="btn btn-sm"><i class="bi bi-plus"></i> -->
+              <!-- </button> -->
+            </div>
+            <div style="margin-left: 10px;">
+              <!-- <button (click)="deleteCart(item)" class="btn btn-danger btn-sm me-2">Delete</button> -->
+              <i class="fa fa-trash" aria-hidden="true" (click)="deleteCart(item)"></i>
+            </div>
+           </div>
         </div>
-       </div>
+      </div>
+    </div>
+ 
     
-
-      <!-- Button trigger modal -->
-      <!-- <button type="button" class="btn btn-danger btn-sm me-2" data-bs-toggle="modal" data-bs-target="#exampleModal"
-        (click)="placeOrder(item,1)">
-        Buy Now
-      </button> -->
-      <!-- <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"  (click)="placeOrder(item)" class="btn btn-success btn-sm me-2">Buy Now</button> -->
-    </div>
   </div>
 
-
-
-  <!-- </div> -->
-  <!-- data-bs-toggle="modal" data-bs-target="#exampleModal" -->
-  <button (click)="clearCart()" class="btn btn-danger btn-sm me-2">Clear cart</button>
-  <button  (click)="placeOrderFinal()"
-    class="btn btn-success btn-sm me-2">Place an order</button>
-  <div *ngIf="showLoginMessage">
-    Please <a routerLink="/auth/login">login</a> to place an order.
-  </div>
-</div>
 <div *ngIf="cartItems.length === 0">
   <p>Your cart is empty</p>
 </div>
-
-
+</div>
 
 
 

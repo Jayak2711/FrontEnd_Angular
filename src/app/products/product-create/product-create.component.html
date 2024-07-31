@@ -1,3 +1,12 @@
+
+<div class="row">
+    <h4 style="text-align: center;color:#365ca099;font-weight: 700;">Add New Product</h4>
+     <div class="col-md-3">
+        <div class="mb-3">
+            <button type="submit" class="btn btn-success bt-sm" (click)="goBack()"> <i class="fa fa-arrow-left" aria-hidden="true" ></i>Back To Product</button>
+        </div>
+       </div>
+     <div class="col-md-6">
 <form [formGroup]="productForm" (ngSubmit)="createProduct()">
     <div class="mb-3">
         <label for="name">Name</label>
@@ -17,16 +26,20 @@
     </div>
     <div class="mb-3">
         <label for="category">Category</label>
-        <!-- <input type="text" id="name" formControlName="category" class="form-control" /> -->
-        <select class="form-select" formControlName="categoryId" class="form-control">
-            <!-- <option value="">All Categories</option> -->
-            <option *ngFor="let data of categoryList" [value]='data.id'>{{data.name}}</option>
+        <select class="form-select" formControlName="categoryid" class="form-control" (change)="onSelectChange($event)">
+            <option *ngFor="let data of categoryList" [value]='data.id' >{{data.name}}</option>
         </select>
+    </div>
+    <div class="mb-3">
+        <label for="category">Product Status</label>
+    <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" formControlName="status" id="flexSwitchCheckDefault">
+      </div>
     </div>
 
     <div class="mb-3">
         <label for="UploadimgControlInput" class="form-label">Upload File/Image</label>
-        <input type="file" class="form-control" id="UploadimgControlInput" formControlName="imageUrl" name="image" (change)="uploadImage($event)" [ngClass]="{ 'is-invalid': submitted && f.image.errors }" placeholder="Upload Image">
+        <input type="file" class="form-control" id="UploadimgControlInput" formControlName="imageurl" name="image" (change)="uploadImage($event)" [ngClass]="{ 'is-invalid': submitted && f.image.errors }" placeholder="Upload Image">
         <div *ngIf="submitted && f.image.errors" class="invalid-feedback">
           <div *ngIf="f.image.errors.required">
             Image is required
@@ -37,3 +50,6 @@
         <button type="submit" class="btn btn-success bt-sm" [disabled]="!productForm.valid">Create Product</button>
     </div>
 </form>
+</div>
+<div class="col-md-3"></div>
+</div>

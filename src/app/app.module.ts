@@ -19,6 +19,11 @@ import { ToastrModule } from 'ngx-toastr';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { CategoryComponent } from './category/category.component';
 import { CommonModule } from '@angular/common';
+import { MatTableModule } from '@angular/material/table';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { NgxSpinnerModule } from "ngx-spinner";
+
 
 @NgModule({
   declarations: [
@@ -43,8 +48,11 @@ import { CommonModule } from '@angular/common';
     ToastrModule.forRoot(), 
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    CommonModule
-    
+    CommonModule,
+    MatTableModule,
+    MatCardModule,
+    MatButtonModule,
+    NgxSpinnerModule,    
   ],
   providers: [],
   bootstrap: [AppComponent]

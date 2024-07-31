@@ -1,50 +1,110 @@
+<div *ngIf="currentUser?.is_admin">
+  <h3>Order History</h3>
 <table class="table table-bordered table-responsive  table table-striped" *ngIf="orderAdmin?.length > 0">
     <thead>
         <tr>
             <th>SNO</th>
             <th *ngIf="currentUser?.is_admin">UserId</th>
-            <th>Product Id</th>
+            <th>Payment Id</th>
+            <th>Order Id</th>
             <th>Product Name</th>
-            <!-- <th>Products</th> -->
             <th>Price</th>
-            <th>Date</th>
+            <th>Date</th> 
             <th>Quantity</th>
-            <!-- <th>Amount</th> -->
             <th>Payment Method</th>
             <th>Payment Status</th>
             <th>Total Amount</th>
-            <th>Invoice Download</th>
-            <!-- <th>Actions</th> -->
+            <!-- <th>Invoice Download</th> -->
         </tr>
     </thead>
     <tbody>
         <tr *ngFor="let order of orderAdmin;let i=index">
             <td>{{i+1}}</td>
-            <td *ngIf="currentUser?.is_admin">{{ order.user_id}}</td>
-            <td>{{ order.product_id}}</td>
+            <td *ngIf="currentUser?.is_admin">{{order.order_user_id}}</td>
+            <td>{{ order.payment_id}}</td>
+            <td>{{ order.order_id}}</td>
             <td>{{ order.product_name}}</td>
             <td>{{ order.product_price}}</td>
             <td>{{ order.payment_created_on }}</td>
             <td>{{ order.order_quantity }}</td>
-            <!-- <td>{{ order.price}}</td> -->
             <td>{{ order.payment_method}}</td>
             <td>{{ order.payment_status}}</td>
             <td>{{order.product_price * order.order_quantity | currency:'INR' }} </td>
-            <td><i class="fa fa-download" aria-hidden="true" (click)="exportAsPDF(i)" ></i></td>
-            <!-- <td> <button class="btn btn-danger btn-sm" (click)="removeOrder(order.id)">Remove From the history</button></td> -->
-          
+            <!-- <td><i class="fa fa-download" aria-hidden="true" (click)="exportAsPDF(i)" ></i></td> -->
         </tr>
     </tbody>
 </table>
+</div>
+<div *ngIf="!currentUser?.is_admin">
+  <mat-card>
+    <mat-card-title><h3>Order & Payment Details</h3></mat-card-title>
+    <mat-card-content>
+      <div *ngFor="let orderId of getOrderIds()">
+        <h6>Payment Id: {{orderId}}  <i class="fa fa-download" aria-hidden="true" (click)="downloadPdf(orderId)" ></i></h6>
+       
+        <table mat-table [dataSource]="groupedOrders[orderId]" class="mat-elevation-z8">
+          <!-- Columns Definition -->
+          <ng-container matColumnDef="SNO" >
+            <th mat-header-cell *matHeaderCellDef>SNO</th>
+            <td mat-cell *matCellDef="let element ; let i =index">{{i + 1}}</td>
+          </ng-container>
 
+          <ng-container matColumnDef="Order Id">
+            <th mat-header-cell *matHeaderCellDef> Order Id </th>
+            <td mat-cell *matCellDef="let element"> {{element.order_id}}</td>
+          </ng-container>
+  
+          <ng-container matColumnDef="Product Name">
+            <th mat-header-cell *matHeaderCellDef> Product Name</th>
+            <td mat-cell *matCellDef="let element"> {{element.product_name}} </td>
+          </ng-container>
 
-<div class="container" #pdfContent  class="main-container hide-in-pdf" style="font-size: 15px;border:1px solid black;color: #365ca0;
+          <ng-container matColumnDef="Price">
+            <th mat-header-cell *matHeaderCellDef>Price</th>
+            <td mat-cell *matCellDef="let element"> {{element.product_price}} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="Date">
+            <th mat-header-cell *matHeaderCellDef>Date</th>
+            <td mat-cell *matCellDef="let element"> {{element.payment_created_on}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="Quantity">
+            <th mat-header-cell *matHeaderCellDef>Quantity</th>
+            <td mat-cell *matCellDef="let element"> {{element.order_quantity}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="Payment Method">
+            <th mat-header-cell *matHeaderCellDef>Payment Method</th>
+            <td mat-cell *matCellDef="let element"> {{element.payment_method}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="Payment Status">
+            <th mat-header-cell *matHeaderCellDef>Payment Status</th>
+            <td mat-cell *matCellDef="let element"> {{element.payment_status}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="Total Amount">
+            <th mat-header-cell *matHeaderCellDef>Total Amount</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalamount | currency:'INR' }} </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  
+
+</div>
+
+  
+<div class="container"  #pdfContent  class="main-container hidden " style="font-size: 15px;border:1px solid black;color: #365ca0;
     font-weight: 600;">
-
-    <div style="text-align: center;">
+    <div style="text-align: center;" >
         <img class="img-responsive" src="assets/images/shoppingApp.png" style="width:60px;height:60px">  <h3>You & Me Shop</h3>
     </div>
-    <div class="row">
+    <div class="row" >
       
         <div class="well col-xs-10 col-sm-10 col-md-12 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
             <div class="row">
@@ -67,10 +127,10 @@
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 text-right"  style="margin-left: 20px;">
                     <p>
-                        <em>Date : {{orderDownloadReport?.created_on}}</em>
+                        <em>Date : {{createdDate}}</em>
                     </p>
                     <p>
-                        <em>Receipt #: {{orderDownloadReport?.id}}</em>
+                        <em>Receipt #: {{order_id}}</em>
                     </p>
                 </div>
             </div>
@@ -89,25 +149,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="col-md-9"><em>{{orderDownloadReport?.name}}</em></td>
-                            <td class="col-md-1" style="text-align: center">{{orderDownloadReport?.quantity}} </td>
-                            <td class="col-md-1 text-center">{{orderDownloadReport?.price}}</td>
-                            <td class="col-md-1 text-center">{{orderDownloadReport?.price * orderDownloadReport?.quantity}}</td>
+                        <tr *ngFor="let orderDownloadReport of orderDownloadReport">
+                            <td class="col-md-9"><em>{{orderDownloadReport?.product_name}}</em></td>
+                            <td class="col-md-1" style="text-align: center">{{orderDownloadReport?.order_quantity}} </td>
+                            <td class="col-md-1 text-center">{{orderDownloadReport?.product_price}}</td>
+                            <td class="col-md-1 text-center">{{orderDownloadReport?.totalamount}}</td>
                         </tr>
                         <tr>
-                            <td>   </td>
-                            <td>   </td>
+                            <td></td>
+                            <td></td>
                             <td class="text-right">
                             <p>
                                 <strong>Subtotal: </strong>
                             </p>
                             <p>
-                                <strong>Tax: </strong>
+                                <strong>Tax:</strong>
                             </p></td>
                             <td class="text-center">
                             <p>
-                                <strong>{{(orderDownloadReport?.price * orderDownloadReport?.quantity) |  currency:'INR' }}</strong>
+                                <strong>{{totalAmount |  currency:'INR' }}</strong>
                             </p>
                             <p>
                                 <strong>Nil</strong>
@@ -117,7 +177,7 @@
                             <td>   </td>
                             <td>   </td>
                             <td class="text-right"><h4><strong>Total: </strong></h4></td>
-                            <td class="text-center text-danger"><h4><strong>{{(orderDownloadReport?.price * orderDownloadReport?.quantity) |  currency:'INR' }}</strong></h4></td>
+                            <td class="text-center text-danger"><h4><strong>{{totalAmount |  currency:'INR' }}</strong></h4></td>
                         </tr>
                         <h4 style="text-align: center;">Thanks For Shopping #Visit again</h4>
                     </tbody>
@@ -125,3 +185,5 @@
             </div>
         </div>
     </div>
+</div>
+

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild,AfterViewInit  } from '@angular/core';
 import { OrderService } from '../services/order.service';
 import { Order } from '../models/order.model';
 import { AuthService } from '../services/auth.service';
@@ -9,6 +9,8 @@ import jspdf from 'jspdf';
 import jsPDF from 'jspdf';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
+import { NgxSpinnerService } from "ngx-spinner";
+
 
 @Component({
   selector: 'app-order-history',
@@ -16,50 +18,54 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./order-history.component.css']
   
 })
-export class OrderHistoryComponent implements OnInit {
+export class OrderHistoryComponent implements AfterViewInit,OnInit{
 
-
+  groupedOrders: { [key: number]: any[] } = {};
+  displayedColumns: string[] = ['SNO', 'Order Id','Product Name','Price','Date','Quantity','Payment Method','Payment Status','Total Amount'];
   orders: Order[] = [];
   orderAdmin :any ;
   currentUser: User | null = null;
   personalInfo: any;
-  @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
+  @ViewChild('pdfContent') pdfContent!: ElementRef;
   orderDownloadReport: any ;
   dateFromChart: string | null = '';
+  createdDate: any;
+  order_id: any;
+  totalAmount: any;
   constructor(private orderService: OrderService, private authService: AuthService,
-    private cartservice:CartService,private toastr: ToastrService,private datePipe: DatePipe) { }
+    private cartservice:CartService,private toastr: ToastrService,private datePipe: DatePipe,
+    private spinner: NgxSpinnerService) { }
+
 
   ngOnInit(): void {
     this.dateFromChart = sessionStorage.getItem('orderDate');
+    console.log(this.dateFromChart)
     this.currentUser = this.authService.getCurrentUser();
-    if (this.currentUser) {
-      // this.loadOrdersForUser(this.currentUser.user_id);
-    } else {
-      console.error('User not authenticated.');
-    }
     if(this.currentUser.is_admin == false){
       this.getAllOrderWithUserId();
     }else{
-     if(this.dateFromChart == '' || this.dateFromChart == null){
       this.getOrderForAdmin();
-     }else{
-      this.getOrderByDate();
-     }
-    
     }
   }
 
   ngAfterViewInit() {
-    const content = this.pdfContent.nativeElement;
-    const elementsToHide = content.querySelectorAll('.hide-in-pdf');
-    elementsToHide.forEach((element: HTMLElement) => {
-      element.style.display = 'none';
-    });
+    // this.downloadPdf();
   }
 
   getOrderForAdmin(){
     this.orderService.getOrders().subscribe(res =>{
       this.orderAdmin = res.result;
+      for(let i=0;i<this.orderAdmin.length;i++){
+        const date = new Date(this.orderAdmin[i].payment_created_on);
+        this.orderAdmin[i].payment_created_on = this.datePipe.transform(date, 'dd-MM-yyyy');
+        this.orderAdmin[i]['totalamount'] = (parseInt(this.orderAdmin[i].product_price) * this.orderAdmin[i].order_quantity);
+      }
+      if(res.result){
+        if(this.dateFromChart != null){
+          this.getOrderByDate();
+         }
+      }
+     
     })
   }
 
@@ -70,22 +76,17 @@ export class OrderHistoryComponent implements OnInit {
       for(let i=0;i<this.orderAdmin.length;i++){
         const date = new Date(this.orderAdmin[i].payment_created_on);
         this.orderAdmin[i].payment_created_on = this.datePipe.transform(date, 'dd-MM-yyyy');
+        this.orderAdmin[i]['totalamount'] = (parseInt(this.orderAdmin[i].product_price) * this.orderAdmin[i].order_quantity);
      }
      console.log(this.orderAdmin)
+    this.groupedOrders  =  this.groupByOrderId(this.orderAdmin);
       if(res.status == 200){
         this.userInfo();
       }
     })
   }
 
-  loadOrdersForUser(userId: number) {
-    this.orderService.getOrdersForUser(userId).subscribe((orders) => {
-      this.orders = orders;
-    }, error => {
-      console.error('Error fetching orders:', error);
-    });
-  }
-
+ 
   removeOrder(orderId?: number) { 
     if (!orderId) {
       console.error('Invalid orderId:', orderId);
@@ -127,22 +128,17 @@ export class OrderHistoryComponent implements OnInit {
 
   userInfo(){
     this.authService.userPersonalDetails(this.currentUser?.user_id).subscribe(res => {
-     this.personalInfo = res;
+     this.personalInfo = res.result[0];
+     console.log(this.personalInfo)
     })
   }
 
 
   getOrderByDate(){
-    
-    let dateArr = [];
-    dateArr.push(this.dateFromChart);
-    this.orderService.getOrderSaleCountByDate(dateArr).subscribe(res => {
-      this.orderAdmin = res.result;
-    })
+    const orderDetails = this.orderAdmin.filter((a: any) => a.payment_created_on === this.dateFromChart);
+    this.orderAdmin = orderDetails;
+    console.log(this.orderAdmin)
   }
-
-
-
 
   formatDate(date: Date): string {
     console.log(date)
@@ -152,6 +148,64 @@ export class OrderHistoryComponent implements OnInit {
     return `${day}-${month}-${year}`;
   }
 
+  groupByOrderId(array : any) {
+    return array.reduce((acc : any, item : any) => {
+      if (!acc[item.payment_id]) {
+        acc[item.payment_id] = [];
+      }
+      acc[item.payment_id].push(item);
+      return acc;
+    }, {});
+  }
 
+
+// Method to get unique order_ids from the grouped orders
+getOrderIds(): number[] {
+  return Object.keys(this.groupedOrders).map(key => +key);
+}
+
+
+getOrderDetails(orderId: number) {
+  const orderDetails = this.orderAdmin.filter((a: any) => parseInt(a.payment_id) === orderId);
+  return orderDetails;
+}
+
+totalOrderRecord(orders :any){
+  const totalPrice : number = (orders.reduce((sum : any, orders:any) => sum + parseInt(orders.totalamount), 0));
+  return totalPrice;
+}
+
+downloadPdf(orderId : number) {
+  this.spinner.show();
+  this.userInfo();
+  this.orderDownloadReport = this.getOrderDetails(orderId);
+  console.log(this.orderDownloadReport)
+  this.totalAmount = this.totalOrderRecord(this.orderDownloadReport);
+  const content = this.pdfContent.nativeElement;
+  this.createdDate = this.orderDownloadReport[0].payment_created_on;
+  this.order_id = this.orderDownloadReport[0].order_id;
+  setTimeout(() => {
+  // Convert the HTML content to a canvas
+  html2canvas(content).then(canvas => {
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF();
+    // Define the PDF size
+    const imgWidth = 210; // A4 width in mm
+    const pageHeight = 295; // A4 height in mm
+    const imgHeight = canvas.height * imgWidth / canvas.width;
+    const heightLeft = imgHeight;
+    let position = 0;
+    // Add image to PDF
+    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+    position += pageHeight;
+    // Save the PDF
+    pdf.save('Shop&Me.pdf');
+    this.spinner.hide();
+  }).catch(error => {
+    console.error('Error generating PDF:', error);
+    this.spinner.hide();
+  });
+},500)
+}
 
 }

@@ -8,6 +8,7 @@
                 <ul class="dropdown-menu" >
                   <li><a class="dropdown-item"  *ngFor="let data of pastTenYears" (click)="yearClicked(data)">  {{data}}</a></li>
                 </ul>
+                
               </div>
         </div>
         <div class="col-md-3">
@@ -21,7 +22,7 @@
               </div>
         </div>
     </div>
-    <div class="chart-container">
+    <div class="chart-container" style="height: 400px !important;width: 1000px !important;">
         <canvas  id="MyChart" >{{ chart }}</canvas>
     </div>
     

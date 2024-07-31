@@ -14,19 +14,9 @@
             </select>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="mb-3">
-            <label>Sort by Price:</label>
-            <select class="form-select" [(ngModel)]="selectedSort" (change)="onSortChange()">
-                <option value="">Default</option>
-                <option value="asc">Ascending</option>
-                <option value="desc">Descending</option>
-            </select>
-        </div>
-    </div>
 </div>
 
-<table class="table table-bordered table-responsive" >
+<table class="table table-bordered table-responsive table table-striped">
     <thead>
         <tr>
             <th>SNO</th>
@@ -49,11 +39,13 @@
             <td>{{ product.description }}</td>
             <td>{{ product.price | currency:'INR' }}</td>
             <td>{{ product.stock }}</td>
-            <td>{{ product.category }}</td>
+            <td>{{ product.categoryid }}</td>
             <td>{{ product.status }}</td>
             <td>
-                <a routerLink="/products/edit/{{product.product_id}}" class="btn btn-warning btn-sm me-2">Edit</a>
-                <button (click)="deleteProduct(product.product_id)" class="btn btn-danger btn-sm">Delete</button>
+                <!-- <a routerLink="/products/edit/{{product.product_id}}" class="btn btn-warning btn-sm me-2">Edit</a> -->
+                <i class="fa fa-edit" style="font-size:15px" routerLink="/products/edit/{{product.product_id}}"></i>
+                <!-- <button (click)="deleteProduct(product.product_id)" class="btn btn-danger btn-sm">Delete</button> -->
+                <i (click)="deleteProduct(product.product_id)" class="fa fa-trash" style="font-size:15px;margin-left:5px !important"></i>
             </td>
         </tr>
     </tbody>

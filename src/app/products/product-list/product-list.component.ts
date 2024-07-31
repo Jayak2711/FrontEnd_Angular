@@ -50,6 +50,15 @@ export class ProductListComponent implements OnInit {
     this.productService.getAllProducts().subscribe(res => {
       this.productResponse = res;
       this.products = res.result;
+for (let i = 0; i < this.products.length; i++) {
+  // Update imageurl with the new path
+  this.products[i].imageurl = this.products[i].imageurl.replaceAll('C:\\fakepath\\', '../assets/images');
+  // Alternatively, if replaceAll is not available, use replace
+  // this.products[i].imageurl = this.products[i].imageurl.replace('C:\\fakepath\\', '../assets/images');
+  
+  console.log(this.products[i].imageurl); // Log the updated imageurl to verify
+}
+    
     })
    
   }
