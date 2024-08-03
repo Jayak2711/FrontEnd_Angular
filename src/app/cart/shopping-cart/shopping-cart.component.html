@@ -1,6 +1,14 @@
 <h4>Shopping Cart</h4>
 <div class="row">
   <div>
+    <button (click)="clearCart()" class="btn btn-danger btn-sm me-2">Clear cart</button>
+    <button  (click)="placeOrderFinal()"
+      class="btn btn-success btn-sm me-2">Proceed to order</button>
+      <div>
+        <strong>Total Price: {{ calculateTotalPrice | currency:'INR' }}</strong>
+      </div>
+  </div>
+  <!-- <div>
     <div>
       <button (click)="clearCart()" class="btn btn-danger btn-sm me-2">Clear cart</button>
       <button  (click)="placeOrderFinal()"
@@ -10,9 +18,9 @@
       <strong>Total Price: {{ calculateTotalPrice | currency:'INR' }}</strong>
     </div>
     <div *ngIf="cartItems.length > 0" class="row">
-      <div class="card col-md-3" style="width: 18rem;margin-left: 10px;background-color:#dfe2e6" *ngFor="let item of cartItems;let i = index">
+      <div class="card col-md-3" style="width:13rem;margin-left:10px;background-color:#7d9dc740" *ngFor="let item of cartItems;let i = index">
         <div class="form-check" >
-          <input class="form-check-input" type="checkbox"  [(ngModel)]="item.checked"  id="flexCheckDefault"   style="border: 2px solid black;"
+          <input class="form-check-input" type="checkbox"  [(ngModel)]="item.checked"  id="flexCheckDefault"   style="border:1px solid black;"
           (change)="handleSelected($event,item)">
         </div>
         <div class="card-body">
@@ -20,18 +28,13 @@
           <p class="card-text">Product Quantity: {{ item.quantity }}</p>
           <p class="card-text">Product Price: {{ item.price | currency:'INR' }}</p>
           <p class="card-text">Total Price: {{ item.totalAmount * item.quantity | currency:'INR' }}</p>
-          <!-- <i class="fa fa-trash" aria-hidden="true" (click)="deleteCart(item.cart_id)"></i> -->
            <div class="flex-container">
             <div>
-              <!-- <button class="btn  btn-sm"><i class="bi bi-dash"></i></button> -->
               <i class="fa fa-minus-square" aria-hidden="true" (click)="decreaseQuantity(item,i)"></i>
               <span style="padding-left: 5px;padding-right: 5px;">{{item.quantity}}</span>
               <i class="fa fa-plus-square" aria-hidden="true" (click)="increaseQuantity(item,i)"></i>
-              <!-- <button class="btn btn-sm"><i class="bi bi-plus"></i> -->
-              <!-- </button> -->
             </div>
             <div style="margin-left: 10px;">
-              <!-- <button (click)="deleteCart(item)" class="btn btn-danger btn-sm me-2">Delete</button> -->
               <i class="fa fa-trash" aria-hidden="true" (click)="deleteCart(item)"></i>
             </div>
            </div>
@@ -40,85 +43,42 @@
     </div>
  
     
-  </div>
+  </div> -->
 
+  <div class="container" style="margin-top: 10px;">
+    <div class="row">
+        <!-- Cart Item Card -->
+        <div class="col-md-3" *ngFor="let item of cartItems;let i = index">
+            <div class="card card-custom">
+                <!-- <img src="https://via.placeholder.com/150" class="card-img-top card-img" alt="Product Image"> -->
+                <!-- <div class="form-check" >
+                  <input class="form-check-input" type="checkbox"  [(ngModel)]="item.checked"  id="flexCheckDefault"   style="border:1px solid black;"
+                  (change)="handleSelected($event,item)">
+                </div> -->
+                <mat-checkbox class="custom-checkbox">Custom Styled Checkbox</mat-checkbox>
+                <div class="card-body">
+                    <h5 class="card-title">{{item.name}}</h5>
+                    <p class="card-text description">{{item.description}}</p>
+                    <div class="d-flex justify-content-between">
+                        <span class="font-weight-bold">Price: {{ item.price | currency:'INR' }}</span>
+                        <div>
+                          <i class="fa fa-minus-square" aria-hidden="true" (click)="decreaseQuantity(item,i)"></i>
+                          <span style="padding-left: 5px;padding-right: 5px;">{{item.quantity}}</span>
+                          <i class="fa fa-plus-square" aria-hidden="true" (click)="increaseQuantity(item,i)"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <span class="font-weight-bold">Total: {{item.price * item.quantity | currency:'INR' }}</span>
+                    <button class="btn btn-danger btn-sm" (click)="deleteCart(item)">Remove</button>
+                </div>
+            </div>
+        </div>
+        <!-- Repeat for more cart items -->
+    </div>
+  </div>
 <div *ngIf="cartItems.length === 0">
   <p>Your cart is empty</p>
 </div>
 </div>
 
-
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-  style="font-size: 11px;">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Verify Your Details</h5>
-        <button type="button" class="btn-close" #closebutton data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">SNO</th>
-              <th scope="col">Name</th>
-              <th scope="col">Price</th>
-              <th scope="col">Quantity</th>
-              <th scope="col">Total Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (country of buyNowArr; track country.p_id; let i = $index) {
-            <tr>
-              <th scope="row">{{ i + 1 }}</th>
-              <td>{{ country.name }}</td>
-              <td>{{ country.price }}</td>
-              <td>{{ country.quantity }}</td>
-              <td>{{ country.totalAmount }}</td>
-            </tr>
-            }
-          </tbody>
-        </table>
-        <!-- <h5>User Details</h5> -->
-        <!-- <div class="container">
-          <div>User Name : {{personalInfo?.user_name}}</div>
-          <div>Phone Number : {{personalInfo?.phone_number}}</div>
-          <div>Address1 : {{personalInfo?.address1}}</div>
-          <div>Address2 : {{personalInfo?.address2}}</div>
-          <div>District : {{personalInfo?.district}}</div>
-          <div>State : {{personalInfo?.state}}</div>
-          <div>Country : {{personalInfo?.address2}}</div>
-          <div>landmark : {{personalInfo?.landmark}}</div>
-          <div>Pincode : {{personalInfo?.country}}</div>
-        </div>
-        <h5>Payment</h5>
-        <div class="container">
-          <div class="row">
-            <div class="col-md-6">
-              <div>
-                <strong *ngIf="grandTotal != 0">Grand Total: {{ grandTotal | currency:'INR' }}</strong>
-                <strong *ngIf="grandTotal == 0">Grand Total: {{ calculateTotalPrice | currency:'INR' }}</strong>
-              </div>
-              <div class="dropdown">
-                <button class="btn btn-danger btn-sm me-2 dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  {{paymentMethod}}
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" *ngFor="let data of paymentMode" (click)="payment(data)" value="data">
-                      {{data}}</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div> -->
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger btn-sm me-2" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger btn-sm me-2" (click)="checkOut(this.buyNowArr)">Check out</button>
-      </div>
-    </div>
-  </div>
-</div>

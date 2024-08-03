@@ -100,3 +100,7 @@ input::-webkit-inner-spin-button {
     text-decoration: none;
     color: #fdcc49; 
 }
+
+.mt-5{
+    margin-top: 5px !important;
+}

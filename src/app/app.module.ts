@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
@@ -19,10 +18,14 @@ import { ToastrModule } from 'ngx-toastr';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { CategoryComponent } from './category/category.component';
 import { CommonModule } from '@angular/common';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { HttpInterceptorService } from 'src/http.interceptor'
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { NgxSpinnerModule } from "ngx-spinner";
 
 
 @NgModule({
@@ -34,6 +37,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
     OrderHistoryComponent,
     AccountSettingsComponent,
     CategoryComponent,
+    ChangePasswordComponent 
+    
     // FilterPipe
   ],
   imports: [
@@ -52,9 +57,10 @@ import { NgxSpinnerModule } from "ngx-spinner";
     MatTableModule,
     MatCardModule,
     MatButtonModule,
-    NgxSpinnerModule,    
+    NgxSpinnerModule,   
+    MatPaginatorModule, 
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

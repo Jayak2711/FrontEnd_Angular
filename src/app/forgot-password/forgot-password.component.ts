@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -16,15 +17,21 @@ export class ForgotPasswordComponent implements OnInit{
   error: string = '';
   emailVerified : boolean = false;
   userDetails: any;
+  StrongPasswordRegx : RegExp =
+  /^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/;
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
     private router: Router,
-    private toastr: ToastrService
-  ) {
+    private toastr: ToastrService,
+    private userService: UserService
+  ) 
+  
+  {
     this.forgotForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password : ['', []]
+      // password : ['', [Validators.required,Validators.pattern(this.StrongPasswordRegx)]]
+      password : ['']
     });
   }
 
@@ -40,6 +47,10 @@ export class ForgotPasswordComponent implements OnInit{
   }
   get email() { return this.forgotForm.get('email'); }
 
+  get passwordFormField() {
+    return this.forgotForm.get('password');
+  }
+
   onSubmit() {
     if (this.forgotForm.controls['email'].status == 'VALID') {
       let forPassword = {
@@ -54,6 +65,12 @@ export class ForgotPasswordComponent implements OnInit{
               });
               this.userDetails = res.result;
               this.emailVerified = true;
+              const passwordControl = this.forgotForm.get('password');
+              passwordControl?.setValidators([
+                Validators.required,
+                Validators.pattern(this.StrongPasswordRegx)
+              ]);
+              passwordControl?.updateValueAndValidity();
             }else{
               // alert(res.error + ' ' + 'Please try with correct email id');
               this.toastr.error('Failed', 'Please try with correct email id', {
@@ -68,28 +85,51 @@ export class ForgotPasswordComponent implements OnInit{
     }
   }
 
+  // changePassword(){
+  //   let forPassword = {
+  //     'user_id' : this.userDetails.user_id,
+  //     'password' : this.forgotForm.value.password
+  //   }
+  //   console.log(forPassword)
+  //   this.authService.changePassword(forPassword).subscribe({
+  //     next: (res) => {
+  //         if(res.status == 'success'){
+  //           this.toastr.success('Success', 'Password changed successfully', {
+  //             timeOut: 4000,
+  //           });
+  //           this.router.navigate(['/auth/login']);
+  //         }
+  //     },
+  //     error: (err) => {
+  //       // this.error = err.message; // Handle error message
+  //       this.toastr.error('Failed', 'Something Went wrong, Please try again', {
+  //         timeOut: 4000,
+  //       });
+  //     }
+  //   });
+  // } 
+
+
+
   changePassword(){
-    let forPassword = {
-      'user_id' : this.userDetails.user_id,
-      'password' : this.forgotForm.value.password
+    console.log(this.forgotForm.get('password')?.value)
+    let data =  {
+      "newPassword": this.forgotForm.get('password')?.value
     }
-    console.log(forPassword)
-    this.authService.changePassword(forPassword).subscribe({
-      next: (res) => {
-          if(res.status == 'success'){
-            this.toastr.success('Success', 'Password changed successfully', {
-              timeOut: 4000,
-            });
-            this.router.navigate(['/auth/login']);
-          }
+    if(this.forgotForm.valid){
+    this.userService.updatePassword(this.userDetails.user_id,data).subscribe(
+      (data:any) => {
+        if(data){
+          this.toastr.success('Success','Password changes successfully');
+          this.router.navigate(['/auth/login']);
+        }
+       
       },
-      error: (err) => {
-        // this.error = err.message; // Handle error message
-        this.toastr.error('Failed', 'Something Went wrong, Please try again', {
-          timeOut: 4000,
-        });
+      (error:any) => {
+        this.toastr.error('Failed',error.error);
       }
-    });
-  } 
+    );
+  }
+    }
 
 }

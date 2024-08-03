@@ -19,9 +19,10 @@
                 </ul>
               </div>
             <div class="card p-3">
-                <div class="mb-3">
-                    <label for="password" class="form-label" style="font-weight: 600;font-size: large;">Total Amount</label>
-                    <input id="password" type="text" class="form-control" value="10,00,000" readonly>
+                <div>
+                    <label for="password" class="form-label" style="font-weight:600;font-size:14px;">Total Amount:</label>
+                    <!-- <input id="password" type="text" class="form-control" [value]="totalAmount"  readonly> -->
+                    <strong>{{totalAmount | currency : 'INR'}}</strong>
                   </div>
                 <div  *ngIf="paymentTypeValue == 'Debit Card' || paymentTypeValue == 'Credit Card' ">
                     <h6 class="text-uppercase">Payment details</h6>
@@ -48,7 +49,9 @@
     
     
                             </div>
-    
+                            <div class="mt-4 mb-4 d-flex" style="justify-content: flex-end">
+                                <button class="btn btn-success px-3" (click)="makePayment()">Save Card</button>
+                            </div>
     
                         </div>
     
@@ -60,15 +63,37 @@
                         <label for="password" class="form-label">UPI Adress</label>
                         <input id="password" type="text" class="form-control" placeholder="Enter the UPI Id">
                       </div>
+                      <div class="mt-4 mb-4 d-flex" style="justify-content: flex-end">
+                        <button class="btn btn-success px-3" (click)="makePayment()">Verify UPI</button>
+                    </div>
+                </div>  
+                <div class="container mt-5">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- Bootstrap Card -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="card-title">Address Details</h6>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-subtitle mb-2 text-muted">{{userDetails.user_name}}</h5>
+                                    <p class="card-text">
+                                        <strong>Address:</strong>{{userDetails.address1}} {{userDetails.address2}} <br>
+                                        <strong>City:</strong>{{userDetails.district}}<br>
+                                        <strong>State:</strong>{{userDetails.state}}<br>
+                                        <strong>ZIP Code:</strong>{{userDetails.pincode}}<br>
+                                        <strong>Country:</strong> {{userDetails.country}}
+                                    </p>
+                                </div>
+                                <!-- <div class="card-footer text-muted">
+                                    Last updated 3 mins ago
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <!-- <div *ngIf="paymentTypeValue == 'COA'">
-                    <div class="mb-3">
-                        <label for="password" class="form-label" style="font-weight: 600;font-size: large;">Total Amount</label>
-                        <input id="password" type="text" class="form-control" value="10,00,000" readonly>
-                      </div>
-                </div> -->
-               
-                <div class="mt-4 mb-4" *ngIf="userDetails">
+            
+                <!-- <div class="mt-4 mb-4" *ngIf="userDetails">
                     <h6 class="text-uppercase">Address</h6>
                     <div class="row mt-3">
                         <div class="col-md-6">
@@ -113,15 +138,11 @@
                            
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
-            <div class="mt-4 mb-4 d-flex justify-content-between">
+            <div class="mt-4 mb-4 d-flex" style=" justify-content: center">
                 <!-- <span>Previous step</span> -->
                 <button class="btn btn-success px-3" (click)="makePayment()">Make Payment</button>
-
-
-
-
             </div>
 
         </div>

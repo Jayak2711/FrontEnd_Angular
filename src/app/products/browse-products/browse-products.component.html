@@ -1,66 +1,46 @@
-<div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-3">
-        <div class="dropdown" >
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size:12px">
-              Select your Category
-            </button>
-            <ul class="dropdown-menu" > 
-                <li><a class="dropdown-item" (click)="getproductByCategory('')">All category</a></li>
-              <li><a class="dropdown-item"  *ngFor="let data of categoryList" (click)="getproductByCategory(data.id)">  {{data.name}}</a></li>
-            </ul>
-          </div>
-    </div>
-    <div class="col-md-6">
-        <div class="input-group">
-            <input type="search" class="form-control rounded"  [(ngModel)]="searchText" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-            <!-- <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init >search</button> -->
-          </div>
-    </div>
-    <div class="col-md-2"></div>
-    <!-- <div class="col-md-3">
-        <button class="btn btn-primary mb-3" (click)="sortByPrice()">
-            Sort by Price ({{ sortDirection === 'asc' ? 'Ascending' : 'Descending' }})
-          </button>
-        <div class="dropdown" >
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Sort by price
-            </button>
-            <ul class="dropdown-menu" >
-              <li><a class="dropdown-item" (click)="sortByPrice('asc')"> Ascending </a></li>
-              <li><a class="dropdown-item" (click)="sortByPrice('desc')"> Descending </a></li>
-            </ul>
-          </div>
-    </div> -->
+<div class="container">
+    <div class="row">
+<div class="row col-md-3 column-content" >
+    <nav class=" col-lg-12 sidebar">
+        <h2>Categories</h2>
+        <ul class="category-list cusor" >
+            <li class="active" [class.active]="activeCategoryId === null"  (click)="getproductByCategory('')"><a class="dropdown-item">All category</a></li>
+            <li *ngFor="let data of categoryList" (click)="getproductByCategory(data.id)" [class.active]="isActive(data.id)"><a class="dropdown-item"  >  {{data.name}}</a></li>
+        </ul>
+    </nav>
 </div>
-<div class="container mx-auto mt-4">
+<div class="col-md-9 column-content">
+    <div class="col-md-12">
+        <div class="input-group">
+            <input type="search" class="form-control rounded"  [(ngModel)]="searchText" placeholder="Search Items" aria-label="Search" aria-describedby="search-addon" />
+          </div>
+    </div>
     <div class="row" *ngIf="this.productResponse?.result.length == 0">
         No Record Found
     </div>
+
     <div class="container mt-5 mb-5">
         <div class="d-flex justify-content-center row">
-            <div class="col-md-7">
+            <div class="col-md-12">
                 <div class="row p-2 bg-white border rounded" *ngFor="let product of products | filter: searchText">
                     <div class="col-md-3 mt-1">
-                        <!-- <img class="img-fluid img-responsive rounded product-image" src="../../../assets/images/p.png"> -->
                         <img [src]="product.imageurl" alt="Uploaded Image" class="img-fluid img-responsive rounded product-image">
                     </div>
                     <div class="col-md-6 mt-1">
                         <h5>{{product.name}}</h5>
                         <div class="d-flex flex-row">
-                            <div class="ratings mr-2"><i class="fa fa-star"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
+                            <div class="ratings">
+                                <i *ngFor="let star of stars; let i = index" [ngClass]="getStarClass(i)"></i>
                         </div>
-                        <!-- <div class="mt-1 mb-1 spec-1"><span>100% cotton</span><span class="dot"></span><span>Light weight</span><span class="dot"></span><span>Best finish<br></span></div>
-                        <div class="mt-1 mb-1 spec-1"><span>Unique design</span><span class="dot"></span><span>For men</span><span class="dot"></span><span>Casual<br></span></div> -->
+                        </div>
                         <p class="text-justify para mb-0">{{product.description}}<br><br></p>
+                        <div>
+                            Seller : <span>{{product.seller}}</span>
+                        </div>
                     </div>
                     <div class="align-items-center align-content-center col-md-3 border-left mt-1">
                         <div class="d-flex flex-row align-items-center">
-                            <h4 class="mr-1">{{product.price |  currency:'INR'}}</h4><span class="strike-text">{{product.price}}</span>
+                            <h4 class="mr-1">{{product.price |  currency:'INR'}}</h4><span class="strike-text">{{product.discount}}%</span>
                         </div>
                         <h6 class="text-success">Free shipping</h6>
                         <div class="d-flex flex-column mt-4">
@@ -78,4 +58,8 @@
             </div>
         </div>
     </div>
+      <!-- Paginator -->
+      <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" showFirstLastButtons></mat-paginator>
+</div>
+</div>
 </div>

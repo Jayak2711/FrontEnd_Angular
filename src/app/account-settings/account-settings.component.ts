@@ -3,6 +3,7 @@ import { User } from '../models/user.model';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-account-settings',
@@ -20,7 +21,7 @@ export class AccountSettingsComponent implements OnInit {
   editProfile : boolean = false;
   newUser: any;
 
-  constructor(private authService: AuthService, private userService: UserService,private toastr: ToastrService) { }
+  constructor(private authService: AuthService, private userService: UserService,private toastr: ToastrService,private router : Router) { }
 
   ngOnInit(): void {
     const userId = this.authService.getCurrentUser()?.user_id;
@@ -31,6 +32,7 @@ export class AccountSettingsComponent implements OnInit {
     if (userId) {
       this.userService.getUser(userId).subscribe((user :any) => {
         this.user = user.result[0];
+        console.log(this.user)
         if(this.user.addressid){
           this.newUser = this.user.addressid
         }
@@ -40,6 +42,10 @@ export class AccountSettingsComponent implements OnInit {
     else {
       console.error('User not authenticated.');
     }
+  }
+
+  changePassword(){
+      this.router.navigate(['/changePassword'], { state: { data: this.user} });
   }
 
   editUser(){
@@ -126,19 +132,4 @@ export class AccountSettingsComponent implements OnInit {
     }
 
   }
-
-  // changePassword() {
-  //   const userId = this.authService.getCurrentUser()?.user_id;
-  //   if (userId && this.newPassword === this.confirmPassword) {
-  //     this.userService.changePassword(userId, this.newPassword).subscribe(() => {
-  //       console.log('Password changed successfully.');
-  //       this.newPassword = '';
-  //       this.confirmPassword = '';
-  //     }, error => {
-  //       console.error('Error changing password:', error);
-  //     });
-  //   } else {
-  //     console.error('Passwords do not match.');
-  //   }
-  // }
 }

@@ -22,8 +22,11 @@ export class ProductCreateComponent {
     this.productForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      price: [0, [Validators.required, Validators.min(1)]],
-      stock: [0, [Validators.required, Validators.min(1)]],
+      price: ['', [Validators.required, Validators.min(1)]],
+      stock: ['', [Validators.required, Validators.min(1)]],
+      discount: ['', [Validators.required, Validators.min(1)]],
+      rating: ['', [Validators.required, Validators.min(1)]],
+      seller: ['', Validators.required],
       categoryid: [1005, Validators.required],
       imageurl: ['', Validators.required],
       createdby:[new Date()],
@@ -38,11 +41,8 @@ export class ProductCreateComponent {
   }
 
   onSelectChange(eve :any){
-    console.log(eve)
     const target = eve.target as HTMLSelectElement;
     target.value;
-    console.log('Selected Option:', target.value);
-    console.log(this.productForm)
   }
   createProduct() {
     console.log(this.productForm)

@@ -49,6 +49,7 @@ pincode:any
     'state' : '',
     'landmark' : ''
   };
+  totalAmount: any;
 
 constructor(private route: ActivatedRoute,private router : Router, 
   private orderService: OrderService,private toastr: ToastrService,
@@ -56,8 +57,9 @@ constructor(private route: ActivatedRoute,private router : Router,
 
   ngOnInit(): void {
     this.orderDetails = history.state.data;
-    console.log(this.orderDetails)
     this.cartList = history.state.cart;
+    this.totalAmount = history.state.amount;
+    console.log(this.totalAmount)
       this.userInfo();
   }
 

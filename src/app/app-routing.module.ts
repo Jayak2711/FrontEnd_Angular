@@ -22,6 +22,7 @@ import { OrderHistoryComponent } from './order-history/order-history.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { CategoryComponent } from './category/category.component';
 import { ModalBuyNowComponent } from './cart/modal-buy-now/modal-buy-now.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 
 const routes: Routes = [
@@ -40,6 +41,7 @@ const routes: Routes = [
   { path: 'rxjs-demos', component: RxjsDemoComponent},
   { path: 'history', component: OrderHistoryComponent},
   { path: 'settings', component: AccountSettingsComponent},
+  { path: 'changePassword', component: ChangePasswordComponent},
   { path: '', component: HomeComponent },
   { path: '**', component: PageNotfoundComponent }
 ];

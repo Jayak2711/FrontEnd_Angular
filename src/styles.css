@@ -1,4 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/theming';
+
+
+
+
+
 label {
     font-size: 10px;
 }
@@ -15,4 +21,10 @@ body {
     font-size: 13px !important;
     /* zoom : 0.9 !important */
 }
+
+.cusor{
+    cursor: pointer;
+}
+
+
 

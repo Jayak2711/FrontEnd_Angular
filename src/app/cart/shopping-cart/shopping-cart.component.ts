@@ -49,7 +49,7 @@ export class ShoppingCartComponent implements OnInit {
   //Reduce
   //reduce will iterate over cartItems and perform calculation for each item in the array and then give the total price
   get calculateTotalPrice(): any {
-    return this.totalPrice = this.cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    return this.totalPrice = this.cartItems.filter(item => item.checked).reduce((sum, item) => sum + (item.price * item.quantity), 0);
   }
 
   clearCart() {
@@ -69,7 +69,7 @@ export class ShoppingCartComponent implements OnInit {
           timeOut: 4000,
         });
       }
-      // this.ngOnInit();
+      this.ngOnInit();
     })
   }
   }
@@ -79,7 +79,8 @@ loadCartDetails() {
       this.cartItems = res.result;
       for(let i=0;i<this.cartItems.length;i++){
         this.cartItems[i]['totalAmount']  = (this.cartItems[i].quantity * parseInt(this.cartItems[i].price));
-        this.cartItems[i]['checked']  = false;
+        this.cartItems[i]['checked']  = true;
+        this.totalPrice = this.cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
       }
       
     })
@@ -88,7 +89,6 @@ loadCartDetails() {
 
   userInfo(){
     this.authService.userPersonalDetails(this.userDetails.user_id).subscribe(res => {
-      console.log(res)
       if(res.result.length == 0){
         alert('Please complete your profile first');
         this.personalInfo = res;
@@ -97,6 +97,7 @@ loadCartDetails() {
   }
 
   checkOut(product:any){
+    console.log(product)
     var orderList = [];
     var carId : any = [];
     for(let i=0;i<product.length;i++){
@@ -116,7 +117,7 @@ loadCartDetails() {
         this.toastr.success('Success', 'Order placed Successfully', {
           timeOut: 1000,
         });
-        this.router.navigate(['/payment'], { state: { data: res.result , cart : this.cartIdList} });
+        this.router.navigate(['/payment'], { state: { data: res.result , cart : this.cartIdList, amount : this.calculateTotalPrice} });
       }
     })
     
@@ -134,12 +135,28 @@ loadCartDetails() {
 
 
   handleSelected(item :any,data :any){
-  
-    if (!item.srcElement.checked) {
-      this.removeItem(item);
-    }else{
-      this.checkBoxArr.push(data)
+    // console.log(data)
+    // if (!item.srcElement.checked) {
+    //   console.log(this.calculateTotalPrice);
+    //   this.removeItem(item);
+    // }else{
+    //   this.checkBoxArr.push(data);
+    //   console.log(this.calculateTotalPrice);
+    // }
+    for(let i=0;i<this.cartItems.length;i++){
+      if (!item.srcElement.checked) {
+        if(data.cart_id == this.cartItems[i].cart_id){
+          this.cartItems[i].checked = false;
+          // console.log(this.calculateTotalPrice);
+        }
+      }else{
+        if(data.cart_id == this.cartItems[i].cart_id){
+          this.cartItems[i].checked = true;
+        }
+      } 
     }
+
+
   }
 
   removeItem(item: any): void {
@@ -147,13 +164,14 @@ loadCartDetails() {
   }
 
   placeOrderFinal(){
-    if(this.checkBoxArr.length == 0){
+    let checkedRes = this.cartItems.filter(data => data.checked == true)
+    if(checkedRes.length == 0){
       alert('Please Add atleast one item to order');
-      // this.buyNowArr = this.cartItems;
     }else{
-      this.buyNowArr = this.checkBoxArr;
-      console.log(this.buyNowArr)
-      this.checkOut(this.buyNowArr);
+      // this.buyNowArr = this.checkBoxArr;
+      // console.log(this.buyNowArr)
+
+      this.checkOut(this.cartItems.filter(data => data.checked == true));
     
     }   
   }
@@ -162,12 +180,15 @@ loadCartDetails() {
     // quantity.quantity++;
     // this.cartItems[i].quantity = quantity;
     this.cartItems[i].quantity ++;
+    this.cartItems[i].totalAmount = parseInt(this.cartItems[i].price) * this.cartItems[i].quantity; // Update totalAmount
+     
   }
 
   decreaseQuantity(quantity: any,i:number){
     if(quantity.quantity >= 1){
       // quantity.quantity--;
-      this.cartItems[i].quantity --
+      this.cartItems[i].quantity --;
+      this.cartItems[i].totalAmount = parseInt(this.cartItems[i].price) * this.cartItems[i].quantity; // Update totalAmount
       // this.cartItems[i].quantity = quantity;
     }
   }

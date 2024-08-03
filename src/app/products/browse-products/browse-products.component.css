@@ -39,3 +39,54 @@ h5 {
 .para {
   font-size: 13px
 }
+
+.sidebar {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-right: 1px solid #dee2e6;
+}
+
+.category-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.category-list li {
+  padding: 10px;
+  margin: 0;
+  border: 1px solid transparent; /* Invisible border for active state */
+  border-radius: 4px;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.category-list li:hover {
+  background-color: #e9ecef; /* Light gray background on hover */
+}
+
+.category-list li.active {
+  background-color: #365ca0;
+  color: white;
+}
+
+.category-list a {
+  text-decoration: none;
+  color: inherit; /* Ensure the link color inherits from its parent */
+  display: block; /* Makes the link fill the entire li block */
+  padding: 10px;
+}
+
+.category-list a:hover {
+  color: #0056b3; /* Change color on hover */
+}
+
+.ratings {
+  font-size: 24px; /* Adjust size as needed */
+  color: gold; /* Adjust color as needed */
+}
+
+.ratings .fa-star,
+.ratings .fa-star-half-alt,
+.ratings .fa-star-o {
+  margin-right: 2px; /* Space between stars */
+}

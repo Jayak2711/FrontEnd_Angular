@@ -8,6 +8,9 @@ import { ProductService } from '../services/product.service';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterPipe } from '../../app/filter.pipe';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+
 // import { FilterPipe } from './filter.pipe';
 
 @NgModule({
@@ -22,7 +25,9 @@ import { FilterPipe } from '../../app/filter.pipe';
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatPaginatorModule,
+    MatTableModule
   ],
   exports: [
     ProductCreateComponent,
