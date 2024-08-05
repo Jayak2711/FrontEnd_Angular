@@ -36,19 +36,22 @@ export class ProductService {
     }
 
     getProductById(id: number): Observable<Product> {
-        const url = `${this.apiUrl1}/${id}`;
+        const url = `${this.apiUrl}/${id}`;
         return this.http.get<Product>(url);
     }
-
-
 
     addProduct(product: Product): Observable<Product> {
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         return this.http.post<any>(this.apiUrl + '/addproduct', product,{headers});
     }
 
+    // updateProduct(product: Product): Observable<Product> {
+    //     const url = `${this.apiUrl1}/${product.id}`;
+    //     return this.http.put<Product>(url, product).pipe(tap(() => this.loadAllProducts()));
+    // }
+
     updateProduct(product: Product): Observable<Product> {
-        const url = `${this.apiUrl1}/${product.id}`;
+        const url = `${this.apiUrl}/${product.id}`;
         return this.http.put<Product>(url, product).pipe(tap(() => this.loadAllProducts()));
     }
 

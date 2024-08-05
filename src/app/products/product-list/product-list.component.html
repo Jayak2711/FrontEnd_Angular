@@ -23,8 +23,10 @@
             <th>Name</th>
             <th>Description</th>
             <th>Price</th>
+            <th>Discount</th>
             <th>Stock</th>
             <th>Category</th>
+            <th>Seller</th>
             <th>Actions</th>
             <th>Status</th>
         </tr>
@@ -38,8 +40,10 @@
             <td>{{ product.name }}</td>
             <td>{{ product.description }}</td>
             <td>{{ product.price | currency:'INR' }}</td>
+            <td>{{ product.discount }}</td>
             <td>{{ product.stock }}</td>
             <td>{{ product.categoryid }}</td>
+            <td>{{ product.seller }}</td>
             <td>{{ product.status }}</td>
             <td>
                 <!-- <a routerLink="/products/edit/{{product.product_id}}" class="btn btn-warning btn-sm me-2">Edit</a> -->

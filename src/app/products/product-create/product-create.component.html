@@ -7,7 +7,7 @@
         </div>
        </div>
      <div class="col-md-6">
-<form [formGroup]="productForm" (ngSubmit)="createProduct()">
+    <form [formGroup]="productForm" (ngSubmit)="createProduct()">
     <div class="mb-3">
         <label for="name">Name</label>
         <input type="text" id="name" formControlName="name" class="form-control" />
@@ -36,7 +36,18 @@
         <input class="form-check-input" type="checkbox" formControlName="status" id="flexSwitchCheckDefault">
       </div>
     </div>
-
+    <div class="mb-3">
+        <label for="discount">Discount</label>
+        <input type="text" id="discount" formControlName="discount" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label for="discount">rating</label>
+        <input type="text" id="rating" formControlName="rating" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label for="seller">Seller</label>
+        <input type="text" id="seller" formControlName="seller" class="form-control" />
+    </div>
     <div class="mb-3">
         <label for="UploadimgControlInput" class="form-label">Upload File/Image</label>
         <input type="file" class="form-control" id="UploadimgControlInput" formControlName="imageurl" name="image" (change)="uploadImage($event)" [ngClass]="{ 'is-invalid': submitted && f.image.errors }" placeholder="Upload Image">
@@ -46,7 +57,7 @@
           </div>
         </div>
       </div>
-    <div class="mb-3">
+    <div class="mb-3" style="text-align: right;margin-top: 5px;">
         <button type="submit" class="btn btn-success bt-sm" [disabled]="!productForm.valid">Create Product</button>
     </div>
 </form>

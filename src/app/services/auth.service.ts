@@ -85,17 +85,6 @@ export class AuthService {
         return this.http.post<User>(this.apiUrlJava + 'users/register', user).pipe(catchError(this.handleError));
     }
 
-    // private handleError(error: HttpErrorResponse) {
-    //     if (error.error instanceof ErrorEvent) {
-    //         console.error("An error occured", error.message);
-    //     } else {
-    //         console.error(`Backend returned code ${error.status} body was: ${error.message}`);
-    //     }
-
-    //     return throwError('Something bad happened. please try again later');
-    // }
-
-
      // Centralized error handling method
      private handleError(error: HttpErrorResponse) {
         // Handle the error in a centralized way

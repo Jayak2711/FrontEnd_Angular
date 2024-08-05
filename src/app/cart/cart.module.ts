@@ -5,7 +5,8 @@ import { ThankYouComponent } from './thank-you/thank-you.component';
 import { RouterModule } from '@angular/router';
 import { DisableButtonDirective } from '../core/disable-button.directive';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+// Import Angular Material Checkbox module
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     RouterModule,
     FormsModule, 
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatCheckboxModule
   ],
   exports: [
     ShoppingCartComponent,

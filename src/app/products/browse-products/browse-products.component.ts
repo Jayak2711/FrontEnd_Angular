@@ -1,17 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, combineLatest, map } from 'rxjs';
 import { Product } from 'src/app/models/product.model';
 import { CartService } from 'src/app/services/cart.service';
+import { ChangeDetectorRef } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { BehaviorSubject } from 'rxjs';
 import { ProductService } from 'src/app/services/product.service';
-
 @Component({
   selector: 'app-browse-products',
   templateUrl: './browse-products.component.html',
   styleUrls: ['./browse-products.component.css']
 })
 export class BrowseProductsComponent implements OnInit {
-
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  pagedProducts: any[] = [];
+  pageSize = 10;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+  private productsSubject = new BehaviorSubject<any[]>([]);
+  products$ = this.productsSubject.asObservable();
   products: any = [];
   filteredAndSortedproducts$!: Observable<Product[]>;
   selectedCategory: string = '';
@@ -22,11 +29,14 @@ export class BrowseProductsComponent implements OnInit {
   productResponse: any;
 domSanitizer: any;
 searchText:any;
+activeCategoryId: string | null = null;
+stars: any;
 
 
 
 
-  constructor(private productService: ProductService, private cartService: CartService, private toastr: ToastrService) {
+
+  constructor(private productService: ProductService, private cartService: CartService, private toastr: ToastrService,private cd: ChangeDetectorRef) {
 
     this.filteredAndSortedproducts$ = combineLatest([
       this.productService.products$,
@@ -56,21 +66,36 @@ searchText:any;
     this.productService.getAllProducts().subscribe(res => {
       this.productResponse = res;
       let products = res.result;
+      this.products = [];
       for(let i=0;i<products.length;i++){
         products[i]['quantity'] = 0;
         products[i].imageurl = products[i].imageurl.replaceAll('C:\\fakepath\\', '../assets/images/');
+        this.updateStars(products[i].rating)
        if(products[i].status == 'active'){
         this.products.push(products[i]);
        }
+       this.updatePagedProducts();
+
+       // Initialize paginator page event subscription after data is set
+       if (this.paginator) {
+         this.paginator.page.subscribe(() => this.updatePagedProducts());
+       }
       }
       
-      console.log(this.products);
     })
    
   }
 
+  updatePagedProducts() {
+    const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
+    const endIndex = startIndex + this.paginator.pageSize;
+    this.pagedProducts = this.products.slice(startIndex, endIndex);
+    console.log(this.pagedProducts)
+  }
 
   getproductByCategory(id:any){
+    this.activeCategoryId = id;
+    this.cd.detectChanges(); // Manually trigger change detection
    if(id != ''){
     this.productService.getProductByCategory(id).subscribe(res => {
       this.productResponse = res;
@@ -78,12 +103,14 @@ searchText:any;
         this.products = res.result;
         for(let i=0;i<this.products.length;i++){
           this.products[i]['quantity'] = 0;
+          this.products[i].imageurl = this.products[i].imageurl.replaceAll('C:\\fakepath\\', '../assets/images/');
+          this.updateStars(this.products[i].rating)
         }
+        console.log(this.products);
       }else{
         this.toastr.warning('Warning', 'No Item Found', {
           timeOut: 4000,
         });
-        this.products = []; 
       }
      
     })
@@ -168,6 +195,28 @@ searchText:any;
     this.sortedProducts = [...this.products].sort((a, b) => {
       return this.sortDirection === 'asc' ? a.price - b.price : b.price - a.price;
     });
+  }
+
+  isActive(categoryId: string): boolean {
+    return this.activeCategoryId === categoryId;
+  }
+
+  updateStars(rating : any): void {
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 !== 0;
+    const totalStars = 5;
+    this.stars = Array(totalStars).fill('fa-star-o'); // Initialize with empty stars
+
+    for (let i = 0; i < fullStars; i++) {
+      this.stars[i] = 'fa-star'; // Full stars
+    }
+    if (hasHalfStar) {
+      this.stars[fullStars] = 'fa-star-half-alt'; // Half star
+    }
+  }
+
+  getStarClass(index: number): string {
+    return `fa ${this.stars[index]}`;
   }
   
 }

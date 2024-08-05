@@ -4,6 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
+import { dateBeforeTodayValidator }  from './dob-validotors'
 
 @Component({
   selector: 'app-register',
@@ -14,7 +15,9 @@ export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
   errorMessage: string = "";
-  showPassword: boolean = false;;
+  showPassword: boolean = false;
+  StrongPasswordRegx : RegExp =
+  /^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{6,}$/;
 
   ngOnInit(): void {
     this.title.setTitle("Register");
@@ -25,9 +28,9 @@ export class RegisterComponent implements OnInit {
       userName: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      dob:['', Validators.required],
+      dob: ['', [Validators.required, dateBeforeTodayValidator()]],
       emailId: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required,Validators.pattern(this.StrongPasswordRegx)]],
       phoneNumber:['', Validators.required],
       confirmpassword: ['', Validators.required],
       isAdmin: [false]
@@ -41,6 +44,10 @@ export class RegisterComponent implements OnInit {
     return password === confirmpassword ? null : { passwordMisMatch: true };
   }
 
+
+  get passwordFormField() {
+    return this.registerForm.get('password');
+  }
 
   validateControl = (controlName: string) => {
     if (this.registerForm.get(controlName)?.invalid && this.registerForm.get(controlName)?.touched) {
