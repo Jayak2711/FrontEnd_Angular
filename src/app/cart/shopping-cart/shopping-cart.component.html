@@ -55,10 +55,10 @@
                   <input class="form-check-input" type="checkbox"  [(ngModel)]="item.checked"  id="flexCheckDefault"   style="border:1px solid black;"
                   (change)="handleSelected($event,item)">
                 </div> -->
-                <mat-checkbox class="custom-checkbox">Custom Styled Checkbox</mat-checkbox>
+                <mat-checkbox class="custom-checkbox" [(ngModel)]="item.checked"  (change)="handleSelected($event,item)"></mat-checkbox>
                 <div class="card-body">
                     <h5 class="card-title">{{item.name}}</h5>
-                    <p class="card-text description">{{item.description}}</p>
+                    <p class="card-text">{{item.description}}</p>
                     <div class="d-flex justify-content-between">
                         <span class="font-weight-bold">Price: {{ item.price | currency:'INR' }}</span>
                         <div>

@@ -18,7 +18,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     CommonModule,
     RouterModule,
     FormsModule, 
-    ReactiveFormsModule,MatCheckboxModule
+    ReactiveFormsModule,
+    MatCheckboxModule
   ],
   exports: [
     ShoppingCartComponent,

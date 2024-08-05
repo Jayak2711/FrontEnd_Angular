@@ -97,7 +97,7 @@ loadCartDetails() {
   }
 
   checkOut(product:any){
-    console.log(product)
+    console.log('------------------',product)
     var orderList = [];
     var carId : any = [];
     for(let i=0;i<product.length;i++){
