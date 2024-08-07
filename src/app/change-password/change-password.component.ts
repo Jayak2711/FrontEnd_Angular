@@ -27,8 +27,10 @@ export class ChangePasswordComponent {
   
 {
   this.forgotForm = this.fb.group({
-    newPassword : ['', [Validators.required,Validators.pattern(this.StrongPasswordRegx)]]
-  });
+    oldPassword: ['', [Validators.required]],
+    newPassword: ['', [Validators.required, Validators.pattern(this.StrongPasswordRegx)]],
+    confirmPassword: ['', [Validators.required]]
+  }, { validators: [this.passwordMatchValidator, this.passwordSameAsOldValidator] });
 }
 
 get passwordFormField() {
@@ -65,7 +67,19 @@ get passwordFormField() {
     return false;
   }
   get email() { return this.forgotForm.get('email'); }
+
+  passwordMatchValidator(group: FormGroup) {
+    const newPassword = group.get('newPassword')?.value;
+    const confirmPassword = group.get('confirmPassword')?.value;
+console.log('new',newPassword)
+console.log('confirm',confirmPassword)
+    return newPassword === confirmPassword ? null : { passwordMismatch: true };
+  }
+
+  passwordSameAsOldValidator(group: FormGroup) {
+    const oldPassword = group.get('oldPassword')?.value;
+    const newPassword = group.get('newPassword')?.value;
+    return oldPassword === newPassword ? { passwordSameAsOld: true } : null;
+  }
 }
 
-// export const StrongPasswordRegx: RegExp =
-//   /^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/;

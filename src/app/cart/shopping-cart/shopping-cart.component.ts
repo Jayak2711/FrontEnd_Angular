@@ -29,6 +29,7 @@ export class ShoppingCartComponent implements OnInit {
   grandTotal: any;
   checkBoxArr: any = [];
   cartIdList: any[] = [];
+  loading: any;
   // private toastr: ToastrService
   constructor(private cartService: CartService, private productService: ProductService, 
     private orderService: OrderService, private authService: AuthService, private router: Router,private toastr: ToastrService) {
@@ -75,6 +76,8 @@ export class ShoppingCartComponent implements OnInit {
   }
 
 loadCartDetails() {
+  this.loading = true;
+  setTimeout(() => {
     this.cartService.getCartById(this.userDetails?.user_id).subscribe(res => {
       this.cartItems = res.result;
       for(let i=0;i<this.cartItems.length;i++){
@@ -84,6 +87,9 @@ loadCartDetails() {
       }
       
     })
+    this.loading = false;
+  },1000);
+ 
   }
 
 
@@ -97,8 +103,7 @@ loadCartDetails() {
   }
 
   checkOut(product:any){
-    console.log('------------------',product)
-    var orderList = [];
+    var orderList : any = [];
     var carId : any = [];
     for(let i=0;i<product.length;i++){
     var order = {
@@ -112,6 +117,8 @@ loadCartDetails() {
     carId.push(product[i].cart_id)
   }
   this.cartIdList = carId;
+  this.loading = true;
+  setTimeout(() => {
     this.orderService.placeAllOrder(orderList).subscribe(res =>{
       if(res.status = '200'){
         this.toastr.success('Success', 'Order placed Successfully', {
@@ -121,6 +128,9 @@ loadCartDetails() {
       }
     })
     
+    this.loading = false;
+  }, 2000);
+
   }
 
    getCurrentFormattedDate() {

@@ -31,6 +31,7 @@ domSanitizer: any;
 searchText:any;
 activeCategoryId: string | null = null;
 stars: any;
+  loading: any;
 
 
 
@@ -56,10 +57,16 @@ stars: any;
 
 
   getAllCategory(){
-    this.productService.getCategory().subscribe(res => {
-      this.categoryList = res.result;
-      this.getAllProduct();
-    })
+    this.loading = true;
+    setTimeout(() => {
+      this.productService.getCategory().subscribe(res => {
+        this.categoryList = res.result;
+        this.getAllProduct();
+      })
+      this.loading = false;
+    },500); // 2 seconds
+  
+
   }
 
   getAllProduct(){
@@ -70,6 +77,9 @@ stars: any;
       for(let i=0;i<products.length;i++){
         products[i]['quantity'] = 0;
         products[i].imageurl = products[i].imageurl.replaceAll('C:\\fakepath\\', '../assets/images/');
+        if (products[i]['price'] !== null && products[i]['discount'] !== null) {
+          products[i]['discountedAmount'] = ((products[i]['price'] * products[i]['discount']) / 100);
+        }
         this.updateStars(products[i].rating)
        if(products[i].status == 'active'){
         this.products.push(products[i]);

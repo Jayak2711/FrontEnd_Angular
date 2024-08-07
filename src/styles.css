@@ -12,7 +12,8 @@ label {
 }
 
 body {
-    font-family: Arial, sans-serif;
+    /* font-family: Arial, sans-serif; */
+    font-family: monospace;
     font-size: 13px !important;
     /* zoom : 0.9 !important */
 }
@@ -23,6 +24,9 @@ body {
 
 
 
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

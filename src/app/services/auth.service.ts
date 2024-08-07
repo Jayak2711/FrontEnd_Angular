@@ -4,6 +4,8 @@ import { environment } from "src/environments/environment";
 import { User } from "../models/user.model";
 import { Observable, throwError } from 'rxjs';
 import { catchError } from "rxjs";
+import { countries } from 'countries-list';
+
 
 @Injectable()
 export class AuthService {

@@ -10,6 +10,9 @@ import { ProductService } from 'src/app/services/product.service';
   styleUrls: ['./product-edit.component.css']
 })
 export class ProductEditComponent implements OnInit {
+goBack() {
+throw new Error('Method not implemented.');
+}
 
   productForm: FormGroup;
   categoryList: any;
@@ -33,10 +36,10 @@ export class ProductEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.route.snapshot.params["id"])
     this.productService.getProductById(this.route.snapshot.params["id"]).subscribe((product : any) => {
-      console.log(product.result)
+      console.log(product)
       this.productForm.patchValue(product.result);
-      console.log(this.productForm)
       this.getAllCategory()
   })
   

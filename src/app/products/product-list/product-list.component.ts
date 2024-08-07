@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable, combineLatest, map } from 'rxjs';
 import { Product } from 'src/app/models/product.model';
 import { ProductService } from 'src/app/services/product.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-product-list',
@@ -18,13 +21,13 @@ export class ProductListComponent implements OnInit {
   userDetails: any;
   categoryList: any;
   noRec: boolean =  false;
+  displayedColumns: string[] = ['sno','pid', 'name', 'description', 'price', 'discount', 'stock', 'category', 'seller','star', 'actions', 'status'];
+  dataSource: MatTableDataSource<Product> = new MatTableDataSource<Product>();
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  
 
   constructor(private productService: ProductService) {
-    //combineLatest: combines multiple observables into one
-    // this code combines three streams of data
-    //1. a list of products
-    //2. a selected category
-    //3. a selected sort
     this.filteredAndSortedproducts$ = combineLatest([
       this.productService.products$,
       this.productService.selectedCategory,
@@ -51,12 +54,12 @@ export class ProductListComponent implements OnInit {
       this.productResponse = res;
       this.products = res.result;
 for (let i = 0; i < this.products.length; i++) {
-  // Update imageurl with the new path
   this.products[i].imageurl = this.products[i].imageurl.replaceAll('C:\\fakepath\\', '../assets/images');
-  // Alternatively, if replaceAll is not available, use replace
-  // this.products[i].imageurl = this.products[i].imageurl.replace('C:\\fakepath\\', '../assets/images');
-  
-  console.log(this.products[i].imageurl); // Log the updated imageurl to verify
+  this.dataSource = new MatTableDataSource(this.products);
+
+  // Set the sort and paginator
+  this.dataSource.sort = this.sort;
+  this.dataSource.paginator = this.paginator;
 }
     
     })

@@ -1,5 +1,5 @@
-<div class="container">
-    <div class="row">
+<div class="container" style="zoom:0.8 !important">   
+<div class="row">
 <div class="row col-md-3 column-content" >
     <nav class=" col-lg-12 sidebar">
         <h2>Categories</h2>
@@ -40,7 +40,8 @@
                     </div>
                     <div class="align-items-center align-content-center col-md-3 border-left mt-1">
                         <div class="d-flex flex-row align-items-center">
-                            <h4 class="mr-1">{{product.price |  currency:'INR'}}</h4><span class="strike-text">{{product.discount}}%</span>
+                            <h6 class="mr-1">{{product.price |  currency:'INR'}}</h6><span class="badge">{{product.discount}}% off</span>
+                            <!-- class="strike-text" -->
                         </div>
                         <h6 class="text-success">Free shipping</h6>
                         <div class="d-flex flex-column mt-4">
@@ -63,3 +64,5 @@
 </div>
 </div>
 </div>
+
+<app-loader [isLoading]="loading"></app-loader>

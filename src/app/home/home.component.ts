@@ -6,6 +6,8 @@ import { OrderService } from '../services/order.service';
 import { ProductService } from '../services/product.service';
 import Chart from 'chart.js/auto';
 import { UserService } from '../services/user.service';
+import { interval, Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-home',
@@ -13,6 +15,14 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
+  private slideInterval: Subscription | undefined;
+  images  = [
+    { src: '../../assets/images/banner5.jpeg', alt: 'Image 1', title: 'Welcome to Our Store', description: 'Find the best products here.' },
+    { src: '../../assets/images/banner4.jpeg', alt: 'Image 2', title: 'Quality Products', description: 'Top quality and great deals.' },
+    { src: '../../assets/images/sale.jpeg', alt: 'Image 3', title: 'Exclusive Offers', description: 'Don\'t miss out on our special offers.' }
+  ];
+  currentIndex = 0;
+  public chart1: any;
   showLoginMessage: boolean = false;
   chart: any;
   orderAdmin: any;
@@ -39,10 +49,33 @@ export class HomeComponent {
     { name: 'November', number: 10 },
     { name: 'December', number: 11 }
   ];
+  newProducts = [
+    {
+      title: 'Saree',
+      // description: 'Description for Product 1',
+      price: 3000,
+      imageUrl: '../../assets/images/saree.jpeg'
+    },
+    {
+      title: 'Watch',
+      // description: 'Description for Product 2',
+      price: 5000,
+      imageUrl: '../../assets/images/watch.jpeg'
+    },
+    {
+      title: 'Kids car',
+      // description: 'Description for Product 2',
+      price: 5000,
+      imageUrl: '../../assets/images/kid_car.jpeg'
+    },
+   
+    // Add more products as needed
+  ];
   monthNumber: number = 0;
   yearClickedData: number = 2024;
   // monthName: any = 'January';
   userDetails: any;
+loading: any;
 
   constructor(private cartService: CartService, private productService: ProductService,
     private orderService: OrderService, private authService: AuthService, private router: Router,
@@ -51,30 +84,36 @@ export class HomeComponent {
   }
 
   ngOnInit(): void {
+    this.loading = true;
+    setTimeout(() => {
+      this.loading = false;
+      this.createChart1();
+      if (!this.authService.isAuthenticated()) {
+        this.showLoginMessage = true;
+      }
+      if(this.authService.getCurrentUser().is_admin == true){
+        this.pastTenYears = this.getPastTenYears();
+        this.changeChart();
+      }else{
+        const userId = this.authService.getCurrentUser()?.user_id;
+        if (userId) {
+          this.userService.getUser(userId).subscribe((user :any) => {
+            if(user.result.addressid == null){
+              alert('Complete your profile')
+              this.router.navigate(['/settings'])
+            }
+          });
+        } 
+      }
+    }, 2000);
+    this.startAutoSlide();
     sessionStorage.removeItem('orderDate');
     this.userDetails = sessionStorage.getItem('currentUser');
     this.monthNumber = this.monthName;
     let monthName: any = this.months.find((element) => element.number == this.monthNumber);
     this.monthName = monthName.name;
-    if (!this.authService.isAuthenticated()) {
-      this.showLoginMessage = true;
-    }
-    if(this.authService.getCurrentUser().is_admin == true){
-      this.pastTenYears = this.getPastTenYears();
-      this.changeChart();
-    }else{
-      const userId = this.authService.getCurrentUser()?.user_id;
-      if (userId) {
-        this.userService.getUser(userId).subscribe((user :any) => {
-          if(user.result[0].addressid == null){
-            alert('Complete your profile')
-            this.router.navigate(['/settings'])
-          }
-        });
-      } 
-    }
-  
 
+  
   }
 
   get isAuthenticated() {
@@ -219,5 +258,52 @@ export class HomeComponent {
   }
 
 
+  prevSlide() {
+    this.currentIndex = (this.currentIndex > 0) ? this.currentIndex - 1 : this.images.length - 1;
+  }
+
+  nextSlide() {
+    this.currentIndex = (this.currentIndex < this.images.length - 1) ? this.currentIndex + 1 : 0;
+  }
+  ngOnDestroy() {
+    if (this.slideInterval) {
+      this.slideInterval.unsubscribe();
+    }
+  }
+
+  startAutoSlide() {
+    this.slideInterval = interval(3000).subscribe(() => { // Adjust the interval time as needed (3000 ms = 3 seconds)
+      this.nextSlide();
+    });
+  }
+
+
+  createChart1(){
+
+    this.chart1 = new Chart("MyChart1", {
+      type: 'pie', //this denotes tha type of chart
+
+      data: {// values on X-Axis
+        labels: ['Red', 'Pink','Green','Yellow','Orange','Blue', ],
+	       datasets: [{
+    label: 'My First Dataset',
+    data: [300, 240, 100, 432, 253, 34],
+    backgroundColor: [
+      'red',
+      'pink',
+      'green',
+			'yellow',
+      'orange',
+      'blue',			
+    ],
+    hoverOffset: 4
+  }],
+      },
+      options: {
+        aspectRatio:2.5
+      }
+
+    });
+  }
 
 }

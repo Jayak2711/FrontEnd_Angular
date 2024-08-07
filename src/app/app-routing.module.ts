@@ -39,9 +39,9 @@ const routes: Routes = [
   { path: 'cart/thank-you', component: ThankYouComponent },
   { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
   { path: 'rxjs-demos', component: RxjsDemoComponent},
-  { path: 'history', component: OrderHistoryComponent},
-  { path: 'settings', component: AccountSettingsComponent},
-  { path: 'changePassword', component: ChangePasswordComponent},
+  { path: 'history', component: OrderHistoryComponent,canActivate: [AuthGuard]},
+  { path: 'settings', component: AccountSettingsComponent, canActivate: [AuthGuard]},
+  { path: 'changePassword', component: ChangePasswordComponent,canActivate: [AuthGuard]},
   { path: '', component: HomeComponent },
   { path: '**', component: PageNotfoundComponent }
 ];

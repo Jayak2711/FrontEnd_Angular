@@ -5,12 +5,13 @@ import { AuthService } from '../services/auth.service';
 import { User } from '../models/user.model';
 import { CartService } from '../services/cart.service';
 import html2canvas from 'html2canvas';
-import jspdf from 'jspdf';
 import jsPDF from 'jspdf';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 import { NgxSpinnerService } from "ngx-spinner";
-
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-order-history',
@@ -21,6 +22,26 @@ import { NgxSpinnerService } from "ngx-spinner";
 export class OrderHistoryComponent implements AfterViewInit,OnInit{
 
   groupedOrders: { [key: number]: any[] } = {};
+  dataSource = new MatTableDataSource<any>([]); // Initialize with an empty array
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  // @ViewChild(MatPaginator) paginator: MatPaginator;
+  displayedColumns1: string[] = [
+    'sno',
+    'userId',
+    'paymentId',
+    'orderId',
+    'productName',
+    'price',
+    'date',
+    'quantity',
+    'paymentMethod',
+    'paymentStatus',
+    'trackStatus',
+    'totalAmount',
+    'actions'
+  ];
+
   displayedColumns: string[] = ['SNO', 'Order Id','Product Name','Price','Date','Quantity','Payment Method','Payment Status','Total Amount'];
   orders: Order[] = [];
   orderAdmin :any ;
@@ -32,6 +53,8 @@ export class OrderHistoryComponent implements AfterViewInit,OnInit{
   createdDate: any;
   order_id: any;
   totalAmount: any;
+  searchText: any;
+  trackEdit: boolean = false;
   constructor(private orderService: OrderService, private authService: AuthService,
     private cartservice:CartService,private toastr: ToastrService,private datePipe: DatePipe,
     private spinner: NgxSpinnerService) { }
@@ -59,7 +82,13 @@ export class OrderHistoryComponent implements AfterViewInit,OnInit{
         const date = new Date(this.orderAdmin[i].payment_created_on);
         this.orderAdmin[i].payment_created_on = this.datePipe.transform(date, 'dd-MM-yyyy');
         this.orderAdmin[i]['totalamount'] = (parseInt(this.orderAdmin[i].product_price) * this.orderAdmin[i].order_quantity);
+        this.orderAdmin[i]['trackStatus'] = false;
+        this.orderAdmin = res.result;
+        this.dataSource.data = this.orderAdmin;
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
       }
+
       if(res.result){
         if(this.dateFromChart != null){
           this.getOrderByDate();
@@ -72,13 +101,13 @@ export class OrderHistoryComponent implements AfterViewInit,OnInit{
 
   getAllOrderWithUserId(){
     this.orderService.getAllOrderWithUserId(this.currentUser?.user_id).subscribe(res =>{ 
-      this.orderAdmin = res.result;
+      // Set the MatSort to the dataSource
+      this.dataSource.sort = this.sort;
       for(let i=0;i<this.orderAdmin.length;i++){
         const date = new Date(this.orderAdmin[i].payment_created_on);
         this.orderAdmin[i].payment_created_on = this.datePipe.transform(date, 'dd-MM-yyyy');
         this.orderAdmin[i]['totalamount'] = (parseInt(this.orderAdmin[i].product_price) * this.orderAdmin[i].order_quantity);
      }
-     console.log(this.orderAdmin)
     this.groupedOrders  =  this.groupByOrderId(this.orderAdmin);
       if(res.status == 200){
         this.userInfo();
@@ -206,6 +235,28 @@ downloadPdf(orderId : number) {
     this.spinner.hide();
   });
 },500)
+}
+
+editTrack(id : any){
+ for(let i=0;i<this.orderAdmin.length;i++){
+  if(this.orderAdmin[i].order_id == id){
+    this.orderAdmin[i].trackStatus = true;
+  }
+
+ }
+}
+
+close(id :any){
+  for(let i=0;i<this.orderAdmin.length;i++){
+    if(this.orderAdmin[i].order_id == id){
+      this.orderAdmin[i].trackStatus = false;
+    }
+  
+   }
+}
+
+save(id :any){
+
 }
 
 }
