@@ -4,6 +4,8 @@ import { environment } from "src/environments/environment";
 import { User } from "../models/user.model";
 import { Observable, throwError } from 'rxjs';
 import { catchError } from "rxjs";
+import { countries } from 'countries-list';
+
 
 @Injectable()
 export class AuthService {
@@ -22,7 +24,6 @@ export class AuthService {
     getCurrentUser(): User {
         const userJson = sessionStorage.getItem('currentUser');
         return userJson ? JSON.parse(userJson) : '';
-  
     }
 
     isAdmin(): boolean {

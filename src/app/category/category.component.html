@@ -1,6 +1,10 @@
-<div class="container">
+<div class="container" style="zoom: 0.8 !important;">
     <h3 style="text-align: center;color:#365ca099;font-weight: 700;">Add Category</h3>
-    <form [formGroup]="categoryForm" (ngSubmit)="createCategory()">
+    <div class="mb-3">
+        <a class="btn btn-success btn-stm" (click)="addCategory()">Add Category</a>
+    </div>
+    
+    <form [formGroup]="categoryForm" (ngSubmit)="createCategory()" *ngIf="showAddCat">
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">
@@ -19,10 +23,10 @@
             <div class="col-md-3"></div>
         </div>
     </form>
-
-
-
-    <table class="table table-striped">
+    @if(categoryResult?.length == 0){
+        <h6 style="color: red;text-align: center;">No Record Found</h6>
+    }
+    <table class="table table-striped" *ngIf="categoryResult?.length > 0">
         <thead>
             <tr>
                 <th scope="col">SNO</th>
@@ -30,7 +34,7 @@
                 <th scope="col">Description</th>
                 <th scope="col">Action</th>
             </tr>
-        </thead>
+        </thead>           
         <tbody>
             @for (country of categoryResult; track country.id; let i = $index) {
             <tr>
@@ -69,6 +73,7 @@
         </tbody>
     </table>
 
-
-
 </div>
+
+
+<app-loader [isLoading]="loading"></app-loader>

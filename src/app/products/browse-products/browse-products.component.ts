@@ -4,7 +4,6 @@ import { Observable, combineLatest, map } from 'rxjs';
 import { Product } from 'src/app/models/product.model';
 import { CartService } from 'src/app/services/cart.service';
 import { ChangeDetectorRef } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
 import { BehaviorSubject } from 'rxjs';
 import { ProductService } from 'src/app/services/product.service';
 @Component({
@@ -13,10 +12,7 @@ import { ProductService } from 'src/app/services/product.service';
   styleUrls: ['./browse-products.component.css']
 })
 export class BrowseProductsComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  pagedProducts: any[] = [];
-  pageSize = 10;
-  pageSizeOptions: number[] = [5, 10, 25, 100];
+
   private productsSubject = new BehaviorSubject<any[]>([]);
   products$ = this.productsSubject.asObservable();
   products: any = [];
@@ -31,6 +27,7 @@ domSanitizer: any;
 searchText:any;
 activeCategoryId: string | null = null;
 stars: any;
+  loading: any;
 
 
 
@@ -56,41 +53,38 @@ stars: any;
 
 
   getAllCategory(){
-    this.productService.getCategory().subscribe(res => {
-      this.categoryList = res.result;
-      this.getAllProduct();
-    })
+    this.loading = true;
+    setTimeout(() => {
+      this.productService.getCategory().subscribe(res => {
+        this.categoryList = res.result;
+        this.getAllProduct();
+      })
+      this.loading = false;
+    },500); // 2 seconds
+  
+
   }
 
   getAllProduct(){
     this.productService.getAllProducts().subscribe(res => {
       this.productResponse = res;
-      let products = res.result;
+      let products = [];
       this.products = [];
+      products = res.result;
       for(let i=0;i<products.length;i++){
         products[i]['quantity'] = 0;
         products[i].imageurl = products[i].imageurl.replaceAll('C:\\fakepath\\', '../assets/images/');
+        if (products[i]['price'] !== null && products[i]['discount'] !== null) {
+          products[i]['discountedAmount'] = ((products[i]['price'] * products[i]['discount']) / 100);
+        }
         this.updateStars(products[i].rating)
-       if(products[i].status == 'active'){
+       if(products[i].status == true){
         this.products.push(products[i]);
        }
-       this.updatePagedProducts();
-
-       // Initialize paginator page event subscription after data is set
-       if (this.paginator) {
-         this.paginator.page.subscribe(() => this.updatePagedProducts());
-       }
-      }
       
+      }
     })
    
-  }
-
-  updatePagedProducts() {
-    const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
-    const endIndex = startIndex + this.paginator.pageSize;
-    this.pagedProducts = this.products.slice(startIndex, endIndex);
-    console.log(this.pagedProducts)
   }
 
   getproductByCategory(id:any){
@@ -101,12 +95,12 @@ stars: any;
       this.productResponse = res;
       if(res.result.length > 0){
         this.products = res.result;
+        this.products = this.products.filter((data : any) => data.status == true);
         for(let i=0;i<this.products.length;i++){
           this.products[i]['quantity'] = 0;
           this.products[i].imageurl = this.products[i].imageurl.replaceAll('C:\\fakepath\\', '../assets/images/');
           this.updateStars(this.products[i].rating)
         }
-        console.log(this.products);
       }else{
         this.toastr.warning('Warning', 'No Item Found', {
           timeOut: 4000,

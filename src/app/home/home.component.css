@@ -1,20 +1,9 @@
-.hero {
-    background-image: url('../../assets//images//e1.jpg');
-     /* Replace with your actual hero image */
-    background-size: cover;
-    background-position: center;
-    color: #fff;
-    text-align: center;
-    padding: 100px 0;
-}
-.hero h1 {
-    font-size: 3rem;
-    margin-bottom: 20px;
-}
-.hero p {
-    font-size: 1.5rem;
-    margin-bottom: 30px;
-}
+.container {
+    margin: 0 auto;
+    padding: 20px;
+    /* zoom : 0.9 */
+  }
+
 .cta-button {
     display: inline-block;
     background-color: #4CAF50;
@@ -83,10 +72,16 @@
     background-color: #45a049;
 }
 .discount-banner {
-    background-color: #39b2de;
+    /* background-color: #39b2de; */
+    background-image: url('../../assets/images/banner3.jpeg');
+    background-size: cover;
+    background-position: center;
+    color: #fff;
     text-align: center;
-    padding: 30px 0;
-    color: #333;
+    padding: 100px 0;
+    /* text-align: center;
+    padding: 30px 0; */
+    /* color: #333; */
 }
 .discount-banner h2 {
     font-size: 1.8rem;
@@ -115,3 +110,176 @@ body {
     margin: 0;
     padding: 0;
 }
+
+
+.slider-container {
+    position: relative;
+    width: 100%;
+    /* max-width: 1300px;  */
+    margin: auto;
+  }
+  
+  .slider {
+    position: relative; 
+    /* overflow: hidden; */
+  }
+  
+  .slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 300px; /* Adjust height as needed */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  img {
+    width: 100%;
+    height: 100%;
+    /* object-fit: cover; */
+  }
+  
+  .overlay-text {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+  }
+  .card-img-top {
+  height: 200px; /* Adjust as needed */
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+.card-footer {
+  padding: 0.75rem 1.25rem;
+}
+
+
+.image-container {
+    position: relative;
+    width: 100%;
+    /* padding-top: 56.25%; */
+  }
+  
+  .card-img {
+    /* position: absolute; */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .chart-row {
+    display: flex;
+    flex-wrap: wrap; /* Allows wrapping if there's not enough space */
+    gap: 20px; /* Space between flex items */
+  }
+  
+  .chart-container {
+    flex: 1; /* Grow to fill available space */
+    min-width: 0; /* Prevents items from growing too large */
+    height: 400px; /* Set a fixed height for the charts */
+    display: flex;
+    align-items: center; /* Centers the canvas vertically */
+    justify-content: center; /* Centers the canvas horizontally */
+  }
+  
+  canvas {
+    max-width: 100%; /* Ensures the canvas does not exceed the container width */
+    max-height: 100%; /* Ensures the canvas does not exceed the container height */
+  }
+  
+  .btn {
+    border: none;
+    border-radius: 5px;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #282A35;
+    color: white;
+    position: relative;
+  }
+  
+  .ribbon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #ff5733; /* Ribbon color */
+  color: #fff; /* Ribbon text color */
+  padding: 10px;
+  font-weight: bold;
+  transform: rotate(45deg);
+  /* transform-origin: top right; */
+  /* margin: 10px; */
+  z-index: 1;
+  white-space: nowrap;
+  border-radius: 3px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+/* Optional: Adjust the ribbon position if needed */
+.ribbon::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  right: 0;
+  border-width: 10px;
+  border-style: solid;
+  border-color: #ff5733 transparent transparent transparent; /* Match ribbon color */
+}
+
+  .ribbon-card {
+    position: relative;
+    overflow: hidden; /* Ensures the ribbon does not overflow */
+    border-radius: 8px; /* Optional: rounds the corners of the card */
+  }
+  
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; /* Adjust the gap between cards if needed */
+  }
+  
+  .card-item {
+    flex: 1 1 calc(33.333% - 16px); /* 3 cards per row, accounting for gap */
+    box-sizing: border-box; /* Ensure padding and border are included in the width */
+  }
+  
+  mat-card {
+    margin: 0;
+  }
+
+  .image_size {
+    width: 100%; /* Make sure the image takes up the full width of the card */
+    height: 200px; /* Set a fixed height for the image */
+    object-fit: cover; /* Ensure the image covers the area without distortion */
+  }
+
+
+  .card-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Limits the text to 3 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden; /* Hides text that overflows */
+    text-overflow: ellipsis; /* Adds "..." at the end of the visible text */
+    line-height: 1.5; /* Adjust line height as needed */
+  }
+
+  .badge {
+    background-color: red;
+    color: white;
+    padding: 4px 8px;
+    text-align: center;
+    border-radius: 5px;
+  }

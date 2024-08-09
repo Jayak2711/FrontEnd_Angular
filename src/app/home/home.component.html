@@ -1,6 +1,8 @@
+<app-loader [isLoading]="loading"></app-loader>
 <div class="container" *ngIf="getCurrentUser.is_admin">
+    <h3 style="text-align: center;color:#365ca099;font-weight: 700;">Sale Report</h3>
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div class="dropdown" >
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                  {{yearClickedData}}
@@ -11,7 +13,7 @@
                 
               </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div class="dropdown" >
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 {{monthName}}
@@ -21,67 +23,112 @@
                 </ul>
               </div>
         </div>
+        <div class="col-md-8"></div>
+    </div>
+    <div class="row">
     </div>
     <div class="chart-container" style="height: 400px !important;width: 1000px !important;">
         <canvas  id="MyChart" >{{ chart }}</canvas>
     </div>
-    
+    <h3 style="text-align: center;color:#365ca099;font-weight: 700;">Category Report</h3>
+    <div class="chart-container" >
+        <canvas  id="MyChart1" width="100" height="100">{{ chart1 }}</canvas>
+  </div>
 </div>
 
-<div class="container" *ngIf="!getCurrentUser.is_admin">
-    <section class="hero">
-        <div class="container">
-            <h1>Welcome to Our Ecommerce Store</h1>
-            <p>Discover the latest products and exclusive offers.</p>
-            <a href="#" class="cta-button" (click)="show()" routerLink="/browse-products">Shop Now</a>
-            <div *ngIf="showLoginMessage"><br>
-                Please <a routerLink="/auth/login">login</a> to place an order.
+<div class="container" *ngIf="!getCurrentUser.is_admin" style="zoom:0.8 !important">
+    <div class="slider-container">
+        <div class="slider">
+          <div class="slide">
+            <img [src]="images[currentIndex].src" [alt]="images[currentIndex].alt">
+            <div class="overlay-text">
+              <h3>{{ images[currentIndex].title }}</h3>
+              <p>{{ images[currentIndex].description }}</p>
+              <a href="#" class="cta-button" (click)="show()" routerLink="/browse-products">Shop Now</a>
+              <div *ngIf="showLoginMessage"><br>
+                  Please <a routerLink="/auth/login">login</a> to place an order.
+              </div>
             </div>
+          </div>
         </div>
-    </section>
-    <div>
+        <!-- <button mat-button (click)="prevSlide()">Previous</button>
+        <button mat-button (click)="nextSlide()">Next</button> -->
+      </div>
+
+    <div style="margin-top:300px;">
         <h3 style="text-align: center;text-align: center;
         color: #365ca0;
-        font-weight: 700;
-        margin-top: 20px;">TOP SELLERS</h3>
+        font-weight: 700;font-family: monospace;">TOP SELLERS</h3>
     </div>
-   
-    <section class="products">
-        <div class="product-card">
-            <img src="..//../assets/images/cosmetic.jpg" alt="Product 1">
-            <h2>Cosmetic</h2>
-            <p>Offer upto 30%</p>
-            <a href="#">View Details</a>
-        </div>
-        <div class="product-card">
-            <img src="..//../assets/images/kids.jpg" width="100%" height="100%" alt="Product 2">
-            <h2>Kids World</h2>
-            <p>Offer upto 30%</p>
-            <a href="#">View Details</a>
-        </div>
-        <div class="product-card">
-            <img src="..//../assets/images/electronic.jpg" alt="Product 3">
-            <h2>Electronic</h2>
-            <p>Offer upto 30%</p>
-            <a href="#">View Details</a>
-        </div>
-      
-    </section>
 
-    <section class="discount-banner">
-        <div class="container">
-            <h2>Special Discount</h2>
-            <p>Enjoy up to 30% off on selected items. Hurry, limited stock!</p>
-            <a href="#" class="cta-button">Shop Now</a>
+    <div class="container" style="margin-top: 10px;">
+        <div class="row">
+            <!-- Cart Item Card -->
+            <div class="col-md-4">
+                <div class="card card-custom">
+                    <img src="..//../assets/images/cosmetic_new.jpeg" class="card-img-top card-img" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Cosmetic</h5>
+                        <p class="card-text">Cosmetic is defined as a product that is applied to the human body for cleansing, beautifying, promoting attractiveness, or altering the appearance without affecting the body structure or functions.</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center">
+                        <p><span class="badge">Offer upto 10%</span></p>
+                        <button mat-button  (click)="show()">View Details</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-custom">
+                    <img src="..//../assets/images/kidsImage.jpeg" class="card-img-top card-img" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Kids</h5>
+                        <p class="card-text">Baby lotions, oils, powders and creams are products intended to moisturize and soften the skin of infants and children under the age of three. These products are specially formulated to be mild and non-irritating for the baby's skin.</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center">
+                        <p><span class="badge">Offer upto 5%</span></p>
+                        <button mat-button  (click)="show()">View Details</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-custom">
+                    <img src="..//../assets/images/electronics.jpeg" class="card-img-top card-img" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Electronics</h5>
+                        <p class="card-text">Electronic Product means a manufactured item or device, or part of such a product, that has an electronic circuit.During operation,this circuit can generate or emit a physical field of radiation.</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center">
+                        <p><span class="badge">Offer upto 10%</span></p>
+                        <button mat-button  (click)="show()">View Details</button>
+                    </div>
+                </div>
+            </div>
         </div>
-    </section>
+      </div>
 
-    <section class="banner">
-        <div class="container">
-            <h2>New Arrivals</h2>
-            <p>Discover our latest products just in time for the season.</p>
-            <a href="#" class="cta-button">Explore</a>
-        </div>
-    </section>
 
+<div>
+    <h3 style="text-align: center;text-align: center;color: #365ca0;font-weight: 700;font-family: monospace;">New Arrivals</h3>
+</div>
+     
+
+          <div class="card-container">
+            <div *ngFor="let item of newProducts" class="card-item">
+              <mat-card class="ribbon-card">
+                <div class="ribbon">NEW</div>
+                <img mat-card-image class="image_size" [src]="item.imageUrl" alt="{{ item.title }}" />
+                <mat-card-header>
+                  <mat-card-title>{{ item.title }}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    {{ item.price | currency: 'INR' }}
+                </mat-card-content>
+                <mat-card-footer>
+                    <div (click)="show()" style="color: blue;text-decoration: underline;margin-left:15px;">See More</div>
+                </mat-card-footer>
+              </mat-card>
+
+            </div>
+          </div>
+          
 </div>

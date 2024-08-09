@@ -31,7 +31,7 @@ export class ProductCreateComponent {
       imageurl: ['', Validators.required],
       createdby:[new Date()],
       updatedby:[''],
-      status:['active',Validators.required],
+      status:['true',Validators.required],
 
     });
   }

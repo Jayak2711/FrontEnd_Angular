@@ -1,10 +1,16 @@
-<div *ngIf="currentUser?.is_admin">
-  <h3>Order History</h3>
-<table class="table table-bordered table-responsive  table table-striped" *ngIf="orderAdmin?.length > 0">
+<div *ngIf="currentUser?.is_admin" style="zoom: 0.9 !important;">
+  <h3 style="text-align: center;color:#365ca099;font-weight: 700;">Order History</h3>
+  <div class="col-md-6">
+    <div class="input-group" style="margin: 10px;">
+        <input type="search" class="form-control rounded"  [(ngModel)]="searchText" placeholder="Search Order" aria-label="Search" aria-describedby="search-addon" />
+      </div>
+</div>
+<div style="margin: 10px;">
+  <!-- <table class="table table-bordered table-responsive  table table-striped" *ngIf="orderAdmin?.length > 0">
     <thead>
         <tr>
             <th>SNO</th>
-            <th *ngIf="currentUser?.is_admin">UserId</th>
+            <th>User Id</th>
             <th>Payment Id</th>
             <th>Order Id</th>
             <th>Product Name</th>
@@ -13,12 +19,13 @@
             <th>Quantity</th>
             <th>Payment Method</th>
             <th>Payment Status</th>
+            <th>Track Status</th>
             <th>Total Amount</th>
-            <!-- <th>Invoice Download</th> -->
+            <th>Edit</th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let order of orderAdmin;let i=index">
+        <tr *ngFor="let order of orderAdmin | filter: searchText;let i=index">
             <td>{{i+1}}</td>
             <td *ngIf="currentUser?.is_admin">{{order.order_user_id}}</td>
             <td>{{ order.payment_id}}</td>
@@ -29,15 +36,107 @@
             <td>{{ order.order_quantity }}</td>
             <td>{{ order.payment_method}}</td>
             <td>{{ order.payment_status}}</td>
+            <td><span *ngIf="order.trackStatus == false">{{order.trackrec}} </span>
+              <span *ngIf="order.trackStatus == true"><input type="text" id="name" formControlName="name" class="form-control" /></span></td>
             <td>{{order.product_price * order.order_quantity | currency:'INR' }} </td>
-            <!-- <td><i class="fa fa-download" aria-hidden="true" (click)="exportAsPDF(i)" ></i></td> -->
+            <td>
+              <i class="fa fa-edit" style="font-size:15px" (click)="editTrack(order.order_id)" *ngIf="order.trackStatus == false" ></i>
+              <i *ngIf="order.trackStatus == true" class="fa fa-save" style="font-size:15px"></i>
+          </td>
         </tr>
     </tbody>
+</table> -->
+<table mat-table [dataSource]="dataSource" matSort  class="mat-elevation-z8">
+  <!-- Column Definitions -->
+  <ng-container matColumnDef="sno">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>SNO</th>
+    <td mat-cell *matCellDef="let order; let i = index">{{ i + 1 }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="userId">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>User Id</th>
+    <td mat-cell *matCellDef="let order">{{ order.order_user_id }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="paymentId">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Payment Id</th>
+    <td mat-cell *matCellDef="let order">{{ order.payment_id }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="orderId">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Order Id</th>
+    <td mat-cell *matCellDef="let order">{{ order.order_id }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="productName">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Product Name</th>
+    <td mat-cell *matCellDef="let order">{{ order.product_name }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="price">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
+    <td mat-cell *matCellDef="let order">{{ order.product_price }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+    <td mat-cell *matCellDef="let order">{{ order.payment_created_on }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="quantity">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>
+    <td mat-cell *matCellDef="let order">{{ order.order_quantity }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="paymentMethod">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Payment Method</th>
+    <td mat-cell *matCellDef="let order">{{ order.payment_method }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="paymentStatus">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Payment Status</th>
+    <td mat-cell *matCellDef="let order">{{ order.payment_status }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="trackStatus">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Track Status</th>
+    <td mat-cell *matCellDef="let order">
+      <span *ngIf="!order.trackStatus">{{ order.trackrec }}</span>
+      <span *ngIf="order.trackStatus">
+        <input type="text" id="name" class="form-control" />
+      </span>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="totalAmount">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Amount</th>
+    <td mat-cell *matCellDef="let order">{{ order.product_price * order.order_quantity | currency:'INR' }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Edit</th>
+    <td mat-cell *matCellDef="let order">
+        <mat-icon (click)="editTrack(order.order_id)" *ngIf="!order.trackStatus">edit</mat-icon>
+        <mat-icon *ngIf="order.trackStatus == true" (click)="save(order.order_id)">save</mat-icon>
+        <mat-icon *ngIf="order.trackStatus == true" (click)="close(order.order_id)">close</mat-icon>
+    </td>
+  </ng-container>
+
+  <!-- Header and Rows -->
+  <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
 </table>
+
+<mat-paginator [pageSize]="10"></mat-paginator>
+
+
 </div>
-<div *ngIf="!currentUser?.is_admin">
+
+</div>
+
+<div *ngIf="!currentUser?.is_admin" style="zoom: 0.8 !important;">
   <mat-card>
-    <mat-card-title><h3>Order & Payment Details</h3></mat-card-title>
+    <mat-card-title><h4>Order & Payment Details</h4></mat-card-title>
     <mat-card-content>
       <div *ngFor="let orderId of getOrderIds()">
         <h6>Payment Id: {{orderId}}  <i class="fa fa-download" aria-hidden="true" (click)="downloadPdf(orderId)" ></i></h6>
@@ -84,6 +183,11 @@
             <td mat-cell *matCellDef="let element"> {{element.payment_status}} </td>
           </ng-container>
 
+          <ng-container matColumnDef="DeliveryStatus">
+            <th mat-header-cell *matHeaderCellDef>Delivery Status</th>
+            <td mat-cell *matCellDef="let element"> {{element.trackrec}} </td>
+          </ng-container>
+
           <ng-container matColumnDef="Total Amount">
             <th mat-header-cell *matHeaderCellDef>Total Amount</th>
             <td mat-cell *matCellDef="let element"> {{element.totalamount | currency:'INR' }} </td>
@@ -98,8 +202,7 @@
 
 </div>
 
-  
-<div class="container"  #pdfContent  class="main-container hidden " style="font-size: 15px;border:1px solid black;color: #365ca0;
+<div class="container"  #pdfContent  class="main-container hidden " style="zoom:0.8 !important;font-size: 15px;border:1px solid black;color: #365ca0;
     font-weight: 600;">
     <div style="text-align: center;" >
         <img class="img-responsive" src="assets/images/shoppingApp.png" style="width:60px;height:60px">  <h3>You & Me Shop</h3>
@@ -130,7 +233,7 @@
                         <em>Date : {{createdDate}}</em>
                     </p>
                     <p>
-                        <em>Receipt #: {{order_id}}</em>
+                        <em>Payment Id: {{order_id}}</em>
                     </p>
                 </div>
             </div>
@@ -143,7 +246,7 @@
                     <thead>
                         <tr>
                             <th>Product</th>
-                            <th>#</th>
+                            <th>Quantity</th>
                             <th class="text-center">Price</th>
                             <th class="text-center">Total</th>
                         </tr>

@@ -7,11 +7,14 @@ import { BrowseProductsComponent } from './browse-products/browse-products.compo
 import { ProductService } from '../services/product.service';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FilterPipe } from '../../app/filter.pipe';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
-
-// import { FilterPipe } from './filter.pipe';
+import { LoaderComponent } from "../../loader/loader.component";
+import { OrderHistoryComponent } from '../order-history/order-history.component';
+import { FilterPipe } from '../../app/filter.pipe';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSortModule } from '@angular/material/sort';  // Import MatSortModule
 
 @NgModule({
   declarations: [
@@ -19,16 +22,22 @@ import { MatTableModule } from '@angular/material/table';
     ProductEditComponent,
     ProductListComponent,
     BrowseProductsComponent,
-    FilterPipe
+    FilterPipe,
+    OrderHistoryComponent,
   ],
   imports: [
     CommonModule,
+    MatIconModule,
     RouterModule,
     ReactiveFormsModule,
     FormsModule,
     MatPaginatorModule,
-    MatTableModule
-  ],
+    MatTableModule,
+    LoaderComponent,
+    MatCardModule,
+    MatSortModule
+    
+],
   exports: [
     ProductCreateComponent,
     ProductEditComponent,

@@ -11,7 +11,6 @@ import { HomeComponent } from './home/home.component';
 import { PageNotfoundComponent } from './page-notfound/page-notfound.component';
 import { RxjsDemoComponent } from './rxjs-demo/rxjs-demo.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { OrderHistoryComponent } from './order-history/order-history.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { FormsModule,ReactiveFormsModule} from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
@@ -27,6 +26,10 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { LoaderComponent } from "../loader/loader.component";
+import { FooterComponent } from "../footer/footer.component";
 
 
 @NgModule({
@@ -35,10 +38,9 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     HomeComponent,
     PageNotfoundComponent,
     RxjsDemoComponent,
-    OrderHistoryComponent,
     AccountSettingsComponent,
     CategoryComponent,
-    ChangePasswordComponent 
+    ChangePasswordComponent,
     
     // FilterPipe
   ],
@@ -51,16 +53,20 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     FormsModule,
     OrdersModule,
     ProductsModule,
-    ToastrModule.forRoot(), 
+    ToastrModule.forRoot(),
     BrowserAnimationsModule,
     ReactiveFormsModule,
     CommonModule,
     MatTableModule,
     MatCardModule,
     MatButtonModule,
-    NgxSpinnerModule,   
-    MatPaginatorModule, 
-  ],
+    NgxSpinnerModule,
+    MatPaginatorModule,
+    MatToolbarModule,
+    MatGridListModule,
+    LoaderComponent,
+    FooterComponent
+],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true}, provideAnimationsAsync()],
   bootstrap: [AppComponent]
 })

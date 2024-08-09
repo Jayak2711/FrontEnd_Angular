@@ -1,6 +1,11 @@
 <div class="container">
+    <h3 style="text-align: center;color:#365ca099;font-weight: 700;">Edit Product</h3>
     <div class="row">
-        <div class="col-md-3"></div>
+        <div class="col-md-3">
+            <div class="mb-3">
+                <button type="submit" class="btn btn-success bt-sm" (click)="goBack()"> <i class="fa fa-arrow-left" aria-hidden="true" ></i>Back To Product</button>
+            </div>
+           </div>
         <div class="col-md-6">
         <form [formGroup]="productForm" (ngSubmit)="updateProduct()">
             <input type="hidden" formControlName="id"/>

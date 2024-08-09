@@ -1,5 +1,5 @@
-<div class="container">
-    <div class="row">
+<div class="container" style="zoom:0.8 !important">   
+<div class="row">
 <div class="row col-md-3 column-content" >
     <nav class=" col-lg-12 sidebar">
         <h2>Categories</h2>
@@ -10,12 +10,12 @@
     </nav>
 </div>
 <div class="col-md-9 column-content">
-    <div class="col-md-12">
+    <div class="col-md-12" style="margin-top: 10px;">
         <div class="input-group">
             <input type="search" class="form-control rounded"  [(ngModel)]="searchText" placeholder="Search Items" aria-label="Search" aria-describedby="search-addon" />
           </div>
     </div>
-    <div class="row" *ngIf="this.productResponse?.result.length == 0">
+    <div class="row" *ngIf="this.products?.length == 0" style="text-align: center;color: red;font-size: 12px;font-weight: 600;">
         No Record Found
     </div>
 
@@ -40,7 +40,8 @@
                     </div>
                     <div class="align-items-center align-content-center col-md-3 border-left mt-1">
                         <div class="d-flex flex-row align-items-center">
-                            <h4 class="mr-1">{{product.price |  currency:'INR'}}</h4><span class="strike-text">{{product.discount}}%</span>
+                            <h6 class="mr-1">{{product.price |  currency:'INR'}}</h6><span class="badge">{{product.discount}}% off</span>
+                            <!-- class="strike-text" -->
                         </div>
                         <h6 class="text-success">Free shipping</h6>
                         <div class="d-flex flex-column mt-4">
@@ -59,7 +60,9 @@
         </div>
     </div>
       <!-- Paginator -->
-      <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" showFirstLastButtons></mat-paginator>
+      <!-- <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" showFirstLastButtons></mat-paginator> -->
 </div>
 </div>
 </div>
+
+<app-loader [isLoading]="loading"></app-loader>

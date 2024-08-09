@@ -14,7 +14,7 @@ p{
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    height: 3.0em; /* Adjust according to the line height */
+    height: 3em; /* Adjust according to the line height */
   }
 
   .custom-checkbox .mat-checkbox-background {

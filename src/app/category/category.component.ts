@@ -13,6 +13,8 @@ import { NgxSpinnerService } from "ngx-spinner";
 export class CategoryComponent {
   categoryForm: any;
   categoryResult: any;
+  showAddCat: boolean = false;
+loading: boolean = false;
   constructor(private fb: FormBuilder,private http : ProductService,private spinner: NgxSpinnerService){
     this.categoryForm = this.fb.group({
       name: ['', Validators.required],
@@ -22,17 +24,24 @@ export class CategoryComponent {
 
 
   ngOnInit(){
-    this.getAllCategory();
+    this.loading = true;
+    setTimeout(() => {
+      this.getAllCategory();
+      this.loading = false;
+    },1000); // 2 seconds
   }
 
   createCategory(){
-    this.http.addCategory(this.categoryForm.value).subscribe(res =>{
-      if(res.status == "200"){
-        // this.categoryForm.rest();
-        this.getAllCategory();
-      }
-      console.log(res)
-    })
+    this.loading = true;
+    setTimeout(() => {
+      this.http.addCategory(this.categoryForm.value).subscribe(res =>{
+        if(res.status == "200"){
+          this.categoryForm.reset();
+          this.getAllCategory();
+        }
+      })
+      this.loading = false;
+    },1000); // 2 seconds
   }
 
   getAllCategory(){
@@ -42,13 +51,20 @@ export class CategoryComponent {
     })
   }
 
+  addCategory(){
+    this.showAddCat = true;
+  }
+
 
   deleteProduct(id:number){
-    this.http.deletecategoryById(id).subscribe(res => {
-      console.log(res)
-      if(res.status == '200'){
-      }
-    })
+    setTimeout(() => {
+      this.http.deletecategoryById(id).subscribe(res => {
+        if(res.status == '200'){
+        }
+      })
+      this.loading = false;
+    },1000); // 2 seconds
+
   }
 
   updateCategory(data : any){
@@ -61,11 +77,11 @@ export class CategoryComponent {
       this.http.updateCategory(data).subscribe(res => {
         if(res.status == '200'){
           data.isEditing = false;
+          this.showAddCat = false;
           this.spinner.hide();
         }
       })
     },500)
-
   }
 
 }

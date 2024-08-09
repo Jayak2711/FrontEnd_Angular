@@ -31,12 +31,10 @@ export class AccountSettingsComponent implements OnInit {
   getUser(userId :any){
     if (userId) {
       this.userService.getUser(userId).subscribe((user :any) => {
-        this.user = user.result[0];
-        console.log(this.user)
+        this.user = user.result;
         if(this.user.addressid){
           this.newUser = this.user.addressid
         }
-    
       });
     } 
     else {

@@ -1,9 +1,9 @@
-<h1>Product List</h1>
-
+<!-- <h1>Product List</h1> -->
+ <div  style="font-size: 13px;">
+<h3 style="text-align: center;color:#365ca099;font-weight: 700;">Product List</h3>
 <div class="mb-3">
     <a routerLink="/products/create" class="btn btn-success btn-stm">Create Product</a>
 </div>
-
 <div class="row">
     <div class="col-md-3">
         <div class="mb-3">
@@ -15,7 +15,7 @@
         </div>
     </div>
 </div>
-
+<!-- 
 <table class="table table-bordered table-responsive table table-striped">
     <thead>
         <tr>
@@ -46,11 +46,105 @@
             <td>{{ product.seller }}</td>
             <td>{{ product.status }}</td>
             <td>
-                <!-- <a routerLink="/products/edit/{{product.product_id}}" class="btn btn-warning btn-sm me-2">Edit</a> -->
                 <i class="fa fa-edit" style="font-size:15px" routerLink="/products/edit/{{product.product_id}}"></i>
-                <!-- <button (click)="deleteProduct(product.product_id)" class="btn btn-danger btn-sm">Delete</button> -->
                 <i (click)="deleteProduct(product.product_id)" class="fa fa-trash" style="font-size:15px;margin-left:5px !important"></i>
             </td>
         </tr>
     </tbody>
-</table>
+</table> -->
+
+@if(products?.length == 0 ){
+  <div style="color:red;text-align: center;">No Record Found</div>
+}
+
+@if(products?.length > 0 ){
+<mat-paginator [pageSize]="10"></mat-paginator>
+
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" style="width: 100%;">
+    <!-- SNO Column -->
+    <ng-container matColumnDef="sno">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>SNO</th>
+      <td mat-cell *matCellDef="let element; let i = index">{{i + 1}}</td>
+    </ng-container>
+  
+     <!-- SNO Column -->
+     <ng-container matColumnDef="pid">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Product Id</th>
+        <td mat-cell *matCellDef="let element">{{element.id}}</td>
+      </ng-container>
+    
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+      <td mat-cell *matCellDef="let element">{{element.name}}</td>
+    </ng-container>
+  
+    <!-- Description Column -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+      <td mat-cell *matCellDef="let element">{{element.description}}</td>
+    </ng-container>
+  
+    <!-- Price Column -->
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
+      <td mat-cell *matCellDef="let element">{{element.price | currency:'INR'}}</td>
+    </ng-container>
+  
+    <!-- Discount Column -->
+    <ng-container matColumnDef="discount">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Discount</th>
+      <td mat-cell *matCellDef="let element">{{element.discount}}</td>
+    </ng-container>
+  
+    <!-- Stock Column -->
+    <ng-container matColumnDef="stock">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Stock</th>
+      <td mat-cell *matCellDef="let element">{{element.stock}}</td>
+    </ng-container>
+  
+    <!-- Category Column -->
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
+      <td mat-cell *matCellDef="let element">{{element.categoryid}}</td>
+    </ng-container>
+  
+    <!-- Seller Column -->
+    <ng-container matColumnDef="seller">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Seller</th>
+      <td mat-cell *matCellDef="let element">{{element.seller}}</td>
+    </ng-container>
+
+        <!-- star Column -->
+        <ng-container matColumnDef="star">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Rating</th>
+            <td mat-cell *matCellDef="let element">{{element.rating}}</td>
+          </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+          <td mat-cell *matCellDef="let element">{{element.status}}</td>
+        </ng-container>
+      
+  
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let element">
+        <i class="fa fa-edit" style="font-size:15px" routerLink="/products/edit/{{element.id}}"></i>
+        <i (click)="deleteProduct(element.product_id)" class="fa fa-trash" style="font-size:15px;margin-left:5px !important"></i>
+      </td>
+    </ng-container>
+  
+
+    <!-- Header and Row Definitions -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator [pageSize]="10"></mat-paginator>
+}
+</div>
+  
+
+

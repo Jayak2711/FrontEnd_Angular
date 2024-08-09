@@ -7,6 +7,7 @@ import { DisableButtonDirective } from '../core/disable-button.directive';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // Import Angular Material Checkbox module
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { LoaderComponent } from "../../loader/loader.component";
 
 @NgModule({
   declarations: [
@@ -17,10 +18,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule, 
+    FormsModule,
     ReactiveFormsModule,
-    MatCheckboxModule
-  ],
+    MatCheckboxModule,
+    LoaderComponent
+],
   exports: [
     ShoppingCartComponent,
     ThankYouComponent

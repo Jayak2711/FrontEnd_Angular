@@ -90,3 +90,12 @@ h5 {
 .ratings .fa-star-o {
   margin-right: 2px; /* Space between stars */
 }
+
+.badge {
+  background-color: red;
+  color: white;
+  padding: 4px 8px;
+  text-align: center;
+  border-radius: 5px;
+}
+

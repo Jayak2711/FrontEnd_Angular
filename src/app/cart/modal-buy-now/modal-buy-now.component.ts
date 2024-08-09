@@ -6,10 +6,11 @@ import { OrderService } from 'src/app/services/order.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CartService } from 'src/app/services/cart.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { LoaderComponent } from "../../../loader/loader.component";
 @Component({
   selector: 'app-modal-buy-now',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule, LoaderComponent],
   templateUrl: './modal-buy-now.component.html',
   styleUrl: './modal-buy-now.component.css'
 })
@@ -17,7 +18,7 @@ export class ModalBuyNowComponent {
 
   paymentMode : any = [
   {
-    'id' : 1,'mode' : 'COA'
+    'id' : 1,'mode' : 'Cash On Delivey'
   },
   {
     'id' : 2,'mode' : 'Debit Card'
@@ -31,7 +32,7 @@ export class ModalBuyNowComponent {
 
 ]
   orderDetails: any;
-paymentTypeValue: any = 'COA';
+paymentTypeValue: any = 'Cash On Delivey';
 country: any;
 add1: any;
 add2: any;
@@ -50,6 +51,7 @@ pincode:any
     'landmark' : ''
   };
   totalAmount: any;
+loading: boolean = false;
 
 constructor(private route: ActivatedRoute,private router : Router, 
   private orderService: OrderService,private toastr: ToastrService,
@@ -59,26 +61,31 @@ constructor(private route: ActivatedRoute,private router : Router,
     this.orderDetails = history.state.data;
     this.cartList = history.state.cart;
     this.totalAmount = history.state.amount;
-    console.log(this.totalAmount)
       this.userInfo();
   }
 
 
   userInfo(){
-    this.authService.userPersonalDetails(this.orderDetails[0].user_id).subscribe(res => {
-    if(res.status == 200){
-      this.userDetails = res.result[0];
-    }
-    },
-    error => {
-      console.error('Error fetching user details', error);
-    }
-  )
+    this.loading = true;
+    setTimeout(() => {
+      this.authService.userPersonalDetails(this.orderDetails[0].user_id).subscribe(res => {
+        if(res.status == 200){
+          this.userDetails = res.result;
+        }
+        },
+        error => {
+          console.error('Error fetching user details', error);
+        }
+      )
+      this.loading = false;
+    }, 2000); // 2 seconds
+  
+
   }
 
 
 
-  makePayment(){
+makePayment(){
 var currentdate =  new Date();
     let orderArr = [];
     for(let i=0;i<this.orderDetails.length;i++){
@@ -88,23 +95,26 @@ var currentdate =  new Date();
           "created_on" : currentdate,
           "order_id": orderArr,
           "payment_method": this.paymentTypeValue,
-          "status": 'Success'
+          "trackrec": 'ordered',
+          "status": 'Success',
       }
-      
-    console.log(currentdate)
-      this.orderService.makePayment(payment).subscribe(res =>{
-        if(res.status == "200"){
-           this.cartService.deleteCartById(this.cartList).subscribe(res=>{
-            this.toastr.success('Success','Payment Successfully done');
-          this.router.navigate(['/'])
+      this.loading = true;
+      setTimeout(() => {
+        this.orderService.makePayment(payment).subscribe(res =>{
+          if(res.status == "200"){
+             this.cartService.deleteCartById(this.cartList).subscribe(res=>{
+              this.toastr.success('Success','Payment Successfully done');
+            this.router.navigate(['/'])
+          })
+          }
         })
-        }
-      })
+    
+        this.loading = false;
+      }, 2000);
   
   }
 
   paymentType(type : any){
-    console.log(type)
    this.paymentTypeValue = type;
   }
 

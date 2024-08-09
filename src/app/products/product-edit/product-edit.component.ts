@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,ChangeDetectorRef} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from 'src/app/services/product.service';
@@ -10,11 +10,14 @@ import { ProductService } from 'src/app/services/product.service';
   styleUrls: ['./product-edit.component.css']
 })
 export class ProductEditComponent implements OnInit {
+goBack() {
+throw new Error('Method not implemented.');
+}
 
   productForm: FormGroup;
   categoryList: any;
 
-  constructor(private productService: ProductService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute) {
+  constructor(private productService: ProductService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,private changeDef : ChangeDetectorRef) {
     this.productForm = this.fb.group({
       id:[],
       name: ['', Validators.required],
@@ -28,15 +31,16 @@ export class ProductEditComponent implements OnInit {
       imageurl: ['', Validators.required],
       createdby:[''],
       updatedby:[new Date()],
-      status:['active',Validators.required],
+      status:[false,Validators.required],
     })
   }
 
   ngOnInit(): void {
+    console.log(this.route.snapshot.params["id"])
     this.productService.getProductById(this.route.snapshot.params["id"]).subscribe((product : any) => {
-      console.log(product.result)
+      console.log(product)
       this.productForm.patchValue(product.result);
-      console.log(this.productForm)
+      this.changeDef.detectChanges();
       this.getAllCategory()
   })
   
@@ -45,7 +49,6 @@ export class ProductEditComponent implements OnInit {
 
   getAllCategory(){
     this.productService.getCategory().subscribe(res => {
-      console.log("this.categorylist",res.result);
       this.categoryList = res.result;
     })
   }

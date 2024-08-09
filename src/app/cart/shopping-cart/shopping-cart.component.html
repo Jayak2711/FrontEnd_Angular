@@ -1,5 +1,6 @@
-<h4>Shopping Cart</h4>
-<div class="row">
+
+<div class="row" style="zoom:0.8 !important;margin: 10px;">
+  <h3>Shopping Cart</h3>
   <div>
     <button (click)="clearCart()" class="btn btn-danger btn-sm me-2">Clear cart</button>
     <button  (click)="placeOrderFinal()"
@@ -58,7 +59,7 @@
                 <mat-checkbox class="custom-checkbox" [(ngModel)]="item.checked"  (change)="handleSelected($event,item)"></mat-checkbox>
                 <div class="card-body">
                     <h5 class="card-title">{{item.name}}</h5>
-                    <p class="card-text">{{item.description}}</p>
+                    <p class="card-text description">{{item.description}}</p>
                     <div class="d-flex justify-content-between">
                         <span class="font-weight-bold">Price: {{ item.price | currency:'INR' }}</span>
                         <div>
@@ -82,3 +83,4 @@
 </div>
 </div>
 
+<app-loader [isLoading]="loading"></app-loader>
