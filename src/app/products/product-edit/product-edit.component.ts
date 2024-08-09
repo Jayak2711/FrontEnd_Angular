@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,ChangeDetectorRef} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from 'src/app/services/product.service';
@@ -17,7 +17,7 @@ throw new Error('Method not implemented.');
   productForm: FormGroup;
   categoryList: any;
 
-  constructor(private productService: ProductService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute) {
+  constructor(private productService: ProductService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,private changeDef : ChangeDetectorRef) {
     this.productForm = this.fb.group({
       id:[],
       name: ['', Validators.required],
@@ -31,7 +31,7 @@ throw new Error('Method not implemented.');
       imageurl: ['', Validators.required],
       createdby:[''],
       updatedby:[new Date()],
-      status:['active',Validators.required],
+      status:[false,Validators.required],
     })
   }
 
@@ -40,6 +40,7 @@ throw new Error('Method not implemented.');
     this.productService.getProductById(this.route.snapshot.params["id"]).subscribe((product : any) => {
       console.log(product)
       this.productForm.patchValue(product.result);
+      this.changeDef.detectChanges();
       this.getAllCategory()
   })
   
@@ -48,7 +49,6 @@ throw new Error('Method not implemented.');
 
   getAllCategory(){
     this.productService.getCategory().subscribe(res => {
-      console.log("this.categorylist",res.result);
       this.categoryList = res.result;
     })
   }

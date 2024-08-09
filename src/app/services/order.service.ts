@@ -20,6 +20,12 @@ export class OrderService {
         return this.http.get<any>(this.apiUrl);
     }
 
+    getCategoryReport() : Observable<any>{
+        const url = `${this.apiUrl  + '/report/categoryReport'}`;
+        return this.http.get<any>(url);
+        
+    }
+
     getAllOrderWithUserId(userId: any): Observable<any> {
         const url = `${this.apiUrl + '/paymentHistory/'}${userId}`;
         return this.http.get<any>(url);

@@ -21,7 +21,7 @@ export class ProductListComponent implements OnInit {
   userDetails: any;
   categoryList: any;
   noRec: boolean =  false;
-  displayedColumns: string[] = ['sno','pid', 'name', 'description', 'price', 'discount', 'stock', 'category', 'seller','star', 'actions', 'status'];
+  displayedColumns: string[] = ['sno','pid', 'name', 'description', 'price', 'discount', 'stock', 'category', 'seller','star','status', 'actions'];
   dataSource: MatTableDataSource<Product> = new MatTableDataSource<Product>();
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -53,15 +53,13 @@ export class ProductListComponent implements OnInit {
     this.productService.getAllProducts().subscribe(res => {
       this.productResponse = res;
       this.products = res.result;
-for (let i = 0; i < this.products.length; i++) {
-  this.products[i].imageurl = this.products[i].imageurl.replaceAll('C:\\fakepath\\', '../assets/images');
-  this.dataSource = new MatTableDataSource(this.products);
-
-  // Set the sort and paginator
-  this.dataSource.sort = this.sort;
-  this.dataSource.paginator = this.paginator;
-}
-    
+      for (let i = 0; i < this.products.length; i++) {
+      this.products[i].imageurl = this.products[i].imageurl.replaceAll('C:\\fakepath\\', '../assets/images');
+      this.dataSource = new MatTableDataSource(this.products);
+      // Set the sort and paginator
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    }
     })
    
   }

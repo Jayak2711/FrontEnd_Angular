@@ -70,7 +70,7 @@ constructor(private route: ActivatedRoute,private router : Router,
     setTimeout(() => {
       this.authService.userPersonalDetails(this.orderDetails[0].user_id).subscribe(res => {
         if(res.status == 200){
-          this.userDetails = res.result[0];
+          this.userDetails = res.result;
         }
         },
         error => {
@@ -85,7 +85,7 @@ constructor(private route: ActivatedRoute,private router : Router,
 
 
 
-  makePayment(){
+makePayment(){
 var currentdate =  new Date();
     let orderArr = [];
     for(let i=0;i<this.orderDetails.length;i++){
@@ -95,7 +95,8 @@ var currentdate =  new Date();
           "created_on" : currentdate,
           "order_id": orderArr,
           "payment_method": this.paymentTypeValue,
-          "status": 'Success'
+          "trackrec": 'ordered',
+          "status": 'Success',
       }
       this.loading = true;
       setTimeout(() => {

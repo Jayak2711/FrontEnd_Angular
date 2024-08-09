@@ -13,9 +13,6 @@
                 </button>
                 <ul class="dropdown-menu"> 
                   <li><a class="dropdown-item"   value="data.name" *ngFor="let data of paymentMode" (click)="paymentType(data.mode)">{{data.mode}}</a></li>
-                  <!-- <li><a class="dropdown-item"  value="debit" (click)="paymentType('debit')">DEBIT CARD</a></li>
-                  <li><a class="dropdown-item"  value="credit" (click)="paymentType('credit')">CREDIT CARD</a></li>
-                  <li><a class="dropdown-item"  value="upi" (click)="paymentType('upi')">UPI</a></li> -->
                 </ul>
               </div>
             <div class="card p-3">

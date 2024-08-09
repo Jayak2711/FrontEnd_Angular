@@ -36,6 +36,7 @@ loading: boolean = false;
     setTimeout(() => {
       this.http.addCategory(this.categoryForm.value).subscribe(res =>{
         if(res.status == "200"){
+          this.categoryForm.reset();
           this.getAllCategory();
         }
       })

@@ -53,6 +53,11 @@
     </tbody>
 </table> -->
 
+@if(products?.length == 0 ){
+  <div style="color:red;text-align: center;">No Record Found</div>
+}
+
+@if(products?.length > 0 ){
 <mat-paginator [pageSize]="10"></mat-paginator>
 
 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" style="width: 100%;">
@@ -65,7 +70,7 @@
      <!-- SNO Column -->
      <ng-container matColumnDef="pid">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Product Id</th>
-        <td mat-cell *matCellDef="let element">{{element.product_id}}</td>
+        <td mat-cell *matCellDef="let element">{{element.id}}</td>
       </ng-container>
     
     <!-- Name Column -->
@@ -115,28 +120,31 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Rating</th>
             <td mat-cell *matCellDef="let element">{{element.rating}}</td>
           </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+          <td mat-cell *matCellDef="let element">{{element.status}}</td>
+        </ng-container>
+      
   
     <!-- Actions Column -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let element">
-        <i class="fa fa-edit" style="font-size:15px" routerLink="/products/edit/{{element.product_id}}"></i>
+        <i class="fa fa-edit" style="font-size:15px" routerLink="/products/edit/{{element.id}}"></i>
         <i (click)="deleteProduct(element.product_id)" class="fa fa-trash" style="font-size:15px;margin-left:5px !important"></i>
       </td>
     </ng-container>
   
-    <!-- Status Column -->
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-      <td mat-cell *matCellDef="let element">{{element.status}}</td>
-    </ng-container>
-  
+
     <!-- Header and Row Definitions -->
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-
+  <mat-paginator [pageSize]="10"></mat-paginator>
+}
 </div>
   
-  <mat-paginator [pageSize]="10"></mat-paginator>
+
 

@@ -24,7 +24,6 @@ export class AuthService {
     getCurrentUser(): User {
         const userJson = sessionStorage.getItem('currentUser');
         return userJson ? JSON.parse(userJson) : '';
-  
     }
 
     isAdmin(): boolean {

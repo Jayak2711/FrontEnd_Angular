@@ -42,7 +42,7 @@ export class OrderHistoryComponent implements AfterViewInit,OnInit{
     'actions'
   ];
 
-  displayedColumns: string[] = ['SNO', 'Order Id','Product Name','Price','Date','Quantity','Payment Method','Payment Status','Total Amount'];
+  displayedColumns: string[] = ['SNO', 'Order Id','Product Name','Price','Date','Quantity','Payment Method','Payment Status','DeliveryStatus','Total Amount'];
   orders: Order[] = [];
   orderAdmin :any ;
   currentUser: User | null = null;
@@ -62,7 +62,6 @@ export class OrderHistoryComponent implements AfterViewInit,OnInit{
 
   ngOnInit(): void {
     this.dateFromChart = sessionStorage.getItem('orderDate');
-    console.log(this.dateFromChart)
     this.currentUser = this.authService.getCurrentUser();
     if(this.currentUser.is_admin == false){
       this.getAllOrderWithUserId();
@@ -97,12 +96,14 @@ export class OrderHistoryComponent implements AfterViewInit,OnInit{
      
     })
   }
+  
 
 
   getAllOrderWithUserId(){
     this.orderService.getAllOrderWithUserId(this.currentUser?.user_id).subscribe(res =>{ 
-      // Set the MatSort to the dataSource
-      this.dataSource.sort = this.sort;
+      this.orderAdmin = res.result;
+      console.log(this.orderAdmin)
+      console.log(this.orderAdmin)
       for(let i=0;i<this.orderAdmin.length;i++){
         const date = new Date(this.orderAdmin[i].payment_created_on);
         this.orderAdmin[i].payment_created_on = this.datePipe.transform(date, 'dd-MM-yyyy');
@@ -157,8 +158,7 @@ export class OrderHistoryComponent implements AfterViewInit,OnInit{
 
   userInfo(){
     this.authService.userPersonalDetails(this.currentUser?.user_id).subscribe(res => {
-     this.personalInfo = res.result[0];
-     console.log(this.personalInfo)
+     this.personalInfo = res.result;
     })
   }
 

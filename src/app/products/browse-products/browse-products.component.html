@@ -10,12 +10,12 @@
     </nav>
 </div>
 <div class="col-md-9 column-content">
-    <div class="col-md-12">
+    <div class="col-md-12" style="margin-top: 10px;">
         <div class="input-group">
             <input type="search" class="form-control rounded"  [(ngModel)]="searchText" placeholder="Search Items" aria-label="Search" aria-describedby="search-addon" />
           </div>
     </div>
-    <div class="row" *ngIf="this.productResponse?.result.length == 0">
+    <div class="row" *ngIf="this.products?.length == 0" style="text-align: center;color: red;font-size: 12px;font-weight: 600;">
         No Record Found
     </div>
 
@@ -60,7 +60,7 @@
         </div>
     </div>
       <!-- Paginator -->
-      <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" showFirstLastButtons></mat-paginator>
+      <!-- <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" showFirstLastButtons></mat-paginator> -->
 </div>
 </div>
 </div>

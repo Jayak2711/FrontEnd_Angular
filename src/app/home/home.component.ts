@@ -75,7 +75,18 @@ export class HomeComponent {
   yearClickedData: number = 2024;
   // monthName: any = 'January';
   userDetails: any;
-loading: any;
+  loading: any;
+   predefinedColors = [
+   '#ADD8E6', // Light Blue
+  '#FFB6C1', // Light Pink
+  '#90EE90', // Light Green
+  '#FFFFE0', // Light Yellow
+  '#F08080', // Light Coral
+  '#2F4F4F', // Dark Slate Gray
+  '#B19CD9', // Pastel Purple
+  '#FF0000', // Vibrant Red
+  '#F5F5F5'  // White Smoke
+  ];
 
   constructor(private cartService: CartService, private productService: ProductService,
     private orderService: OrderService, private authService: AuthService, private router: Router,
@@ -87,12 +98,13 @@ loading: any;
     this.loading = true;
     setTimeout(() => {
       this.loading = false;
-      this.createChart1();
+
       if (!this.authService.isAuthenticated()) {
         this.showLoginMessage = true;
       }
       if(this.authService.getCurrentUser().is_admin == true){
         this.pastTenYears = this.getPastTenYears();
+        this.getCategoryReport();
         this.changeChart();
       }else{
         const userId = this.authService.getCurrentUser()?.user_id;
@@ -114,6 +126,13 @@ loading: any;
     this.monthName = monthName.name;
 
   
+  }
+
+  getCategoryReport(){
+    this.orderService.getCategoryReport().subscribe(data => {
+      console.log(data.result)
+      this.createChart1(data.result);
+    })
   }
 
   get isAuthenticated() {
@@ -278,24 +297,20 @@ loading: any;
   }
 
 
-  createChart1(){
-
+  createChart1(jsonData :any){
+  // Extract labels and data from JSON
+  const labels = jsonData.map((item : any) => item.name);
+  const data = jsonData.map((item :any) => parseInt(item.sale, 10)); // Convert sale to integer
+  const backgroundColor = this.generateColors(jsonData.length);
     this.chart1 = new Chart("MyChart1", {
       type: 'pie', //this denotes tha type of chart
 
       data: {// values on X-Axis
-        labels: ['Red', 'Pink','Green','Yellow','Orange','Blue', ],
+        labels: labels,
 	       datasets: [{
-    label: 'My First Dataset',
-    data: [300, 240, 100, 432, 253, 34],
-    backgroundColor: [
-      'red',
-      'pink',
-      'green',
-			'yellow',
-      'orange',
-      'blue',			
-    ],
+    label: 'Sales Data',
+    data: data,
+    backgroundColor:  backgroundColor,
     hoverOffset: 4
   }],
       },
@@ -304,6 +319,14 @@ loading: any;
       }
 
     });
+  }
+
+  generateColors(numColors : any) {
+    const colors = [];
+    for (let i = 0; i < numColors; i++) {
+      colors.push(this.predefinedColors[i % this.predefinedColors.length]);
+    }
+    return colors;
   }
 
 }
