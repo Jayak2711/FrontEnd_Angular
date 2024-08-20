@@ -77,7 +77,7 @@ export class ProductService {
     }
 
     deleteProductsById(id:number) {
-        const url = `${this.apiUrl1}/${id}`;
+        const url = `${this.apiUrl}/${id}`;
         return this.http.delete<any>(url);
     }
 

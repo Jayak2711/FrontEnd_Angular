@@ -12,6 +12,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { LoaderComponent } from "../../loader/loader.component";
 
 @Component({
   selector: 'app-order-history',
@@ -55,6 +56,9 @@ export class OrderHistoryComponent implements AfterViewInit,OnInit{
   totalAmount: any;
   searchText: any;
   trackEdit: boolean = false;
+trackRec: any;
+trackRecValue: any;
+  loading: boolean;
   constructor(private orderService: OrderService, private authService: AuthService,
     private cartservice:CartService,private toastr: ToastrService,private datePipe: DatePipe,
     private spinner: NgxSpinnerService) { }
@@ -87,7 +91,7 @@ export class OrderHistoryComponent implements AfterViewInit,OnInit{
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       }
-
+      console.log(this.dateFromChart)
       if(res.result){
         if(this.dateFromChart != null){
           this.getOrderByDate();
@@ -96,7 +100,7 @@ export class OrderHistoryComponent implements AfterViewInit,OnInit{
      
     })
   }
-  
+
 
 
   getAllOrderWithUserId(){
@@ -165,8 +169,9 @@ export class OrderHistoryComponent implements AfterViewInit,OnInit{
 
   getOrderByDate(){
     const orderDetails = this.orderAdmin.filter((a: any) => a.payment_created_on === this.dateFromChart);
-    this.orderAdmin = orderDetails;
-    console.log(this.orderAdmin)
+    this.dataSource.data = orderDetails;
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
   formatDate(date: Date): string {
@@ -256,7 +261,19 @@ close(id :any){
 }
 
 save(id :any){
-
+  let data = {
+    'id' : id.payment_id,
+    'trackrec' : this.trackRecValue
+  }
+  this.loading = true;
+  setTimeout(() => {
+  this.orderService.updateTrack(data).subscribe(res =>{ 
+    if(res.status == 200){
+      this.ngOnInit();
+    }
+  })
+  this.loading = false;
+},1000)
 }
 
 }

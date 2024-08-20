@@ -31,6 +31,12 @@ export class OrderService {
         return this.http.get<any>(url);
     }
 
+    updateTrack(data:any): Observable<any> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.put<any>(this.apiUrl + '/trackrec', data,{headers});
+
+    }
+
     getOrderSaleCountByDate(date:any): Observable<any> {  
         let dateCount = {
             'created_on' : date

@@ -73,7 +73,10 @@ stars: any;
       products = res.result;
       for(let i=0;i<products.length;i++){
         products[i]['quantity'] = 0;
-        products[i].imageurl = products[i].imageurl.replaceAll('C:\\fakepath\\', '../assets/images/');
+        setTimeout(()=>{
+          products[i].imageurl = products[i].imageurl.replaceAll('C:\\fakepath\\', '../assets/images/');
+        },500)
+        
         if (products[i]['price'] !== null && products[i]['discount'] !== null) {
           products[i]['discountedAmount'] = ((products[i]['price'] * products[i]['discount']) / 100);
         }
