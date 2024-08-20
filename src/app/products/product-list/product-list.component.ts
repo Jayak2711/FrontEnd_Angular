@@ -55,10 +55,12 @@ export class ProductListComponent implements OnInit {
       this.products = res.result;
       for (let i = 0; i < this.products.length; i++) {
       this.products[i].imageurl = this.products[i].imageurl.replaceAll('C:\\fakepath\\', '../assets/images');
-      this.dataSource = new MatTableDataSource(this.products);
-      // Set the sort and paginator
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
+      setTimeout(() => {
+        this.dataSource = new MatTableDataSource(this.products);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      },100)
+      
     }
     })
    
@@ -71,6 +73,7 @@ export class ProductListComponent implements OnInit {
       this.productResponse = res;
       if(res.result.length > 0){
         this.products = res.result;
+        this.dataSource = new MatTableDataSource(this.products);
         this.noRec = false;
       }else if(res.result.length == 0){
         this.noRec = true;
@@ -108,12 +111,11 @@ export class ProductListComponent implements OnInit {
   }
 
   deleteProduct(productId:any): void {
-    console.log(productId)
     if (confirm('Are you sure you want to delete this product?')) {
       this.productService.deleteProductsById(productId).subscribe((res) => {
         if(res.status == '200'){
           alert("product deleted successfully");
-          this.getAllProduct();
+          this.ngOnInit();
         }
        
       });

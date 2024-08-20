@@ -87,6 +87,7 @@ export class HomeComponent {
   '#FF0000', // Vibrant Red
   '#F5F5F5'  // White Smoke
   ];
+  chartClick: boolean = false;
 
   constructor(private cartService: CartService, private productService: ProductService,
     private orderService: OrderService, private authService: AuthService, private router: Router,
@@ -97,6 +98,7 @@ export class HomeComponent {
   ngOnInit(): void {
     this.loading = true;
     setTimeout(() => {
+      sessionStorage.removeItem('orderDate');
       this.loading = false;
 
       if (!this.authService.isAuthenticated()) {
@@ -119,7 +121,6 @@ export class HomeComponent {
       }
     }, 2000);
     this.startAutoSlide();
-    sessionStorage.removeItem('orderDate');
     this.userDetails = sessionStorage.getItem('currentUser');
     this.monthNumber = this.monthName;
     let monthName: any = this.months.find((element) => element.number == this.monthNumber);
@@ -162,7 +163,6 @@ export class HomeComponent {
   getOrderForAdmin() {
     const year = this.yearClickedData; // Set the desired year here
     const month = this.monthNumber; // Set the desired month here (0 = January, 11 = December)
-
     this.orderService.getOrders().subscribe(res => {
       this.orderAdmin = res;
     })
@@ -256,6 +256,7 @@ export class HomeComponent {
               const dataset = this.chart.data.datasets[datasetIndex];
               const dataValue = dataset.data[dataIndex];
               const label = this.chart.data.labels[dataIndex];
+              this.chartClick = true;
               this.getOderReportByDate(dataValue,label)
           }
         },
